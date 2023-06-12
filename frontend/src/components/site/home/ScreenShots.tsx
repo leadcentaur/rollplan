@@ -3,33 +3,17 @@ import React from 'react';
 
 export default function Screenshots() {
     return (
-        <>
-            <div className="overflow-hidden rounded-lg w-[100%] sm:w-[65%] md:w-full lg:w-[75%] bg-[#000e19] p-1">
+        <> 
+            <div className='pt-10 hover:scale-105 transition duration-200'>
                 <Image
                     src="https://i.imgur.com/7mt9unK.jpg"
                     alt="Dashboard screen shot example."
-                    className='block'
-                    width={200}
-                    height={200}
+                    className='block shadow-2xl rounded-xl'
+                    width={600}
+                    height={500}
                 />
-                <Image
-                    src="https://i.imgur.com/7mt9unK.jpg"
-                    alt="Dashboard screen shot example."
-                    className='block'
-                    width={200}
-                    height={200}
-                />
-			</div>
+            </div>
 
-            <div className="overflow-hidden rounded-lg w-[100%] sm:w-[65%] md:w-full lg:w-[75%] bg-[#000e19] p-1 absolute bottom-0 right-0 z-10 hidden sm:block">
-                 <Image
-                    src="https://i.imgur.com/7mt9unK.jpg"
-                    alt="Dashboard screen shot example."
-                    className='block'
-                    width={200}
-                    height={200}
-                />
-			</div>
         </>
     )
 }

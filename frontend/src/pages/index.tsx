@@ -129,7 +129,7 @@ export default function Home() {
 					
 					description={
 						<>
-							Maximize your BJJ gym`&apos;`s potential with Rollplan`&apos;`s all-in-one software, providing seamless student management, class scheduling, revenue tracking, and more for your growing business.
+							Maximize your BJJ gym&apos;s potential with Rollplan&apos;s all-in-one software, providing seamless student management, class scheduling, revenue tracking, and more for your growing business.
 						</>
 					}
 					
@@ -152,7 +152,7 @@ export default function Home() {
 						</>
 					}
 					cta={{
-						children: 'Learn more about proto',
+						children: 'Get started today',
 						color: 'bg-red-500',
 						href: '/home',
 					}}

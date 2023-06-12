@@ -16,7 +16,7 @@ export default function NavBar() {
     const [mobileMenuSate, setMobileMenuState] = useState(false);
 
     return (
-        <nav className="sticky relative px-5 py-5 flex justify-between items-center bg-black-500">
+        <nav className="sticky top-0 z-50 overflow relative px-5 py-5 flex justify-between items-center bg-black-500">
 					<Link href='/' className='text-3xl font-bold leading-none mt-1 mr-1 pr-1'>
                         <Image
                             src="https://i.imgur.com/akxtDmO.png"
