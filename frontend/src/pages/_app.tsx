@@ -6,6 +6,8 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import NavBar from '@/components/site/NavBar'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import NextNprogress from "nextjs-progressbar";
+
 import { faFaceRelieved } from '@fortawesome/pro-solid-svg-icons'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
@@ -23,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
     </Head>
 
       <div className={jakarta.className}>
+        <NextNprogress color='#AA4A44' height={5}/>
         <NavBar/>
         <main>
             <Component {...pageProps} />
