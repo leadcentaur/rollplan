@@ -4,7 +4,7 @@ import React from 'react';
 export default function Screenshots() {
     return (
         <> 
-            <div className='pt-10 hover:scale-105 transition duration-200'>
+            <div className='pt-10 hover:scale-105 transition duration-300'>
                 <Image
                     src="https://i.imgur.com/7mt9unK.jpg"
                     alt="Dashboard screen shot example."

@@ -10,13 +10,6 @@ import {
   faMoneyCheckDollarPen } 
 from '@fortawesome/pro-solid-svg-icons'
 
-// import faUniformMartialArts from '@/assets/images/uniform-martial-arts.svg';
-// import faCalendarUsers from '@/assets/images/calendar-users.svg';
-// import faBagsShopping from '@/assets/images/bags-shopping.svg';
-// import faDisplayChartUp from '@/assets/images/display-chart-up.svg';
-// import faDisplayChartUpCircleDollar from '@/assets/images/display-chart-up-circle-dollar.svg';
-// import faMoneyCheckDollarPen from '@/assets/images/money-check-dollar-pen.svg';
-
 import Screenshots from "@/components/site/home/ScreenShots";
 import Features, { Feature } from "@/components/site/home/Features";
 import ProductSection from "@/components/site/home/ProductSection";
