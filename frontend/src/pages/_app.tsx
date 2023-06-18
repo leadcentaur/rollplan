@@ -8,13 +8,20 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import NextNprogress from "nextjs-progressbar"; 
 
+
 import { faFaceRelieved } from '@fortawesome/pro-solid-svg-icons'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { useEffect, useState } from 'react';
+import { User } from '@/models/user';
+import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 config.autoAddCss = false
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: AppProps) {
+
+  const { user, userLoading, userLoadingError, mutateUser } = useAuthenticatedUser();
+
   return (
     <>
     <Head>
@@ -27,7 +34,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <div className={jakarta.className}>
         <NextNprogress color='#AA4A44' height={5}/>
         <NavBar/>
+        
         <main className=''>
+        {user?.username}
             <Component {...pageProps} />
         </main>
       </div>
