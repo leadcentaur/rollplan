@@ -36,7 +36,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <NavBar/>
         
         <main className=''>
-        {user?.username}
             <Component {...pageProps} />
         </main>
       </div>

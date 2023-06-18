@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import UserOne from '../images/user/user-01.png';
 import UserTwo from '../images/user/user-02.png';
 import UserThree from '../images/user/user-03.png';
@@ -132,9 +132,9 @@ const ChatCard = () => {
             <span className="absolute right-0 bottom-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-meta-6"></span>
           </div>
 
+              <h5 className="font-medium">Wilium Smith</h5>
           <div className="flex flex-1 items-center justify-between">
             <div>
-              <h5 className="font-medium">Wilium Smith</h5>
               <p>
                 <span className="text-sm">Where are you now?</span>
                 <span className="text-xs"> . Sep 20</span>
@@ -146,5 +146,5 @@ const ChatCard = () => {
     </div>
   );
 };
-
 export default ChatCard;
+
