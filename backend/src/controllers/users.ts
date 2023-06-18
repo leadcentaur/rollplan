@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
     try {
+     
         if (!authenticatedUser) throw createHttpError(401);
 
         const user = await UserModel.findById(authenticatedUser._id).select("+email").exec();

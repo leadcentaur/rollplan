@@ -3,6 +3,7 @@ import cx, { clsx } from 'clsx';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
+import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 
 // interface NavBarLoggedOutViewProps {
 //     onLoginClicked: ()=> void;
@@ -11,6 +12,8 @@ import Image from 'next/image';
 // }
 
 export default function NavBar() {
+	
+	const { user } = useAuthenticatedUser();
 
     const router = useRouter();
     const [mobileMenuSate, setMobileMenuState] = useState(false);
@@ -26,7 +29,7 @@ export default function NavBar() {
                             height={100}
                         />
 					</Link>
-				<div className="lg:hidden">
+				<div className="lg:hidden lg:inline-block ml-auto">
 					<button className="navbar-burger flex items-center p-3">
 						<svg fill='red' className="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 							<title>Mobile menu</title>
@@ -43,8 +46,13 @@ export default function NavBar() {
 					<li><Link href='/privacy' className='hover:text-red-400 transition ease-in-out delay-20 transition-duration-20 text-white-200'>Privacy</Link></li>
 
 				</ul>
-                    <Link className='hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-500 hover:bg-red-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/signup">Get started</Link>
+
+					<div className='lg:inline-block lg:ml-auto shrink-0 flex-none'>
+					<Link className='hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-500 hover:bg-red-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/signup">Get started</Link>
                     <Link className='hidden lg:inline-block py-2 px-6 bg-gray-800 hover:bg-gray-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/login">Login</Link>
+					</div>
+                   
+				
 			</nav>
     );
 }

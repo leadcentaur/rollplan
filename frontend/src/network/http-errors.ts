@@ -1,5 +1,3 @@
-import { SUPPORTED_NATIVE_MODULES } from "next/dist/build/webpack/plugins/middleware-plugin";
-
 class HttpError extends Error {
     constructor(message?: string) {
         super(message);
@@ -31,4 +29,3 @@ export class ConflictError extends HttpError { }
  * Status code: 429
  */
 export class TooManyRequestsError extends HttpError { }
-
