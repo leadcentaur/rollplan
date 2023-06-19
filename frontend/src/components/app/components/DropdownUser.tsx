@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import UserOne from '../images/user/user-01.png';
 import Link from 'next/link';
+
+import UserOne from '../images/user/user-01.png';
 import Image from 'next/image';
 
 const DropdownUser = () => {
@@ -45,9 +46,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            Brenden Cunneen
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">White belt</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -55,7 +56,7 @@ const DropdownUser = () => {
         </span>
 
         <svg
-          className={`hidden fill-current sm:block ${
+          className={`hidden fill-boxdark sm:block ${
             dropdownOpen ? 'rotate-180' : ''
           }`}
           width="12"

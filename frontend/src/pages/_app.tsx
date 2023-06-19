@@ -14,6 +14,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { useEffect, useState } from 'react';
 import { User } from '@/models/user';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
+import SideBar from '@/components/app/components/SideBar';
 config.autoAddCss = false
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
@@ -21,25 +22,25 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 export default function App({ Component, pageProps }: AppProps) {
 
   const { user, userLoading, userLoadingError, mutateUser } = useAuthenticatedUser();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  return (
+  return  (
     <>
-    <Head>
-      <title>Rollplan</title>
-      <meta name="description" content="Rollplan roll with confidence" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+      <Head>
+        <title>Rollplan</title>
+        <meta name="description" content="Rollplan roll with confidence" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-      <div className={jakarta.className}>
-        <NextNprogress color='#AA4A44' height={5}/>
-        <NavBar/>
-        
-        <main className=''>
-            <Component {...pageProps} />
-        </main>
-      </div>
-
-  </>
-  );
+        <div className={jakarta.className}>
+          <NextNprogress color='#AA4A44' height={5}/>
+          {/* <NavBar/> */}
+          
+          <main>
+              <Component {...pageProps} />
+          </main>
+        </div>
+    </>
+  )
 }
