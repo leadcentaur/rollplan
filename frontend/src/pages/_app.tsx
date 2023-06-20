@@ -35,8 +35,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
         <div className={jakarta.className}>
           <NextNprogress color='#AA4A44' height={5}/>
-          {/* <NavBar/> */}
-          
+          <NavBar/>
+
           <main>
               <Component {...pageProps} />
           </main>
