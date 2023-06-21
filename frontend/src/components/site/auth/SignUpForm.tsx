@@ -7,12 +7,18 @@ import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useState } from "react";
 import { BadRequestError, ConflictError } from "@/network/http-errors";
+import * as yup from "yup";
+import { emailSchema, passwordSchema, usernameSchema } from "@/utils/validation";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-interface SignUpFormData {
-    username: string,
-    email: string,
-    password: string,
-}
+const validationSchema = yup.object({
+  username: usernameSchema.required("Required"),
+  email: emailSchema.required("Required"),
+  password: passwordSchema.required("Required"),
+})
+
+type SignUpFormData = yup.InferType<typeof validationSchema>;
+
 
 interface SignUphtmlFormProps {
     onDismiss: () => void,
@@ -24,7 +30,9 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
     const { mutateUser } = useAuthenticatedUser();
     const [errorText, setErrorText] = useState<string | null>(null);
 
-    const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<SignUpFormData>();
+    const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<SignUpFormData>({
+      resolver: yupResolver(validationSchema)
+    });
 
     async function onSubmit(credentials: SignUpFormData) {
         try {
@@ -80,6 +88,11 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       fieldType="username"
                       error={errors.username}
                     />
+
+                    <div className=" text-red-400 italic">
+                      {errors?.username && errors.username.message?.toString()}
+                    </div>
+
                     <FormInputField
                       register={register("email", {required: "Required"})}
                       type="email"
@@ -88,6 +101,12 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       fieldType="email"
                       error={errors.email}
                     />
+
+
+                    <div className=" text-red-400 italic">
+                      {errors?.email && errors.email.message?.toString()}
+                    </div>
+
                     <PasswordInputField
                        register={register("password", {required: "Required"})}
                        type="password"
@@ -95,6 +114,12 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                        placeholder="••••••••"
                        error={errors.password}
                     />
+
+
+                    <div className=" text-red-400 italic">
+                      {errors?.password && errors.password.message?.toString()}
+                    </div>
+
                   <div className="flex items-start">
                       <div className="flex items-center h-5">
                         <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />

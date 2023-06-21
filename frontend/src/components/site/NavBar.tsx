@@ -4,21 +4,18 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
-
-// interface NavBarLoggedOutViewProps {
-//     onLoginClicked: ()=> void;
-//     onSignedUpClicked: () => void;
-//     onMenuClicked: () => void;
-// }
+import { User } from '@/models/user';
+import profilePicPlaceholder from "@/assets/images/profile-pic-placeholder.png";
+import * as UsersApi from "@/network/api/users"
+import Button from './ui/typography/Button';
 
 export default function NavBar() {
 	
+	const router = useRouter();
 	const { user } = useAuthenticatedUser();
-
-    const router = useRouter();
     const [mobileMenuSate, setMobileMenuState] = useState(false);
 
-    return (
+    return router.pathname !== "/app" ? (
         <nav className="sticky top-0 z-50 overflow relative px-5 py-5 flex justify-between items-center bg-black-500">
 					<Link href='/' className='text-3xl font-bold leading-none mt-1 mr-1 pr-1'>
                         <Image
@@ -46,13 +43,54 @@ export default function NavBar() {
 					<li><Link href='/privacy' className='hover:text-red-400 transition ease-in-out delay-20 transition-duration-20 text-white-200'>Privacy</Link></li>
 
 				</ul>
-
-					<div className='lg:inline-block lg:ml-auto shrink-0 flex-none'>
-					<Link className='hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-500 hover:bg-red-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/signup">Get started</Link>
-                    <Link className='hidden lg:inline-block py-2 px-6 bg-gray-800 hover:bg-gray-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/login">Login</Link>
-					</div>
-                   
 				
+				{user ? <NavBarLoggedInview user={user}/> : <NavBarLoggedOutView/>}
+                   
 			</nav>
-    );
+    ) :
+	null
+}
+
+interface LoggedInViewProps {
+	user: User
+}
+
+function NavBarLoggedInview({user}: LoggedInViewProps){
+
+	const router = useRouter();
+	const { mutateUser } = useAuthenticatedUser();
+
+	async function logout() {
+		try {
+			await UsersApi.logout();
+			mutateUser(null);
+			router.push("/");
+
+		} catch (error) {
+			
+		}
+	}
+
+	return (
+		<div className='lg:inline-block lg:ml-auto shrink-0 flex-none'>
+			<Link href="#" className='hidden lg:inline-block py-2 px-6 bg-siteGray-800 hover:bg-siteGray-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' onClick={logout}>Logout</Link>
+			<Image
+				className='rounded-full lg:inline-block mb-'
+				src={user.profilePicUrl || profilePicPlaceholder}
+				width={40}
+				height={40}
+				alt='profile pic'
+			/>
+			<div className='text-white-500'>Logged in as {user.username}</div>
+		</div>
+	);
+}
+
+function NavBarLoggedOutView() {
+	return (
+		<div className='lg:inline-block lg:ml-auto shrink-0 flex-none'>
+			<Link className='hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-red-500 hover:bg-red-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/signup">Get started</Link>
+			<Link className='hidden lg:inline-block py-2 px-6 bg-siteGray-800 hover:bg-siteGray-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' href="/login">Login</Link>
+		</div>
+	);
 }

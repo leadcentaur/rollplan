@@ -35,10 +35,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
         <div className={jakarta.className}>
           <NextNprogress color='#AA4A44' height={5}/>
-          <NavBar/>
+          <NavBar loggedInUser={user}/>
 
           <main>
               <Component {...pageProps} />
+              { user &&
+                  <p>{user.username}</p>
+              }
           </main>
         </div>
     </>

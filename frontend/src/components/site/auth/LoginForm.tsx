@@ -7,11 +7,16 @@ import PasswordInputField from "../form/PasswordInputField";
 import { UnauthorizedError } from "@/network/http-errors";
 import { use, useState } from "react";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
+import { useRouter } from "next/router";
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup'
 
-interface LoginFormData {
-  username: string,
-  password: string,
-}
+const validationSchema = yup.object({
+  username: yup.string().required("Required"),
+  password: yup.string().required("Required"),
+})
+
+type LoginFormData = yup.InferType<typeof validationSchema>
 
 interface LoginFormProps {
     onDismiss: () => void,
@@ -21,8 +26,8 @@ interface LoginFormProps {
 
 export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPasswordClicked}: LoginFormProps) {
 
+  const router = useRouter();
   const { mutateUser } = useAuthenticatedUser();
-
   const { register, handleSubmit, formState: { errors, isSubmitting} } = useForm<LoginFormData>();
   const [errorText, setErrorText] = useState<string | null>(null);
 
@@ -31,8 +36,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
         setErrorText(null);
         const user = await UsersApi.login(credentials);
         mutateUser(user);
-
-        alert(JSON.stringify(user));
+        router.push("/app");
     } catch (error) {
         if (error instanceof UnauthorizedError) {
           setErrorText("Invalid credentials");
@@ -78,9 +82,15 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
                       type="username"
                       label="username"
                       placeholder="Your username"
+                      className=""
                       fieldType="username"
                       error={errors.username}
                     />
+
+                  <div className="text-red-400 italic">
+                      {errors?.username && errors.username.message?.toString()}
+                  </div>
+
                     <PasswordInputField
                        register={register("password", {required: "Required"})}
                        type="password"
@@ -88,6 +98,10 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
                        placeholder="••••••••"
                        error={errors.password}
                     />
+
+                  <div className=" text-red-400 italic">
+                      {errors?.password && errors.password.message?.toString()}
+                  </div>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-start">

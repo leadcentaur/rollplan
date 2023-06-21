@@ -51,7 +51,7 @@ module.exports = {
             800: "#520000",
             900: "#290000"
           },
-          gray: {
+          siteGray: {
             100: "#e6e6e6",
             200: "#cccccc",
             300: "#b3b3b3",

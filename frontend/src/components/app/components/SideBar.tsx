@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -8,6 +9,7 @@ interface SidebarProps {
 
 export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 
+    const router = useRouter();
 
     return (
         <aside
@@ -17,7 +19,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
       >
         
         <div className="flex items-center justify-between gap-2 px-7 py-5.5 lg:py-6.5">
-            <Link href="/">
+            <Link href="/app">
                         <Image
                             src="https://i.imgur.com/akxtDmO.png"
                             alt="Flow Blog logo"
