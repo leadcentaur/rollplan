@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 
 import usersRoutes from "./routes/users";
-import rollplanRoutes from "./routes/rollplan";
+import academyRoutes from "./routes/academy";
 
 import cors from "cors"
 import env from "./env";
@@ -27,7 +27,8 @@ app.use(session(sessionConfig));
 app.use(passport.authenticate("session"));
 
 app.use("/users", usersRoutes);
-app.use("/app", requiresAuth, rollplanRoutes);
+app.use("/app", requiresAuth);
+app.use("/academy", academyRoutes)
 
 app.use((req, res, next) => next(createHttpError(404, "Endpoint not found")));
 

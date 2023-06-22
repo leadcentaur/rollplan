@@ -1,8 +1,11 @@
 import { RequestHandler } from "express";
-import UserModel from "../models/users";
+import UserModel from "../models/user";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import assertIsDefined from "../utils/assertIsDefined";
+import { SignUpBody } from "../validation/users";
+
+export type userType = 'member' | 'owner';
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -18,18 +21,12 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     }
 }
 
-interface SignUpBody {
-    username: string,
-    email: string,
-    password: string,
-}
-
 export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
     //you can rename the password via the below syntax
     const { username, email, password: passwordRaw} = req.body;
 
     try {
-        const existingUsername = await UserModel.findOne({ username })
+            const existingUsername = await UserModel.findOne({ username })
             .collation({locale: "en", strength: 2})
             .exec();
 
@@ -44,6 +41,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
                 displayName: username,
                 email,
                 password: passwordHashed,
+                userType: "owner"
             });
 
             const newUser = result.toObject();

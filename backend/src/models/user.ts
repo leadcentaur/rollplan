@@ -4,24 +4,26 @@ import { InferSchemaType, model, Schema } from "mongoose";
 // the given user item belongs to a doucment
 // example being author: ref "User"
 
-const userSchema = new Schema({
-    username: { type: String, unique: true, sparse: true },
-    email: { type: String, unique: true, sparse: true, select: false },
+export const userSchema = new Schema({
+    username: { type: String, unique: true, sparse: true},
+    email: { type: String, unique: true, select: true },
+    firstname: { type: String },
+    lastname: { type: String },
     displayName: { type: String },
     about: { type: String },
     profilePicUrl: { type: String },
     password: { type: String, select: false },
     googleId: { type: String, unique: true, sparse: true, select: false },
-    belt: { type: String,  }
+    belt: { type: String,  },
+    userType: {type: String, required: true}
 }, { timestamps: true });
 
-userSchema.pre("validate", function (next) {
-    if (!this.email && !this.googleId) {
-        return next(new Error("User must have an email or social provider id"));
-    }
-    next();
-});
+// userSchema.pre("validate", function (next) {
+//     if (!this.email && !this.googleId) {
+//         return next(new Error("User must have an email or social provider id"));
+//     }
+//     next();
+// });
 
 type User = InferSchemaType<typeof userSchema>;
-
 export default model<User>("User", userSchema);

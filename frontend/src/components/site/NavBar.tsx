@@ -15,7 +15,7 @@ export default function NavBar() {
 	const { user } = useAuthenticatedUser();
     const [mobileMenuSate, setMobileMenuState] = useState(false);
 
-    return router.pathname !== "/app" ? (
+    return !router.pathname.includes("/app") ? (
         <nav className="sticky top-0 z-50 overflow relative px-5 py-5 flex justify-between items-center bg-black-500">
 					<Link href='/' className='text-3xl font-bold leading-none mt-1 mr-1 pr-1'>
                         <Image

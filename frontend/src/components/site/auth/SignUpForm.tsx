@@ -2,19 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as UsersApi from "@/network/api/users";
+import * as AcademyApi from "@/network/api/academys";
 import FormInputField from "../form/FormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useState } from "react";
 import { BadRequestError, ConflictError } from "@/network/http-errors";
 import * as yup from "yup";
-import { emailSchema, passwordSchema, usernameSchema } from "@/utils/validation";
+import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, passwordSchema, usernameSchema } from "@/utils/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Academy } from "@/models/academy";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
   email: emailSchema.required("Required"),
   password: passwordSchema.required("Required"),
+  academy_name: academyNameSchema.required("Required"),
+  academy_location: academyLocationSchema.required("Required"),
 })
 
 type SignUpFormData = yup.InferType<typeof validationSchema>;
@@ -39,6 +43,15 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
             setErrorText(null);
             const newUser = await UsersApi.signUp(credentials);
             mutateUser(newUser);
+
+            const newAcademy = await AcademyApi.createAcademy({
+              academy_name: credentials.academy_name,
+              academy_location: credentials.academy_location,
+              academy_owner: credentials.email
+            } as Academy)
+            
+            alert(newAcademy);
+
         } catch (error) {
             if (error instanceof ConflictError || error instanceof BadRequestError) {
               setErrorText(error.message);
@@ -81,10 +94,39 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
               <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
 
                     <FormInputField
+                      register={register("academy_name", {required: "Required"})}
+                      type="academy_name"
+                      label="Academy name"
+                      placeholder="10th planet Ju-jitsu, Austin"
+                      maxLength={72}
+                      fieldType="academy_name"
+                      error={errors.academy_name}
+                    />
+
+                    <div className=" text-red-400 italic">
+                      {errors?.academy_name && errors.academy_name.message?.toString()}
+                    </div>
+
+                    <FormInputField
+                      register={register("academy_location", {required: "Required"})}
+                      type="academy_location"
+                      label="Academy location"
+                      placeholder="Austin, Texas"
+                      maxLength={100}
+                      fieldType="academy_location"
+                      error={errors.academy_location}
+                    />
+
+                    <div className=" text-red-400 italic">
+                      {errors?.academy_location && errors.academy_location.message?.toString()}
+                    </div>
+
+                    <FormInputField
                       register={register("username", {required: "Required"})}
                       type="username"
                       label="username"
                       placeholder="Your username"
+                      maxLength={20}
                       fieldType="username"
                       error={errors.username}
                     />
@@ -98,6 +140,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       type="email"
                       label="email"
                       placeholder="email@example.com"
+                      maxLength={320}
                       fieldType="email"
                       error={errors.email}
                     />

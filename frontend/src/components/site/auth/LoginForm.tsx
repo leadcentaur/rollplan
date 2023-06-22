@@ -58,7 +58,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
             src="https://i.imgur.com/akxtDmO.png"
             alt="Flow Blog logo"
             className="rounded-xl p-1 m-3"
-            width={200}
+            width={300}
             height={100}
           />
         </Link>
@@ -82,7 +82,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
                       type="username"
                       label="username"
                       placeholder="Your username"
-                      className=""
+                      maxLength={20}
                       fieldType="username"
                       error={errors.username}
                     />

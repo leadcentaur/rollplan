@@ -20,3 +20,15 @@ export const requiredFileSchema = yup.mixed<FileList>()
         value => value instanceof FileList && value.length > 0
     )
     .required();
+
+export const academyNameSchema = yup.string()
+    .max(72)
+    // .matches(/^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/, "Acadmey name cannot contain special characters")
+
+export const academyLocationSchema = yup.string()
+        .max(100)
+        // .matches(/^[a-zA-z0-9_]*$/, "Only letters, numbers and underscores are allowed")
+
+export const academyOwnerSchema = yup.string()
+        .email()
+        .max(320)
