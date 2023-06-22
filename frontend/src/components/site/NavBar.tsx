@@ -41,6 +41,7 @@ export default function NavBar() {
 						
 					</li>
 					<li><Link href='/privacy' className='hover:text-red-400 transition ease-in-out delay-20 transition-duration-20 text-white-200'>Privacy</Link></li>
+					<li><Link href='/blog' className='hover:text-red-400 transition ease-in-out delay-20 transition-duration-20 text-white-200'>Blog</Link></li>
 
 				</ul>
 				
