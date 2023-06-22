@@ -23,10 +23,11 @@ export const requiredFileSchema = yup.mixed<FileList>()
 
 export const academyNameSchema = yup.string()
     .max(72)
-    // .matches(/^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/, "Acadmey name cannot contain special characters")
+    .matches(/^[a-zA-Z0-9 ]*$/, "Academy name can only contain letters, numbers and spaces.")
 
 export const academyLocationSchema = yup.string()
         .max(100)
+        .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Address field cannot contain special characters")
         // .matches(/^[a-zA-z0-9_]*$/, "Only letters, numbers and underscores are allowed")
 
 export const academyOwnerSchema = yup.string()

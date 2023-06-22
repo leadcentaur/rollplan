@@ -1,14 +1,28 @@
 import * as yup from "yup";
 
+const academyNameSchema = yup.string()
+    .max(72)
+    .matches(/^[a-zA-Z0-9 ]*$/,);
+
+const academyLocationSchema = yup.string()
+    .max(100)
+    .matches(/^[#.0-9a-zA-Z\s,-]+$/)
+
+const academyOwnerSchema = yup.string()
+    .email()
+    .max(320);
+
 export const academyCreationSchema = yup.object({
-    academy_name: yup.string().max(72).matches(/^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/, "Only letters, numbers and underscores are allowed"),
-    academy_location: yup.string().max(100),
-    academy_owner: yup.string().email().max(320),
-})
+    body: yup.object({
+        academy_name: academyNameSchema.required(),
+        academy_location: academyLocationSchema.required(),
+        academy_owner: academyOwnerSchema.required(),
+    }),
+});
 
-export type AcademyBody = yup.InferType<typeof academyCreationSchema>;
+export type AcademyBody = yup.InferType<typeof academyCreationSchema>["body"];
 
-// export const createBlogPostSchema = yup.object({
-//     body: blogPostBodySchema,
-//     file: imageFileSchema.required("Featured image required"),
-// });
+
+
+
+
