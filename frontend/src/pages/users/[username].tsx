@@ -4,8 +4,38 @@ import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import CoverOne from "@/components/app/images/cover/cover-01.png"
 import userSix from  "@/components/app/images/user/user-01.png";
 import Image from "next/image";
+import { User } from "@/models/user";
+import { GetServerSideProps } from "next";
+import * as UsersApi from "@/network/api/users";
+import { useState } from "react";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 
-export default function Profile() {
+export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
+
+  const user = await UsersApi.getUserByUsername(username);
+  return {
+    props: { user }
+  }
+}
+
+interface UserProfilePageProps {
+  user: User,
+}
+
+export default function UserProfilePage({user}: UserProfilePageProps) {
+
+  /*
+    We put the user in a state because then we can update the page
+    even though the page is fetched serverside
+  
+  */
+    const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
+    const [profileUser, setProfileUser] = useState(user);
+    const profileUserIsLoggedInUser = (loggedInUser && (loggedInUser._id === profileUser._id)) || false;
+  
+
     return (
         <DefaultLayout>
       <Breadcrumb pageName="Profile" />
@@ -90,7 +120,7 @@ export default function Profile() {
           </div>
           <div className="mt-4">
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-              Danish Heilium
+                Dnaish
             </h3>
             <p className="font-medium">Ui/Ux Designer</p>
             <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">

@@ -26,6 +26,8 @@ app.use(session(sessionConfig));
 
 app.use(passport.authenticate("session"));
 
+app.use("/uploads/profile-pictures", express.static("uploads/profile-pictures"))
+
 app.use("/users", usersRoutes);
 app.use("/app", requiresAuth);
 app.use("/academy", academyRoutes)

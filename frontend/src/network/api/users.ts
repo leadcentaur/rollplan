@@ -1,8 +1,14 @@
 import { User } from "@/models/user"
 import api from "@/network/axiosInstance";
+import { string } from "yup";
 
 export async function getAuthenticatedUser() {
     const response = await api.get<User>("/users/me");
+    return response.data;
+}
+
+export async function getUserByUsername(username: string) {
+    const response = await api.get<User>("/users/profile/" + username);
     return response.data;
 }
 
@@ -29,4 +35,21 @@ export async function login(credentials: LoginValues) {
 
 export async function logout() {
     await api.post("/users/logout");
+}
+
+interface UpdateUserValues {
+    username?: string,
+    displayName?: string,
+    about?: string,
+    profilePic?: File,
+    belt?: string,
+}
+
+export async function updateUser(input: UpdateUserValues) {
+    const formData = new FormData();
+    Object.entries(input).forEach(([key, value]) => {
+        if (value !== undefined) formData.append(key, value);
+    });
+    const response = await api.patch<User>("/users/me", formData);
+    response.data;
 }

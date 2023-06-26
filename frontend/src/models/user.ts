@@ -6,5 +6,7 @@ export interface User {
     displayName?: string,
     about?: string,
     profilePicUrl?: string,
+    firstname?: string,
+    lastname?: string,
     createdAt: string,
 }

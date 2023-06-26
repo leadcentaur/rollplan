@@ -14,7 +14,7 @@ export const userSchema = new Schema({
     profilePicUrl: { type: String },
     password: { type: String, select: false },
     googleId: { type: String, unique: true, sparse: true, select: false },
-    belt: { type: String,  },
+    belt: { type: String, select: true },
     userType: {type: String, required: true}
 }, { timestamps: true });
 
