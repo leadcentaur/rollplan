@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import cx, { clsx } from 'clsx';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
@@ -9,13 +9,20 @@ import profilePicPlaceholder from "@/assets/images/profile-pic-placeholder.png";
 import * as UsersApi from "@/network/api/users"
 import Button from './ui/typography/Button';
 
+function routeGuard(router: NextRouter): boolean {
+	if (!router.pathname.includes("/app")) {
+		return true;
+	}
+	return false
+}
+
 export default function NavBar() {
 	
 	const router = useRouter();
 	const { user } = useAuthenticatedUser();
     const [mobileMenuSate, setMobileMenuState] = useState(false);
 
-    return !router.pathname.includes("/app") ? (
+    return routeGuard(router) ? (
         <nav className="sticky top-0 z-50 overflow relative px-5 py-5 flex justify-between items-center bg-black-500">
 					<Link href='/' className='text-3xl font-bold leading-none mt-1 mr-1 pr-1'>
                         <Image

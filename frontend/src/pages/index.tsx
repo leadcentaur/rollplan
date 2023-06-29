@@ -141,7 +141,7 @@ export default function Home() {
 					logo={<Image src="https://i.imgur.com/9r0Ebbx.png" height={40} width={120} className="block" alt="The rollplan logo"/>}
 					description={
 						<>
-							Remove the hassle of managing and enforcing specific versions of programming languages across teams or projects. With proto, our modern toolchain manager, this entire workflow is automated away through a single tool.
+							Remove the hassle of marketing management and branding, through our partners rollplan will elevate your acdemy's prescense on social media and beyond.
 						</>
 					}
 					cta={{

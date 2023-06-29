@@ -48,7 +48,15 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
   }
 
   return (
-    <section className="bg-gradient-to-b from-slate-900 to-slate-600 h-screen overflow-hidden scrollbar-hide">
+    <div className="relative">
+        <div className="bg-hero-section bg-no-repeat h-screen">
+          <video autoPlay loop muted className="absolute inset-0 object-cover h-full w-full xl:h-auto">
+            <source
+              src="video1.mp4"
+              type="video/mp4"
+            />
+          </video>
+
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 scrollbar-hide">
         <Link
           href="/"
@@ -62,7 +70,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
             height={100}
           />
         </Link>
-        <div className="w-full bg-white-500 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="absolute w-full bg-white-500 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
@@ -145,6 +153,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
           </div>
         </div>
       </div>
-    </section>
+      </div>
+    </div>
   );
 }

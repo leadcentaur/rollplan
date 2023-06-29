@@ -4,12 +4,31 @@ import DarkModeSwitcher from './DarkModeSwitcher';
 import DropdownMessage from './DropdownMessage';
 import DropdownNotification from './DropdownNotification';
 import DropdownUser from './DropdownUser';
-import Image from 'next/image';
+import Image from "next/image";
+import { User } from "@/models/user";
+import { GetServerSideProps } from "next";
+import * as UsersApi from "@/network/api/users";
+import { useState } from "react";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 
-const Header = (props: {
-  sidebarOpen: string | boolean | undefined;
+export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
+
+  const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
+  return {
+    props: { user }
+  }
+}
+
+interface AppHeaderProps {
+  user: User
+  sideBarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
-}) => {
+}
+
+export default function Header({user, sideBarOpen, setSidebarOpen}: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white-500 drop-shadow-md ">
       <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">

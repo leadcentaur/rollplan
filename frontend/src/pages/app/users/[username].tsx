@@ -15,6 +15,7 @@ export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = asyn
   if (!username) throw Error("username missing");
 
   const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
   return {
     props: { user }
   }
@@ -120,7 +121,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
           </div>
           <div className="mt-4">
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-                Dnaish
+                  {loggedInUser?.username}
             </h3>
             <p className="font-medium">Ui/Ux Designer</p>
             <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
