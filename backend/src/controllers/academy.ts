@@ -7,8 +7,8 @@ import UserModel from "../models/user";
 import { email } from "envalid";
 import { AcademyBody } from "../validation/academys";
 
-
 export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknown> = async (req, res, next) => {
+
     const name = req.body.academy_name;
     const location = req.body.academy_location;
     const owner_email = req.body.academy_owner;

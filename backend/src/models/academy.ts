@@ -16,4 +16,4 @@ export const academyScehma = new Schema({
 })
 
 type Academy = InferSchemaType<typeof academyScehma>;
-export default model<Academy>("Academy", academyScehma);
+export default model<Academy>("Academy", academyScehma);        

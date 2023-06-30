@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarArrowDown, faCalendarUsers, faDashboard, faGridHorizontal, faMoneyCheckDollarPen, faTableColumns } from "@fortawesome/pro-solid-svg-icons";
+import { faCalendarArrowDown, faCalendarUsers, faDashboard, faGridHorizontal, faMoneyCheckDollarPen, faTableColumns, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "@/components/site/ui/iconography/Icon";
 import clsx from "clsx";
 
@@ -74,6 +74,17 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 												/>
                         <span>
                           Billing
+                        </span>
+              </Link>
+
+              <Link href="/app/billing" className="group relative mr-1 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+                        <Icon
+													icon={faUsers}
+													className={clsx('text-1xl justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span>
+                          Members
                         </span>
               </Link>
 
