@@ -6,7 +6,12 @@ export interface User {
     displayName?: string,
     about?: string,
     profilePicUrl?: string,
+    belt: string,
     firstname?: string,
     lastname?: string,
-    createdAt: string,
+    createdAt?: string,
+    dateOfLastPromotion?: string,
+    dateOfLastAttendance?: string,
+    classAttended?: number,
+    numberOfStripes?: number
 }

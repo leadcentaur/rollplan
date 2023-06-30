@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarArrowDown, faCalendarUsers, faDashboard, faGridHorizontal, faMoneyCheckDollarPen, faTableColumns } from "@fortawesome/pro-solid-svg-icons";
+import Icon from "@/components/site/ui/iconography/Icon";
+import clsx from "clsx";
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -35,9 +39,45 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-white-500">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               MENU
             </h3>
+            <ul className="mb-6 flex flex-col gap-1.5">
+
+              <Link href="/app" className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out rounded-lg hover:bg-graydark dark:hover:bg-meta-4">                   
+                        <Icon
+													icon={faTableColumns}
+													className={clsx(' pr-1 ml-1 justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span className="m-0">
+                          Dashboard
+                        </span>
+              </Link>
+
+              <Link href="/app/calendar" className="group relative mr-1 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+                        <Icon
+													icon={faCalendarUsers}
+													className={clsx('text-1xl justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span>
+                          Calendar
+                        </span>
+              </Link>
+
+              <Link href="/app/billing" className="group relative mr-1 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+                        <Icon
+													icon={faMoneyCheckDollarPen}
+													className={clsx('text-1xl justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span>
+                          Billing
+                        </span>
+              </Link>
+
+            </ul>
         </div>
         </nav>
         </div>

@@ -15,7 +15,11 @@ export const userSchema = new Schema({
     password: { type: String, select: false },
     googleId: { type: String, unique: true, sparse: true, select: false },
     belt: { type: String, select: true },
-    userType: {type: String, required: true}
+    numberOfStripes: {type: Number},
+    userType: {type: String, required: true},
+    dateOfLastPromotion: {type: String},
+    dateOfLastAttendance: {type: String},
+    classAttended: {type: Number},
 }, { timestamps: true });
 
 // userSchema.pre("validate", function (next) {

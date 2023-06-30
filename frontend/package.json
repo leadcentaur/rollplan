@@ -49,6 +49,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/pro-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@svgr/webpack": "^8.0.1",
     "html-loader": "^4.2.0",
     "url-loader": "^4.1.1"
   }

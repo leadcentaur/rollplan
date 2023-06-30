@@ -7,9 +7,6 @@ import { SignUpBody, UpdateUserBody } from "../validation/users";
 import sharp from "sharp";
 import env from "../env";
 
-export type userType = 'member' | 'owner';
-export type beltType = 'white' | 'blue' | 'pruple' | 'brown' | 'black'
-
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
     try {

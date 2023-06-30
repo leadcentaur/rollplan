@@ -82,15 +82,8 @@ function NavBarLoggedInview({user}: LoggedInViewProps){
 	return (
 		<div className='lg:inline-block lg:ml-auto shrink-0 flex-none'>
 			<Link href="#" className='hidden lg:inline-block py-2 px-6 bg-siteGray-800 hover:bg-siteGray-600 text-sm text-white-500 font-jakarta-sans rounded-xl transition duration-200' onClick={logout}>Logout</Link>
-			<Image
-				className='rounded-full lg:inline-block mb-'
-				src={user.profilePicUrl || profilePicPlaceholder}
-				width={40}
-				height={40}
-				alt='profile pic'
-			/>
-			<div className='text-white-500'>Logged in as {user.username}</div>
 		</div>
+
 	);
 }
 

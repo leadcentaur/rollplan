@@ -39,9 +39,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
           <main>
               <Component {...pageProps} />
-              { user &&
-                  <p>{user.username}</p>
-              }
           </main>
         </div>
     </>

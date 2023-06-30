@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { beltType } from "../controllers/users";
+import { beltType, userType } from "../../@types/user-types";
 import { imageFileSchema } from "../utils/validation";
 
 export const usernameSchema = yup.string()
