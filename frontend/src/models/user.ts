@@ -1,12 +1,11 @@
 
 export interface User {
     _id: string,
-    username: string,
+    username?: string,
     email?: string,
-    displayName?: string,
     about?: string,
     profilePicUrl?: string,
-    belt: string,
+    belt?: string,
     firstname?: string,
     lastname?: string,
     createdAt?: string,

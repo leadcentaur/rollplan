@@ -6,6 +6,7 @@ import assertIsDefined from "../utils/assertIsDefined";
 import { SignUpBody, UpdateUserBody } from "../validation/users";
 import sharp from "sharp";
 import env from "../env";
+import { number } from "yup";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -35,7 +36,7 @@ export const getUserByUsername: RequestHandler = async (req, res, next) => {
 
 export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
     //you can rename the password via the below syntax
-    const { username, email, password: passwordRaw} = req.body;
+    const { username, email, password: passwordRaw, firstname, lastname, belt, numberOfStripes} = req.body;
 
     try {
             const existingUsername = await UserModel.findOne({ username })
@@ -50,11 +51,13 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 
             const result = await UserModel.create({
                 username,
-                displayName: username,
                 email,
+                firstname,
+                lastname,
                 password: passwordHashed,
                 userType: "owner",
-                belt: "white"
+                belt: belt,
+                numberOfStripes: numberOfStripes
             });
 
             const newUser = result.toObject();
@@ -72,54 +75,44 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 }
 
 export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknown> = async (req, res, next) => {
-    const { username, displayName, about, belt } = req.body;
+    const { username, about } = req.body;
     const profilePic = req.file;
-
-    //this is because only the user should be able to updat their own profile.
     const authenticatedUser = req.user;
+    console.log(profilePic);
 
     try {
         assertIsDefined(authenticatedUser);
 
         if (username) {
             const existingUsername = await UserModel.findOne({ username })
-            .collation({locale: "en", strength: 2})
-            .exec();
+                .collation({ locale: "en", strength: 2 })
+                .exec();
 
             if (existingUsername) {
                 throw createHttpError(409, "Username already taken");
             }
         }
 
-        let profilePicDestinationPath: string|undefined = undefined;
+        let profilePicDestinationPath: string | undefined = undefined;
 
         if (profilePic) {
-            profilePicDestinationPath = "/uploads/profile-pictures/" + authenticatedUser._id + ".png";
+            profilePicDestinationPath = "/src/uploads/profile-pictures/" + authenticatedUser._id + ".png";
+
             await sharp(profilePic.buffer)
-                .resize(500,500, { withoutEnlargement: true })
+                .resize(500, 500, { withoutEnlargement: true })
                 .toFile("./" + profilePicDestinationPath);
+
         }
 
         const updatedUser = await UserModel.findByIdAndUpdate(authenticatedUser._id, {
-
-            //$set means only update the fields that are sent in the request body
-            // this is what the set operator is for
-
             $set: {
-                ...(username && {username}),
-                ...(displayName && {displayName}),
-                ...(about && {about}),
-                ...(profilePic && {profilePicUrl: env.SERVER_URL + profilePicDestinationPath}),
-                ...(belt && {belt}),
+                ...(username && { username }),
+                ...(about && { about }),
+                ...(profilePic && { profilePicUrl: env.SERVER_URL + profilePicDestinationPath + "?lastupdated=" + Date.now() }),
             }
-
-        //by default thhe findByIdAndUpdate function will return the user before the update,
-        //we pass in the new config to get the updated new user.
-
-        }, {new: true}).exec();
+        }, { new: true }).exec();
 
         res.status(200).json(updatedUser);
-
     } catch (error) {
         next(error);
     }

@@ -9,7 +9,7 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useState } from "react";
 import { BadRequestError, ConflictError } from "@/network/http-errors";
 import * as yup from "yup";
-import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, passwordSchema, usernameSchema } from "@/utils/validation";
+import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, usernameSchema } from "@/utils/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Academy } from "@/models/academy";
 
@@ -19,6 +19,8 @@ const validationSchema = yup.object({
   password: passwordSchema.required("Required"),
   academy_name: academyNameSchema.required("Required"),
   academy_location: academyLocationSchema.required("Required"),
+  firstname: firstNameSchema.required("Required"),
+  lastname: lastnameNameSchema.required("Required")
 })
 
 type SignUpFormData = yup.InferType<typeof validationSchema>;
@@ -121,10 +123,31 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       {errors?.academy_location && errors.academy_location.message?.toString()}
                     </div>
 
+
+                    <FormInputField
+                      register={register("firstname", {required: "Required"})}
+                      type="firstname"
+                      label="Firstname"
+                      placeholder="Your firstname"
+                      max={100}
+                      fieldType="firstname"
+                      error={errors.firstname}
+                    />
+
+                    <FormInputField
+                      register={register("lastname", {required: "Required"})}
+                      type="lastname"
+                      label="Lastname"
+                      placeholder="Your lastname"
+                      max={100}
+                      fieldType="lastname"
+                      error={errors.lastname}
+                    />  
+
                     <FormInputField
                       register={register("username", {required: "Required"})}
                       type="username"
-                      label="username"
+                      label="Username"
                       placeholder="Your username"
                       maxLength={20}
                       fieldType="username"
@@ -138,7 +161,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     <FormInputField
                       register={register("email", {required: "Required"})}
                       type="email"
-                      label="email"
+                      label="Email"
                       placeholder="email@example.com"
                       maxLength={320}
                       fieldType="email"
@@ -153,7 +176,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     <PasswordInputField
                        register={register("password", {required: "Required"})}
                        type="password"
-                       label="password"
+                       label="Password"
                        placeholder="••••••••"
                        error={errors.password}
                     />

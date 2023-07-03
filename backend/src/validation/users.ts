@@ -4,7 +4,6 @@ import { imageFileSchema } from "../utils/validation";
 
 export const usernameSchema = yup.string()
     .max(20, "Username Must be 20 characters or less")
-    .matches(/^[a-zA-z0-9_]*$/).required("Invalid username.")
 
 const emailSchema = yup.string().email();
 
@@ -12,8 +11,23 @@ const passwordSchema = yup.string()
     .matches(/^(?!.* )/)
     .min(6);
 
+export const firstNameSchema =  yup.string()
+    .max(100)
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "First name must not contain special characters")
+
+export const lastnameNameSchema =  yup.string()
+    .max(100)
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not contain special characters")
+
+export const numberofStripesSchema = yup.number()
+    .max(1)
+
 const beltSchema = yup.mixed<beltType>().oneOf([
     'white','blue','brown','pruple','black'
+])
+
+const usertypeSchema = yup.mixed<userType>().oneOf([
+    'member','owner'
 ])
 
 export const signUpSchema = yup.object({
@@ -21,6 +35,10 @@ export const signUpSchema = yup.object({
         username: usernameSchema.required(),
         email: emailSchema.required(),
         password: passwordSchema.required(),
+        firstname: firstNameSchema.required(),
+        lastname: lastnameNameSchema.required(),
+        belt: beltSchema.required(),
+        numberOfStripes: numberofStripesSchema.required(),
     }),
 });
 
@@ -29,11 +47,11 @@ export type SignUpBody = yup.InferType<typeof signUpSchema>["body"];
 export const updateUserSchema = yup.object({
     body: yup.object({
         username: usernameSchema,
-        displayName: yup.string().max(20),
-        firstname: yup.string().max(40),
-        lastname: yup.string().max(80),
+        firstname: yup.string().max(100),
+        lastname: yup.string().max(100),
         about: yup.string().max(160),
         belt: yup.string().max(33),
+        numberOfStripes: numberofStripesSchema.max(1)
     }),
     file: imageFileSchema
 })

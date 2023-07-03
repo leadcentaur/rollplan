@@ -11,26 +11,21 @@ import * as UsersApi from "@/network/api/users";
 import { useState } from "react";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 
-// export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
-//   const username = params?.username?.toString();
-//   if (!username) throw Error("username missing");
+export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
 
-//   const user = await UsersApi.getUserByUsername(username);
-//   console.log("The username: " + user.username);
-//   return {
-//     props: { user }
-//   }
-// }
-
-// interface AppHeaderProps {
-//   user: User
-//   sideBarOpen: string | boolean | undefined;
-//   setSidebarOpen: (arg0: boolean) => void;
-// }
+  const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
+  return {
+    props: { user }
+  }
+}
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
+  user: User
 }) => {
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white-500 drop-shadow-md ">

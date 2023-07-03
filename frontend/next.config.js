@@ -12,12 +12,13 @@ const nextConfig = {
     return config
   },
   images: {
+    domains: ['localhost'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'i.imgur.com',
         port: '',
-      }
+      },
     ]
   },
 }

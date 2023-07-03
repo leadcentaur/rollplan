@@ -15,6 +15,8 @@ interface SignUpValues {
     username: string,
     email: string,
     password: string,
+    firstname: string,
+    lastname: string,
 }
 
 export async function signUp(credentials: SignUpValues) {
@@ -38,7 +40,6 @@ export async function logout() {
 
 interface UpdateUserValues {
     username?: string,
-    displayName?: string,
     about?: string,
     profilePic?: File,
 }

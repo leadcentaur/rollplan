@@ -33,3 +33,14 @@ export const academyLocationSchema = yup.string()
 export const academyOwnerSchema = yup.string()
         .email()
         .max(320)
+
+export const firstNameSchema =  yup.string()
+    .max(100)
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "First name must not contain special characters.s.")
+
+export const lastnameNameSchema =  yup.string()
+    .max(100)
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not contain special characters.")
+
+
+        
