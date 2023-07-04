@@ -13,7 +13,7 @@ export default function Dashboard() {
 
   const router = useRouter();
   const { user, userLoading } = useAuthenticatedUser();
-  if (userLoading) return <ColorRing wrapperClass="flex h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
+  if (userLoading) return <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
   if (!user) {
     router.push("/login");
   }

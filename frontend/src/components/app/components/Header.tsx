@@ -3,30 +3,26 @@ import Logo from '../images/logo/logo-icon.svg';
 import DarkModeSwitcher from './DarkModeSwitcher';
 import DropdownMessage from './DropdownMessage';
 import DropdownNotification from './DropdownNotification';
+import { GetServerSideProps } from 'next';
 import DropdownUser from './DropdownUser';
-import Image from "next/image";
-import { User } from "@/models/user";
-import { GetServerSideProps } from "next";
-import * as UsersApi from "@/network/api/users";
-import { useState } from "react";
-import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
+import Image from 'next/image';
+import { User } from '@/models/user';
+import * as UsersApi from "../../../network/api/users";
 
-// export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
-//   const username = params?.username?.toString();
-//   if (!username) throw Error("username missing");
+export const getServerSideProps: GetServerSideProps<AppHeaderProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
 
-//   const user = await UsersApi.getUserByUsername(username);
-//   console.log("The username: " + user.username);
-//   return {
-//     props: { user }
-//   }
-// }
+  const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
+  return {
+    props: { user }
+  }
+}
 
-// interface AppHeaderProps {
-//   user: User
-//   sideBarOpen: string | boolean | undefined;
-//   setSidebarOpen: (arg0: boolean) => void;
-// }
+interface AppHeaderProps {
+  user: User,
+}
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
@@ -36,7 +32,6 @@ const Header = (props: {
     <header className="sticky top-0 z-999 flex w-full bg-white-500 drop-shadow-md ">
       <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
-          {/* <!-- Hamburger Toggle BTN --> */}
           <button
             aria-controls="sidebar"
             onClick={(e) => {
@@ -85,7 +80,7 @@ const Header = (props: {
         </div>
 
         <div className="hidden sm:block ">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          <form action="#" method="POST">
             <div className="relative">
               <button className="absolute top-1/2 left-0 -translate-y-1/2">
                 <svg
@@ -136,7 +131,7 @@ const Header = (props: {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          <DropdownUser/>
           {/* <!-- User Area --> */}
         </div>
       </div>

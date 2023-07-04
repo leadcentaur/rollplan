@@ -8,16 +8,32 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import NextNprogress from "nextjs-progressbar"; 
 
-
 import { faFaceRelieved } from '@fortawesome/pro-solid-svg-icons'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { useEffect, useState } from 'react';
 import { User } from '@/models/user';
+import { GetServerSideProps } from 'next';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 import SideBar from '@/components/app/components/SideBar';
+import * as UsersApi from "../network/api/users";
 config.autoAddCss = false
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
+
+export const getServerSideProps: GetServerSideProps<GlobalAppProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
+
+  const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
+  return {
+    props: { user }
+  }
+}
+  
+interface GlobalAppProps {
+  user: User,
+}
 
 export default function App({ Component, pageProps }: AppProps) {
 

@@ -1,7 +1,4 @@
-import { InferSchemaType, model, Mongoose, Schema, ObjectId } from "mongoose";
-import mongoose from "mongoose";
-import { objectIdSchema } from "../utils/validation";
-import academy from "./academy";
+import { InferSchemaType, model, Schema } from "mongoose";
 
 // we can add a ref field that tells mongoose that
 // the given user item belongs to a doucment
@@ -20,7 +17,6 @@ export const userSchema = new Schema({
     },
     firstname: { type: String },
     lastname: { type: String },
-    displayName: { type: String },
     about: { type: String },
     profilePicUrl: { type: String },
     password: { 
@@ -45,10 +41,6 @@ export const userSchema = new Schema({
     dateOfLastPromotion: {type: String},
     dateOfLastAttendance: {type: String},
     classAttended: {type: Number},
-    academy: { 
-        type: Schema.Types.ObjectId,
-        ref: "Academy",
-    }
 }, { timestamps: true });
 
 // userSchema.pre("validate", function (next) {

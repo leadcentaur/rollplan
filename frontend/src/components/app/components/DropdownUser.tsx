@@ -1,11 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import UserOne from '../images/user/user-01.png';
 import Image from 'next/image';
+import { User } from '@/models/user';
+import * as UsersApi from "../../../network/api/users";
+import * as utils from "../../../utils/utils";
+import { GetServerSideProps } from 'next';
+import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
+import profilePicturePlaceholder from "../../../assets/images/profile-pic-placeholder.png"
+
+
+export const getServerSideProps: GetServerSideProps<DropDownUserProps> = async ({params}) => {
+  const username = params?.username?.toString();
+  if (!username) throw Error("username missing");
+
+  const user = await UsersApi.getUserByUsername(username);
+  console.log("The username: " + user.username);
+  return {
+    props: { user }
+  }
+}
+
+interface DropDownUserProps {
+  user: User,
+}
 
 const DropdownUser = () => {
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -42,17 +67,23 @@ const DropdownUser = () => {
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex items-center gap-4"
-        href="#"
+        href=""
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Brenden Cunneen
+            { loggedInUser?.firstname && loggedInUser.lastname &&
+              (utils.capitalizeFirstLetter(loggedInUser.firstname) + " " + utils.capitalizeFirstLetter(loggedInUser?.lastname))
+            }
           </span>
-          <span className="block text-xs">White belt</span>
+          <span className="block text-xs">
+            { loggedInUser?.belt &&
+              (utils.capitalizeFirstLetter(loggedInUser.belt) + " belt")
+            }
+          </span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <Image src={UserOne} alt="User" />
+          <Image src={loggedInUser?.profilePicUrl || profilePicturePlaceholder} className='rounded-full' width={110} height={100} alt="User" />
         </span>
 
         <svg
@@ -86,7 +117,7 @@ const DropdownUser = () => {
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
           <li>
             <Link
-              href="app/profile"
+              href={`/app/users/${loggedInUser?.username}`}
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <svg

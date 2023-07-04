@@ -62,6 +62,7 @@ module.exports = {
             800: "#333333",
             900: "#1a1a1a"
         },
+        formbg: '#f0f1f2',
         body: '#64748B',
         bodydark: '#AEB7C0',
         bodydark1: '#DEE4EE',
