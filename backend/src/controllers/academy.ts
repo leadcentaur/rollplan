@@ -53,3 +53,13 @@ export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknow
         next(error)
     }
 }
+
+export const getAcademyByID: RequestHandler = async (req, res, next) => {
+    try {
+        const academy = await AcademyModel.findById(req.params.id);
+        if (!academy) { throw createHttpError(404, "User not found"); }
+        res.status(200).json(academy);
+    } catch (error) {
+        next(error);
+    }
+}

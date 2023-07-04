@@ -1,4 +1,6 @@
 import { InferSchemaType, model, Schema } from "mongoose";
+import academy from "./academy";
+import { academyScehma } from "./academy";
 
 // we can add a ref field that tells mongoose that
 // the given user item belongs to a doucment
@@ -41,6 +43,10 @@ export const userSchema = new Schema({
     dateOfLastPromotion: {type: String},
     dateOfLastAttendance: {type: String},
     classAttended: {type: Number},
+    academyReferenceId: { 
+        type: Schema.Types.ObjectId, 
+        ref: "Academy",
+    }
 }, { timestamps: true });
 
 // userSchema.pre("validate", function (next) {

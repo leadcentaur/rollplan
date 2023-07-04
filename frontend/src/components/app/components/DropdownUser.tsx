@@ -9,6 +9,7 @@ import * as utils from "../../../utils/utils";
 import { GetServerSideProps } from 'next';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 import profilePicturePlaceholder from "../../../assets/images/profile-pic-placeholder.png"
+import { useRouter } from 'next/router';
 
 
 export const getServerSideProps: GetServerSideProps<DropDownUserProps> = async ({params}) => {
@@ -29,8 +30,8 @@ interface DropDownUserProps {
 const DropdownUser = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
+  const router = useRouter();
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);

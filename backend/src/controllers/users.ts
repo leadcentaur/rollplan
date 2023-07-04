@@ -7,6 +7,7 @@ import { SignUpBody, UpdateUserBody } from "../validation/users";
 import sharp from "sharp";
 import env from "../env";
 import { number } from "yup";
+import academy from "../models/academy";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -57,7 +58,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
                 password: passwordHashed,
                 userType: "owner",
                 belt: belt || "white",
-                numberOfStripes: numberOfStripes || 1
+                numberOfStripes: numberOfStripes || 1,
             });
 
             const newUser = result.toObject();
@@ -75,7 +76,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 }
 
 export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknown> = async (req, res, next) => {
-    const { username, about } = req.body;
+    const { username, about, } = req.body;
     const profilePic = req.file;
     const authenticatedUser = req.user;
     console.log(profilePic);

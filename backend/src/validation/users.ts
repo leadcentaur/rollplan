@@ -30,6 +30,10 @@ const usertypeSchema = yup.mixed<userType>().oneOf([
     'member','owner'
 ])
 
+export const academyRefSchema = yup.string()
+    .max(24)
+    .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
+
 export const signUpSchema = yup.object({
     body: yup.object({
         username: usernameSchema.required(),

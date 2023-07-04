@@ -43,4 +43,14 @@ export const lastnameNameSchema =  yup.string()
     .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not contain special characters.")
 
 
+
+
+//need a sperate function here to update the academyRef field inside of the user object
+//
+        
+// export const academyRefSchema = yup.string()
+//     .max(24)
+//     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
+
+
         
