@@ -22,13 +22,16 @@ export const lastnameNameSchema =  yup.string()
 export const numberofStripesSchema = yup.number()
     .max(1)
 
-const beltSchema = yup.mixed<beltType>().oneOf([
+export const beltSchema = yup.mixed<beltType>().oneOf([
     'white','blue','brown','pruple','black'
 ])
 
-const usertypeSchema = yup.mixed<userType>().oneOf([
+export const usertypeSchema = yup.mixed<userType>().oneOf([
     'member','owner'
 ])
+
+export const aboutSchema = yup.string()
+    .max(320)
 
 export const academyRefSchema = yup.string()
     .max(24)
@@ -55,9 +58,20 @@ export const updateUserSchema = yup.object({
         lastname: yup.string().max(100),
         about: yup.string().max(320),
         belt: yup.string().max(33),
-        numberOfStripes: numberofStripesSchema.max(1)
+        numberOfStripes: numberofStripesSchema.max(1),
     }),
     file: imageFileSchema
+})
+
+export const updateUserByUsernameSchema = yup.object({
+    body: yup.object({
+        username: usernameSchema,
+        firstname: firstNameSchema,
+        lastname: lastnameNameSchema,
+        belt: beltSchema,
+        about: aboutSchema,
+        numberOfStripes: numberofStripesSchema,
+    })
 })
 
 export type UpdateUserBody = yup.InferType<typeof updateUserSchema>["body"];
