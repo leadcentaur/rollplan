@@ -53,7 +53,7 @@ export const updateUserSchema = yup.object({
         username: usernameSchema,
         firstname: yup.string().max(100),
         lastname: yup.string().max(100),
-        about: yup.string().max(160),
+        about: yup.string().max(320),
         belt: yup.string().max(33),
         numberOfStripes: numberofStripesSchema.max(1)
     }),

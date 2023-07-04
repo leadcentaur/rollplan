@@ -209,7 +209,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
                     register={register("about")}
                     label="About"
                     placeholder="Provide an optional description about yourself"
-                    maxLength={160}
+                    maxLength={320}
                   />
                   
                 <ProfilePictureInputField

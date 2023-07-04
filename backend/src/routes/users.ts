@@ -19,5 +19,6 @@ router.post("/login", passport.authenticate("local"), (req, res) => res.status(2
 router.post("/logout", UsersController.logOut);
 
 router.patch("/me", requiresAuth, profilePicUpload.single("profilePic"), validateRequestSchema(updateUserSchema), UsersController.updateUser);
+router.patch("/:username", validateRequestSchema, UsersController.updateUserByUsername)
 
 export default router;

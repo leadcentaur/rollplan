@@ -8,6 +8,7 @@ import sharp from "sharp";
 import env from "../env";
 import { number } from "yup";
 import academy from "../models/academy";
+import { use } from "passport";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -89,6 +90,7 @@ export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknow
                 .collation({ locale: "en", strength: 2 })
                 .exec();
 
+
             if (existingUsername) {
                 throw createHttpError(409, "Username already taken");
             }
@@ -114,6 +116,49 @@ export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknow
         }, { new: true }).exec();
 
         res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+}
+
+interface UpdateUserByUsernameParamsProps {
+    username: string,
+}
+
+interface UpdateUserByUsernameBody {
+    username?: string,
+    firstname?: string,
+    lastname?: string,
+    belt?: string,
+    numberOfStripes?: number,
+    profilePicUrl?: string,
+    about?: string,
+}
+
+export const updateUserByUsername: RequestHandler<UpdateUserByUsernameParamsProps, unknown, UpdateUserByUsernameBody, unknown> = async (req, res, next) => {
+
+    const { username, firstname, lastname, belt, numberOfStripes, about } = req.body
+    const profilePic = req.file;
+
+    try {
+        const user = await UserModel.findOne({username: username})
+            .collation({ locale: "en", strength: 2 })
+            .exec();
+
+        if (!user) {
+            throw createHttpError(404, "User not found")
+        }
+
+        const updatedUser = UserModel.findByIdAndUpdate(user.id, {
+            $set: {
+                ...(username && { username }),
+                ...(belt && { belt }),
+                ...(firstname && { firstname}),
+                ...(lastname && {lastname}),
+                ...(numberOfStripes && {numberOfStripes})
+            }
+        })
+
     } catch (error) {
         next(error);
     }
