@@ -8,6 +8,7 @@ import DropdownUser from './DropdownUser';
 import Image from 'next/image';
 import { User } from '@/models/user';
 import * as UsersApi from "../../../network/api/users";
+import useUserAcademy from '@/hooks/useCurrentAcademy';
 
 export const getServerSideProps: GetServerSideProps<AppHeaderProps> = async ({params}) => {
   const username = params?.username?.toString();
@@ -28,6 +29,7 @@ const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white-500 drop-shadow-md ">
       <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">

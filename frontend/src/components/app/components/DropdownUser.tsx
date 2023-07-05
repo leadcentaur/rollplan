@@ -10,6 +10,7 @@ import { GetServerSideProps } from 'next';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 import profilePicturePlaceholder from "../../../assets/images/profile-pic-placeholder.png"
 import { useRouter } from 'next/router';
+import useUserAcademy from '@/hooks/useCurrentAcademy';
 
 
 export const getServerSideProps: GetServerSideProps<DropDownUserProps> = async ({params}) => {
@@ -31,10 +32,22 @@ const DropdownUser = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
+  const { academy: userAcademy, mutateAcademy: mutateUserAcademy } = useUserAcademy();
+
   const router = useRouter();
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+
+  async function logout() {
+		try {
+			await UsersApi.logout();
+			mutateLoggedInUser(null);
+			router.push("/");
+
+		} catch (error) {
+		}
+	}
 
   // close on click outside
   useEffect(() => {
@@ -64,11 +77,10 @@ const DropdownUser = () => {
 
   return (
     <div className="relative">
-      <Link
+      <div
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
         className="flex items-center gap-4"
-        href=""
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
@@ -77,9 +89,9 @@ const DropdownUser = () => {
             }
           </span>
           <span className="block text-xs">
-            { loggedInUser?.belt &&
-              (utils.capitalizeFirstLetter(loggedInUser.belt) + " belt")
-            }
+            { userAcademy &&
+              userAcademy.academy_name
+            } 
           </span>
         </span>
 
@@ -104,7 +116,7 @@ const DropdownUser = () => {
             fill=""
           />
         </svg>
-      </Link>
+      </div>
 
       {/* <!-- Dropdown Start --> */}
       <div
@@ -188,7 +200,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button onClick={logout} className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
             className="fill-current"
             width="22"

@@ -57,7 +57,7 @@ export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknow
 export const getAcademyByID: RequestHandler = async (req, res, next) => {
     try {
         const academy = await AcademyModel.findById(req.params.id);
-        if (!academy) { throw createHttpError(404, "User not found"); }
+        if (!academy) { throw createHttpError(404, "Academy not found"); }
         res.status(200).json(academy);
     } catch (error) {
         next(error);

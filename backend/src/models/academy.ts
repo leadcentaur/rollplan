@@ -11,6 +11,7 @@ export const academyScehma = new Schema({
     academy_location: {
         type: String
     },
+    subscriptionStatus: { type: Number },
     academy_owner: {type: [userSchema], required: true},
     members: {type: [userSchema], required: false }
 })

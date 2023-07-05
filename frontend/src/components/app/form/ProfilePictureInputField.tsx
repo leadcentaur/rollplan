@@ -11,7 +11,7 @@ interface ProfilePictureInputFieldProps {
 
 export default function ProfilePictureInputField({register, label, error, placeholder, ...props}: ProfilePictureInputFieldProps & ComponentProps<"input">) {
     return (
-        <div className="rounded-sm mt-5 mb-5 border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="rounded-sm mt-5 mb-5 border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
                 {label}

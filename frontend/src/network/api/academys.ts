@@ -11,3 +11,8 @@ export async function createAcademy(acdemycredentials: AcademyCredentials) {
     const response = await api.post<Academy>("/academy/create", acdemycredentials);
     return response.data;
 }
+
+export async function getAcademyByID(academyId: string) {
+    const response = await api.get<Academy>("/academy/" + academyId);
+    return response.data;
+}

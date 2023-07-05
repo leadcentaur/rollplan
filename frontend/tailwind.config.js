@@ -6,6 +6,10 @@ module.exports = {
       './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
+      fontFamily: {
+        satoshi: ['Satoshi', 'sans-serif'],
+        'jakarta-sans': ['"Plus Jakarta Sans"']
+      },
       colors: {
           black: {
             100: "#d1d1d1",

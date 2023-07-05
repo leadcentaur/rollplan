@@ -35,7 +35,7 @@ export const userSchema = new Schema({
         type: String, 
         select: true 
     },
-    numberOfStripes: {type: Number},
+    numberOfStripes: {type: Number },
     userType: {
         type: String, 
         required: true

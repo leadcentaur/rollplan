@@ -19,6 +19,7 @@ export default function useAuthenticatedUser() {
 
     return {
         user: data,
+        academy: data?.academyReferenceId,
         userLoading: isLoading,
         userLoadingError: error,
         mutateUser: mutate,

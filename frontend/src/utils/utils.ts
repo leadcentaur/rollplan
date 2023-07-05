@@ -1,4 +1,5 @@
 import formatDistance from 'date-fns/formatDistance'
+import { date } from 'yup';
 
 export function romanize(num: number) {
     if (isNaN(num))
@@ -16,9 +17,15 @@ export function romanize(num: number) {
 
 export function capitalizeFirstLetter(string: string) {
     if (string) { return string.charAt(0).toUpperCase() + string.slice(1); }
-        return "Undefined";
+        return "Undefined"; 
 }
 
 export function toHumanDate(date: string) {
-    return new Date(date).toDateString()
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+    const monthNumber = new Date(date).getMonth();
+    return monthNames[monthNumber] + " " + new Date(date).getFullYear();
 }
+

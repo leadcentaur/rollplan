@@ -4,7 +4,7 @@ import * as UsersController from "../controllers/users";
 import { profilePicUpload } from "../middlewares/image-upload";
 import requiresAuth from "../middlewares/requiresAuth";
 import validateRequestSchema from "../middlewares/validateRequestSchema";
-import { signUpSchema, updateUserSchema } from "../validation/users";
+import { setAcademyReferenceIdSchema, signUpSchema, updateUserSchema } from "../validation/users";
 
 const router = express.Router();
 
@@ -19,6 +19,8 @@ router.post("/login", passport.authenticate("local"), (req, res) => res.status(2
 router.post("/logout", UsersController.logOut);
 
 router.patch("/me", requiresAuth, profilePicUpload.single("profilePic"), validateRequestSchema(updateUserSchema), UsersController.updateUser);
-router.patch("/:username", validateRequestSchema, UsersController.updateUserByUsername)
+// router.patch("/:username", validateRequestSchema, UsersController.updateUserByUsername)
+
+router.patch("/setRefId", validateRequestSchema(setAcademyReferenceIdSchema), UsersController.setAcademyReferenceId);
 
 export default router;

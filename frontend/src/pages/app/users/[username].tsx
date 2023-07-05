@@ -8,6 +8,7 @@ import Image from "next/image";
 import { User } from "@/models/user";
 import { GetServerSideProps } from "next";
 import * as UsersApi from "@/network/api/users";
+import * as AcademyApi from "@/network/api/academys";
 import { useState } from "react";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import * as utils from "@/utils/utils";
@@ -19,12 +20,18 @@ import TextAreaInputField from "@/components/app/form/TextAreaInputField";
 import ProfilePictureInputField from "@/components/app/form/ProfilePictureInputField";
 import LoadingButton from "@/components/app/components/LoadingButton";
 import { isSetIterator } from "util/types";
+import useUserAcademy from "@/hooks/useCurrentAcademy";
+import { Academy } from "@/models/academy";
+import FormInputField from "@/components/app/form/FormInputField";
+import DropDownInputField from "@/components/app/form/DropDownInputField";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   const username = params?.username?.toString();
   if (!username) throw Error("username missing");
 
   const user = await UsersApi.getUserByUsername(username);
+  console.log(user.academyReferenceId);
+
   console.log("The username: " + user.username);
   return {
     props: { user }
@@ -42,7 +49,8 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     even though the page is fetched serverside
   
   */
-    const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
+    const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser(); 
+
     const [profileUser, setProfileUser] = useState(user);
     const profileUserIsLoggedInUser = (loggedInUser && (loggedInUser._id === profileUser._id)) || false;
 
@@ -113,25 +121,30 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
                   {loggedInUser?.firstname + ", " + loggedInUser?.lastname}
             </h3>
-            <p className="font-xs">
+            <p className="font-sm">
 
               { loggedInUser?.belt && loggedInUser.numberOfStripes &&
                 utils.capitalizeFirstLetter(loggedInUser?.belt) + " Belt " + utils.romanize(loggedInUser.numberOfStripes)
               }
 
             </p>
-            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 gap-5 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
+            
+    
+
+            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 gap-4 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
                   259
                 </span>
-                <span className="text-sm">Classes</span>
+                <span className="text-sm">Classes attended</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-md text-black dark:text-white">
-                  34
+    
                 </span>
-                <span className="text-sm">Join date</span>
+                <span className="text-sm font-semibold text-black dark:text-white">  { loggedInUser?.createdAt &&
+                  "Joined, " + utils.toHumanDate(loggedInUser.createdAt)
+                } </span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
@@ -140,7 +153,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
                 <span className="text-sm">Following</span>
               </div>
             </div>
-
+      
             <div className="mx-auto max-w-180">
               <h4 className="font-semibold text-black dark:text-white">
                 About Me
@@ -164,6 +177,9 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
 
 const validationSchema = yup.object({
     about: yup.string(),
+    firstname: yup.string(),
+    belt: yup.string(),
+    lastname: yup.string(),
     profilePic: yup.mixed<FileList>(),
 })
 
@@ -177,12 +193,12 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
 
   const { register, handleSubmit, formState : { isSubmitting } } = useForm<UpdateUserProfileFormData>();
 
-  async function onSubmit({about, profilePic} : UpdateUserProfileFormData) {
-    if (!about && (!profilePic || profilePic.length === 0)) return;
+  async function onSubmit({about, profilePic, firstname, lastname} : UpdateUserProfileFormData) {
+    if (!about && !firstname && !lastname && (!profilePic || profilePic.length === 0)) return;
     // only if one of these valuees exists we make the api request to update the user
     try {
       
-      const updatedUser = await UsersApi.updateUser({about, profilePic: profilePic?.item(0) || undefined})
+      const updatedUser = await UsersApi.updateUser({firstname, lastname, about, profilePic: profilePic?.item(0) || undefined})
       onUserUpdated(updatedUser);
 
     } catch (error) {
@@ -205,12 +221,34 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
 
 
             <form onSubmit={handleSubmit(onSubmit)}>
+
+                <FormInputField
+                  register={register("firstname")}
+                  label="First name"
+                  placeholder="Your first name"
+                  maxLength={100}
+                />
+
+                <FormInputField
+                  register={register("lastname")}
+                  label="Last name"
+                  placeholder="Your first name"
+                  maxLength={100}
+                />
+
+                <DropDownInputField
+                  register={register("belt")}
+                  label="Belt"
+                  placeholder="Please provide the belt level"
+                />
+
                 <TextAreaInputField
                     register={register("about")}
                     label="About"
                     placeholder="Provide an optional description about yourself"
                     maxLength={320}
                   />
+
                   
                 <ProfilePictureInputField
                   register={register("profilePic")}

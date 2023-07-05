@@ -1,9 +1,10 @@
 import { RequestHandler } from "express";
 import UserModel from "../models/user";
+import AcademyModel from "../models/academy";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import assertIsDefined from "../utils/assertIsDefined";
-import { SignUpBody, UpdateUserBody } from "../validation/users";
+import { SetAcademyReferenceIdBody, SignUpBody, UpdateUserBody } from "../validation/users";
 import sharp from "sharp";
 import env from "../env";
 import { number } from "yup";
@@ -38,7 +39,9 @@ export const getUserByUsername: RequestHandler = async (req, res, next) => {
 
 export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
     //you can rename the password via the below syntax
-    const { username, email, password: passwordRaw, firstname, lastname, belt, numberOfStripes} = req.body;
+
+
+    const { username, email, password: passwordRaw, firstname, lastname, belt, numberOfStripes, userType} = req.body;
 
     try {
             const existingUsername = await UserModel.findOne({ username })
@@ -57,7 +60,14 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
                 firstname,
                 lastname,
                 password: passwordHashed,
-                userType: "owner",
+
+                /*
+                    The only time a user should ever be granted 
+                    owner type is if there subscription is active
+
+                */
+
+                userType: userType || "member",
                 belt: belt || "white",
                 numberOfStripes: numberOfStripes || 1,
             });
@@ -77,10 +87,9 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 }
 
 export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknown> = async (req, res, next) => {
-    const { username, about, } = req.body;
+    const { username, about, firstname, lastname } = req.body;
     const profilePic = req.file;
     const authenticatedUser = req.user;
-    console.log(profilePic);
 
     try {
         assertIsDefined(authenticatedUser);
@@ -109,13 +118,43 @@ export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknow
 
         const updatedUser = await UserModel.findByIdAndUpdate(authenticatedUser._id, {
             $set: {
-                ...(username && { username }),
+                ...(username && {username}),
+                ...(firstname && {firstname}),
+                ...(lastname && {lastname}),
                 ...(about && { about }),
                 ...(profilePic && { profilePicUrl: env.SERVER_URL + profilePicDestinationPath + "?lastupdated=" + Date.now() }),
             }
         }, { new: true }).exec();
 
         res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+export const setAcademyReferenceId: RequestHandler<unknown, unknown, SetAcademyReferenceIdBody, unknown> = async (req, res, next) => {
+    const { userId, academyReferenceId } = req.body;
+    try {
+
+        const user = await UserModel.findById(userId).exec();
+        if (!user) {
+            throw createHttpError(404, "Unable to find user with Id")
+        }
+
+        const academy = await AcademyModel.findById(academyReferenceId).exec();
+        if (!academy) {
+            throw createHttpError(404, "Unable to find academy with Id")
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(userId, {
+            $set: {
+                ...(academyReferenceId && { academyReferenceId }),
+            }
+        }, { new: true }).exec();
+
+        res.status(200).json(updatedUser);
+
     } catch (error) {
         next(error);
     }
@@ -155,7 +194,7 @@ export const updateUserByUsername: RequestHandler<UpdateUserByUsernameParamsProp
                 ...(belt && { belt }),
                 ...(firstname && { firstname}),
                 ...(lastname && {lastname}),
-                ...(numberOfStripes && {numberOfStripes})
+                ...(numberOfStripes && {numberOfStripes}),
             }
         })
 

@@ -11,7 +11,7 @@ interface TextAreaInputFieldProps {
 
 export default function TextAreaInputField({register, label, error, placeholder, ...props}: TextAreaInputFieldProps & ComponentProps<"textarea">) {
     return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">     
+        <div className="rounded-sm border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">     
             <div className="flex flex-col gap-5.5 p-6.5">
                 <div>
                 <label className="mb-3 block text-black dark:text-white">

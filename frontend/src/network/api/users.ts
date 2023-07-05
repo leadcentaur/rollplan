@@ -42,6 +42,8 @@ export async function logout() {
 
 interface UpdateUserValues {
     username?: string,
+    firstname?: string,
+    lastname?: string,
     about?: string,
     profilePic?: File,
 }

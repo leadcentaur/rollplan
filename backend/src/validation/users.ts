@@ -37,6 +37,11 @@ export const academyRefSchema = yup.string()
     .max(24)
     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
 
+export const userIdSchema = yup.string()
+    .max(24)
+    .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
+
+
 export const signUpSchema = yup.object({
     body: yup.object({
         username: usernameSchema.required(),
@@ -44,6 +49,7 @@ export const signUpSchema = yup.object({
         password: passwordSchema.required(),
         firstname: firstNameSchema.required(),
         lastname: lastnameNameSchema.required(),
+        userType: usertypeSchema.required(),
         belt: beltSchema,
         numberOfStripes: numberofStripesSchema
     }),
@@ -62,6 +68,7 @@ export const updateUserSchema = yup.object({
     }),
     file: imageFileSchema
 })
+export type UpdateUserBody = yup.InferType<typeof updateUserSchema>["body"];
 
 export const updateUserByUsernameSchema = yup.object({
     body: yup.object({
@@ -73,5 +80,14 @@ export const updateUserByUsernameSchema = yup.object({
         numberOfStripes: numberofStripesSchema,
     })
 })
+export type UpdateUserByUsernameBody = yup.InferType<typeof updateUserByUsernameSchema>["body"];
 
-export type UpdateUserBody = yup.InferType<typeof updateUserSchema>["body"];
+
+export const setAcademyReferenceIdSchema = yup.object({
+    body: yup.object({
+        userId: userIdSchema.required(),
+        academyReferenceId: academyRefSchema.required(),
+    })
+})
+export type SetAcademyReferenceIdBody = yup.InferType<typeof setAcademyReferenceIdSchema>["body"];
+

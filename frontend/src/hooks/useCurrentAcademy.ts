@@ -1,13 +1,24 @@
 import * as UsersApi from "@/network/api/users";
-import { UnauthorizedError } from "@/network/http-errors";
+import * as AcademyApi from "@/network/api/academys";
+
+import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import useSWR from "swr";
 
-export default function useAuthenticatedUser() {
-    const { data, isLoading, error, mutate } = useSWR("user",
+export default function useUserAcademy() {
+    const { data, isLoading, error, mutate } = useSWR("academy",
         async () => {
             try {
-                return await UsersApi.getAuthenticatedUser();
+                const authenticatedUser = await UsersApi.getAuthenticatedUser()
+                if (!authenticatedUser.academyReferenceId) {
+                    //academy does not have valid reference Id;
+                    return null;
+                }
+                return await AcademyApi.getAcademyByID(authenticatedUser.academyReferenceId!)
             } catch (error) {
+                
+                if(error instanceof NotFoundError){
+                    return null;
+                }
                 if (error instanceof UnauthorizedError) {
                     return null;
                 } else {
@@ -18,9 +29,9 @@ export default function useAuthenticatedUser() {
     );
 
     return {
-        user: data,
-        userLoading: isLoading,
-        userLoadingError: error,
-        mutateUser: mutate,
+        academy: data,
+        academyLoading: isLoading,
+        academyLoadingError: error,
+        mutateAcademy: mutate,
     }
 }
