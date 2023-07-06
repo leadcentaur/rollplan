@@ -18,10 +18,12 @@ interface SignUpValues {
     firstname: string,
     lastname: string,
     numberOfStripes: string,
+    userType: string,
     belt: string,
 }
 
 export async function signUp(credentials: SignUpValues) {
+    credentials.userType = "owner";
     const response = await api.post<User>("/users/signup", credentials);
     return response.data;
 }
@@ -45,6 +47,7 @@ interface UpdateUserValues {
     firstname?: string,
     lastname?: string,
     about?: string,
+    academyReferenceId?: string,
     profilePic?: File,
 }
 

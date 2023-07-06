@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { beltType, userType } from "@/types/user-types";
 
 export const requiredStringSchema = yup.string().required("Required")
 
@@ -42,6 +43,16 @@ export const lastnameNameSchema =  yup.string()
     .max(100)
     .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not contain special characters.")
 
+    export const numberofStripesSchema = yup.number()
+    .max(1)
+
+export const beltSchema = yup.mixed<beltType>().oneOf([
+    'white','blue','brown','pruple','black'
+])
+
+export const usertypeSchema = yup.mixed<userType>().oneOf([
+    'member','owner'
+])
 
 
 
