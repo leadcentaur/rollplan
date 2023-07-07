@@ -59,3 +59,16 @@ export async function updateUser(input: UpdateUserValues) {
     const response = await api.patch<User>("/users/me", formData);
     return response.data;
 }
+
+export interface SetAcademyReferenceIdValues {
+    userId?: string,
+    academyReferenceId?: string,
+}
+
+export async function setAcademyReferenceId(input: SetAcademyReferenceIdValues) {
+
+    console.log("userid " + input.academyReferenceId + "\n" + "academyid " + input.academyReferenceId);
+
+    const response = await api.patch<User>("/users/setRefId/", input);
+    return response.data;
+}

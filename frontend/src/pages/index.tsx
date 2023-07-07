@@ -151,14 +151,12 @@ export default function Home() {
 					}}
 					items={[
 						{
-							description:
-								'Manage versions of multiple languages and dependency managers through a single interface. A single source of truth.',
+							description: 'Attract new members and promote your gym with our easy to use marketing management platform.',
 							icon: faDisplayChartUpCircleDollar,
 							title: 'Marketing and promotion',
 						},
 						{
-							description:
-								'Manage versions of multiple languages and dependency managers through a single interface. A single source of truth.',
+							description: 'Track billing, student progress and class anlaystics through our easy to use dashboard management system.',
 							icon: faChartSimple,
 							title: 'Data and Analytics',
 						},

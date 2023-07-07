@@ -3,7 +3,6 @@ import academy from "./academy";
 import { academyScehma } from "./academy";
 
 // we can add a ref field that tells mongoose that
-// the given user item belongs to a doucment
 // example being author: ref "User"
 
 export const userSchema = new Schema({

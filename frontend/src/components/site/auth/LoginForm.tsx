@@ -88,7 +88,7 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
                   <FormInputField
                       register={register("username", {required: "Required"})}
                       type="username"
-                      label="username"
+                      label="Username"
                       placeholder="Your username"
                       maxLength={20}
                       fieldType="username"

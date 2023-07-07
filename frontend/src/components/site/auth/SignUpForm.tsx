@@ -21,7 +21,6 @@ const validationSchema = yup.object({
   academy_location: academyLocationSchema.required("Required"),
   firstname: firstNameSchema.required("Required"),
   lastname: lastnameNameSchema.required("Required"),
-  belt: 
 })
 
 type SignUpFormData = yup.InferType<typeof validationSchema>;
@@ -46,20 +45,20 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
             setErrorText(null);
             const newUser = await UsersApi.signUp(credentials);
             mutateUser(newUser);
-
-            const academyParams: AcademyApi.AcademyCredentials = {
+            
+            const newAcademy: Academy = await AcademyApi.createAcademy({
               academy_name: credentials.academy_name,
               academy_location: credentials.academy_location,
               academy_owner: credentials.email
-            }
+            });
             
-            const newAcademy: Academy = await AcademyApi.createAcademy(academyParams)
-            const referenceId = newAcademy._id;
+            const newUserId = newUser._id;
+            const newAcademyId = newAcademy._id;
 
-            //Add the academy reference Id
-            const updateUser = await UsersApi.updateUser()
-            
-            alert(newAcademy);
+            const updateUser = await UsersApi.setAcademyReferenceId({
+              userId: newUserId,
+              academyReferenceId: newAcademyId
+            });
 
         } catch (error) {
             if (error instanceof ConflictError || error instanceof BadRequestError) {
