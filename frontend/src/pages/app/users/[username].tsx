@@ -14,7 +14,7 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import * as utils from "@/utils/utils";
 import cameraIcon from "@/assets/images/camera-icon.svg"
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import Link from "next/link";
 import TextAreaInputField from "@/components/app/form/TextAreaInputField";
 import ProfilePictureInputField from "@/components/app/form/ProfilePictureInputField";
@@ -24,6 +24,8 @@ import useUserAcademy from "@/hooks/useCurrentAcademy";
 import { Academy } from "@/models/academy";
 import FormInputField from "@/components/app/form/FormInputField";
 import DropDownInputField from "@/components/app/form/DropDownInputField";
+import { ColorRing } from "react-loader-spinner";
+import EmailInputField from "@/components/app/form/EmailInputField";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   const username = params?.username?.toString();
@@ -49,7 +51,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     even though the page is fetched serverside
   
   */
-    const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser(); 
+    const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser(); 
 
     const [profileUser, setProfileUser] = useState(user);
     const profileUserIsLoggedInUser = (loggedInUser && (loggedInUser._id === profileUser._id)) || false;
@@ -59,7 +61,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
         setProfileUser(updatedUser);
     }
 
-    return (
+    return !userLoading ? (
         <DefaultLayout>
       <Breadcrumb pageName="Profile" />
 
@@ -172,7 +174,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
         
       </div>
     </DefaultLayout>
-    );
+    ) : <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
 }
 
 const validationSchema = yup.object({
@@ -207,70 +209,80 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
   }
 
   return (
-    <div className=" sm:grid-cols-2 w-3/4 m-auto">
-      <hr className="p-3 text-gray"/>
-        <div className="flex flex-col gap-9">
-          {/* <!-- Input Fields --> */}
-          <div className="rounded-sm border border-stroke rounded-xl bg-formbg shadow-2xl dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
-                Update user profile
-              </h3>
-            </div>
-            <div className="flex flex-col text-left gap-5.5 p-6.5">
+    <div className="rounded-sm border border-stroke bg-white shadow-default w-3/4 m-auto dark:border-strokedark dark:bg-boxdark">
+    <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
+      <h3 className="font-medium text-black dark:text-white">
+        Personal Information
+      </h3>
+    </div>
+    <div className="p-7">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
+          <FormInputField
+            wrapperStyle="w-full sm:w-1/2"
+            register={register("firstname")}
+            label="First name"
+            placeholder="John"
+            htmlFor="firstName"
+            type="text"
+          />
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-
-                <FormInputField
-                  register={register("firstname")}
-                  label="First name"
-                  placeholder="Your first name"
-                  maxLength={100}
-                />
-
-                <FormInputField
-                  register={register("lastname")}
-                  label="Last name"
-                  placeholder="Your first name"
-                  maxLength={100}
-                />
-
-                <DropDownInputField
-                  register={register("belt")}
-                  label="Belt"
-                  placeholder="Please provide the belt level"
-                />
-
-                <TextAreaInputField
-                    register={register("about")}
-                    label="About"
-                    placeholder="Provide an optional description about yourself"
-                    maxLength={320}
-                  />
-
-                  
-                <ProfilePictureInputField
-                  register={register("profilePic")}
-                  className=""
-                  label="Profile pic"
-                  placeholder="Attach image"
-                />
-            
-                <LoadingButton
-                isLoading={isSubmitting}
-                  type="submit"
-                >
-                  Update profile
-                </LoadingButton>
-              </form>
-
-
-            </div>
-          </div>
+          <FormInputField
+            wrapperStyle="w-full sm:w-1/2"
+            register={register("lastname")}
+            label="Last name"
+            placeholder="Doe"
+            htmlFor="lastName"
+            type="text"
+          />
         </div>
 
-          
-      </div>
+          <EmailInputField
+            register={register("belt")}
+            label="Email"
+          />
+       
+        <div className="mb-5.5">
+          <label
+            className="mb-3 block text-sm font-medium text-black dark:text-white"
+            htmlFor="Username"
+          >
+            Username
+          </label>
+          <input
+            className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+            type="text"
+            name="Username"
+            id="Username"
+            placeholder="devidjhon24"
+            defaultValue="devidjhon24"
+          />
+        </div>
+
+        <TextAreaInputField
+            register={register("about")}
+            placeholder="About"
+            label="Bio"
+            id="about"
+        />
+
+        <div className="flex justify-end gap-4.5">
+          <button
+            className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+            type="submit"
+          >
+            Cancel
+          </button>
+          <button
+            className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
+            type="submit"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
   );
 }
