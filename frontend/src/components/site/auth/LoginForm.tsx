@@ -49,13 +49,13 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
 
   return (
     <div className="relative">
-        <div className="bg-hero-section bg-no-repeat h-screen">
-          <video autoPlay loop muted className="absolute inset-0 object-cover h-full w-full xl:h-auto">
+        <div className="bg-gradient-to-b from-slate-900 to-slate-600">
+          {/* <video autoPlay loop muted className="absolute inset-0 object-cover h-full w-full xl:h-auto">
             <source
               src="video1.mp4"
               type="video/mp4"
             />
-          </video>
+          </video> */}
 
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 scrollbar-hide">
         <Link
