@@ -7,6 +7,8 @@ module.exports = {
     ],
     theme: {
       colors: {
+          bodydark1: '#DEE4EE',
+          bodydark2: '#8A99AF',
           black: {
             100: "#d1d1d1",
             200: "#a4a4a4",

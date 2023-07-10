@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarArrowDown, faCalendarUsers, faDashboard, faGridHorizontal, faMoneyCheckDollarPen, faTableColumns, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp, faCalendarArrowDown, faCalendarUsers, faDashboard, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "@/components/site/ui/iconography/Icon";
 import clsx from "clsx";
+import SidebarLinkGroup from "./SidebarLinkGroup";
+import { useRef, useState } from "react";
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -14,7 +17,17 @@ interface SidebarProps {
 export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 
     const router = useRouter();
+    const pathname = router.pathname;
 
+    const trigger = useRef<any>(null);
+    const sidebar = useRef<any>(null);
+
+    const [memberDropdownSate, setMemberDropdownState] = useState(false);
+
+    const [sidebarExpanded, setSidebarExpanded] = useState(
+      typeof window !== "undefined" ? localStorage.sidebarExpanded : false
+    );
+    
     return (
         <aside
         className={`absolute left-0 top-0 z-9999 w-72.5 flex h-screen flex-col overflow-y-hidden bg-gradient-to-b from-slate-900 to-slate-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
@@ -77,17 +90,73 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                         </span>
               </Link>
 
-              <Link href="/app/members" className="group relative mr-1 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+             
+
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === '/forms' || pathname.includes('forms')
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <React.Fragment>
+                      <Link
+                        href="/app/members"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                          (pathname === '/forms' ||
+                            pathname.includes('forms')) &&
+                          'bg-graydark dark:bg-meta-4'
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMemberDropdownState(!memberDropdownSate);
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
                         <Icon
 													icon={faUsers}
 													className={clsx('text-1xl justify-center flex')}
 													style={{ maxWidth: 54 }}
 												/>
-                        <span>
                           Members
-                        </span>
-              </Link>
-
+                        <Icon icon={faAngleUp} className={clsx(!memberDropdownSate ? "text-white-500 rotate-0 transition ease-in-out duration-100" : "text-white-500 rotate-180 transition ease-in-out duration-100")}/>
+                      </Link>
+                      {/* <!-- Dropdown Menu Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && 'hidden'
+                        }`}
+                      >
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <Icon
+                              icon={faListUl}
+                              style={{ maxWidth: 54 }}
+                              className="mr-3 text-bodydark2"
+                            />
+                            <Link
+                              href="/app/members"
+                              className="text-bodydark2 "
+                            >
+                              Members list  
+                            </Link>
+                          </li>
+                          <li>
+                            
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Menu End --> */}
+                    </React.Fragment>
+                  );
+                }}
+              </SidebarLinkGroup>
+              
+                <h3 className="mb-4 mt-4 ml-4 text-sm font-semibold text-bodydark2">
+                  OTHER
+                </h3>
             </ul>
         </div>
         </nav>
