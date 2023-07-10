@@ -26,6 +26,10 @@ import FormInputField from "@/components/app/form/FormInputField";
 import DropDownInputField from "@/components/app/form/DropDownInputField";
 import { ColorRing } from "react-loader-spinner";
 import EmailInputField from "@/components/app/form/EmailInputField";
+import PhoneNumbertInputField from "@/components/app/form/PhoneNumberInputField";
+import { Reem_Kufi } from "next/font/google";
+import Icon from "@/components/site/ui/iconography/Icon";
+import { faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   const username = params?.username?.toString();
@@ -133,20 +137,18 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
             
     
 
-            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 gap-4 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
+            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-140 mr-50 ml-50 grid-cols-3 gap-10 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
                   259
                 </span>
-                <span className="text-sm">Classes attended</span>
+                <span className="text-sm">Gi Classes attended <Icon className="mx-2 text-red-500" icon={faUniformMartialArts}/></span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke dark:border-strokedark xsm:flex-row">
-                <span className="font-semibold text-md text-black dark:text-white">
-    
+                <span className="font-semibold text-black dark:text-white">
+                  23
                 </span>
-                <span className="text-sm font-semibold text-black dark:text-white">  { loggedInUser?.createdAt &&
-                  "Joined, " + utils.toHumanDate(loggedInUser.createdAt)
-                } </span>
+                <span className="text-sm">No-Gi Classes attended</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
@@ -163,6 +165,16 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
               <p className="mt-4.5">
                 {loggedInUser?.about}
               </p>
+            </div>
+
+            <div className="mx-auto max-w-180 mt-5">
+                
+   
+                <span>
+                  No-gi Specialist
+                </span>
+                <Icon icon={faStar} className="mx-2 text-[#FFD700]"/>
+             
             </div>
 
            <div className="mt-6.5">
@@ -218,7 +230,6 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
     <div className="p-7">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-
           <FormInputField
             wrapperStyle="w-full sm:w-1/2"
             register={register("firstname")}
@@ -238,6 +249,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
           />
         </div>
 
+
           <EmailInputField
             register={register("belt")}
             label="Email"
@@ -250,7 +262,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
             label="Bio"
             id="about"
         />
-
+  
         <div className="flex justify-end gap-4.5">
           <button
             className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
