@@ -14,7 +14,7 @@ interface FormInputFieldProps {
 
 export default function FormInputField({register, label, error, wrapperStyle, placeholder, htmlFor, ...props}: FormInputFieldProps & ComponentProps<"input">) {
     return (
-      <div className="w-full sm:w-1/2">
+        <div className="w-full sm:w-1/2">
             <label
               className="mb-3 block text-sm font-medium text-black dark:text-white"
               htmlFor={htmlFor}

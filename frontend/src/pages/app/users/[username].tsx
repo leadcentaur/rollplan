@@ -29,7 +29,10 @@ import EmailInputField from "@/components/app/form/EmailInputField";
 import PhoneNumbertInputField from "@/components/app/form/PhoneNumberInputField";
 import { Reem_Kufi } from "next/font/google";
 import Icon from "@/components/site/ui/iconography/Icon";
-import { faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import { faCalendarCircleExclamation, faCalendarClock, faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/pro-solid-svg-icons";
+import NoGiIcon from "../../../assets/images/NoGi.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   const username = params?.username?.toString();
@@ -140,21 +143,30 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
             <div className="mx-auto mt-4.5 mb-5.5 grid max-w-140 mr-50 ml-50 grid-cols-3 gap-10 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  259
+                    259
                 </span>
-                <span className="text-sm">Gi Classes attended <Icon className="mx-2 text-red-500" icon={faUniformMartialArts}/></span>
+                <span className="text-black text-sm dark:text-white">
+                  Gi Classes
+                </span>
+                <span className="text-sm"><Icon className="mx-2 text-red-500" icon={faUniformMartialArts}/></span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  23
+                    1023
                 </span>
-                <span className="text-sm">No-Gi Classes attended</span>
+                <span className="text-sm text-black dark:text-white">
+                  No-gi Classes
+                </span>
+                <span className="text-sm"><NoGiIcon/></span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  2K
+                  Member since
                 </span>
-                <span className="text-sm">Following</span>
+                <span className="text-sm">{ loggedInUser?.createdAt &&
+                    utils.toHumanDate(loggedInUser.createdAt!)
+                }</span>
+                <span className="text-sm"><Icon className="mx-2 text-red-500 text-lg" icon={faCalendarClock}/></span>
               </div>
             </div>
       
@@ -174,6 +186,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
                   No-gi Specialist
                 </span>
                 <Icon icon={faStar} className="mx-2 text-[#FFD700]"/>
+                
              
             </div>
 
@@ -250,12 +263,11 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
         </div>
 
 
-          <EmailInputField
-            register={register("belt")}
-            label="Email"
-          />
-       
-    
+        <EmailInputField
+          register={register("belt")}
+          label="Email"
+        />
+           
         <TextAreaInputField
             register={register("about")}
             placeholder="About"

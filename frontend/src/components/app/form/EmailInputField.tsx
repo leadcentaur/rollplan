@@ -28,7 +28,6 @@ export default function EmailInputField({register, label, error, wrapperStyle, p
             name="emailAddress"
             id="emailAddress"
             placeholder="devidjond45@gmail.com"
-            defaultValue="devidjond45@gmail.com"
             {...register}
             {...props}
           />
