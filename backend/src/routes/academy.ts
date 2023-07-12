@@ -9,5 +9,6 @@ router.post("/create", validateRequestSchema(academyCreationSchema), AcademyCont
 
 // might need to kind of lockdown on this endpoint in the future
 router.get("/:id", AcademyController.getAcademyByID)
+router.patch("/add/member", AcademyController.addMember);
 
 export default router;

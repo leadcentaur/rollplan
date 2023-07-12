@@ -17,7 +17,7 @@ export const academyScehma = new Schema({
     
     //any reference to the users should be made via objectid ref
     academy_owner: {type: Schema.Types.ObjectId, required: true},
-    members: {type: [{type: Schema.Types.ObjectId}], required: false }
+    members: {type: [{type: Schema.Types.ObjectId}], required: false, unique: true }
 })
 
 type Academy = InferSchemaType<typeof academyScehma>;

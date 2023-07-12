@@ -66,9 +66,6 @@ export interface SetAcademyReferenceIdValues {
 }
 
 export async function setAcademyReferenceId(input: SetAcademyReferenceIdValues) {
-
-    console.log("userid " + input.academyReferenceId + "\n" + "academyid " + input.academyReferenceId);
-
     const response = await api.patch<User>("/users/setRefId/", input);
     return response.data;
 }

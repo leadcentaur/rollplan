@@ -1,23 +1,24 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import mongoose from "mongoose";
+import mongoose, { Mongoose, Schema } from "mongoose";
 import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
 import { email } from "envalid";
 import { AcademyBody } from "../validation/academys";
+import { AddMemberBody } from "../validation/academys";
 
 export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknown> = async (req, res, next) => {
 
     const name = req.body.academy_name;
     const location = req.body.academy_location;
-    const owner_email = req.body.academy_owner;
+    const owner_id = req.body.academy_owner;
 
-    console.log("Name: " + name + " Location: " + location + " Owner email: " + owner_email);
+    console.log("Name: " + name + " Location: " + location + " Owner id: " + owner_id);
 
     try {
      
-        if(!name || !location || !owner_email) {
+        if(!name || !location || !owner_id) {
             throw createHttpError(400, "Parameters missing.");
         }
 
@@ -29,7 +30,7 @@ export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknow
             throw createHttpError(409, "An academy with the same name already exists.");
         }
 
-        const owner = await UserModel.findOne({email: owner_email}).exec();
+        const owner = await UserModel.findById(owner_id).exec();
         if (!owner) {
             throw createHttpError(404, "Unable to assign a valid user to this gym.");
         }
@@ -59,6 +60,29 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
         const academy = await AcademyModel.findById(req.params.id);
         if (!academy) { throw createHttpError(404, "Academy not found"); }
         res.status(200).json(academy);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
+
+    const academyId = req.body.academyId;
+    const memberId = new mongoose.Types.ObjectId(req.body.memberId);
+
+    try {
+        // will need to a check here to ensure added user is of type member.
+        const updateMembers = await AcademyModel.findByIdAndUpdate(academyId, 
+            {$addToSet: {'members': memberId}}).exec();
+
+        console.log(updateMembers); 
+
+        if (!updateMembers) {
+            throw createHttpError(404, "Failed add member to academy")
+        }
+
+        res.status(200).json(updateMembers);
+
     } catch (error) {
         next(error);
     }

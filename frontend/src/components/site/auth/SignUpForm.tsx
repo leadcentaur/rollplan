@@ -45,14 +45,15 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
             setErrorText(null);
             const newUser = await UsersApi.signUp(credentials);
             mutateUser(newUser);
+
+            const newUserId = newUser._id;
             
             const newAcademy: Academy = await AcademyApi.createAcademy({
               academy_name: credentials.academy_name,
               academy_location: credentials.academy_location,
-              academy_owner: credentials.email
+              academy_owner: newUserId,
             });
             
-            const newUserId = newUser._id;
             const newAcademyId = newAcademy._id;
 
             const updateUser = await UsersApi.setAcademyReferenceId({
