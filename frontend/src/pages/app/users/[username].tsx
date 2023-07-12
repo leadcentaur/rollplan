@@ -274,6 +274,13 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
             label="Bio"
             id="about"
         />
+
+        <ProfilePictureInputField
+          register={register("profilePic")}
+          placeholder="Upload"
+          label="Profile pic"
+          id="Profile pic"
+        />
   
         <div className="flex justify-end gap-4.5">
           <button
