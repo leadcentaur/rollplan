@@ -130,7 +130,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                           !memberDropdownSate && 'hidden'
                         }`}
                       >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                        <ul className="mt-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <Icon
                               icon={faListUl}

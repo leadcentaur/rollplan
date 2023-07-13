@@ -2,17 +2,34 @@ import ProfilePicPlaceholder from "../../../assets/images/profile-pic-placeholde
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
+import useUserAcademy from "@/hooks/useCurrentAcademy";
+import { Academy } from "@/models/academy";
+import * as AcademyApi from "../../../network/api/academys";
+import { GetServerSideProps } from "next";
+import { User } from "@/models/user";
+import { Members } from "@/models/members-list";
+import useAcademyMembers from "@/hooks/useAcademyMembers";
+import { ColorRing } from "react-loader-spinner";
 
 export default function MemberList() {
+
+  const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
         Members list
       </h4>
 
+
+        { membersLoading &&
+            <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>      
+        }
+
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
+      
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Member
             </h5>
@@ -39,30 +56,7 @@ export default function MemberList() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <Image src={ProfilePicPlaceholder} className="rounded-full" alt="Brand" height={50} width={50}/>
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Google</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">3.5K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$5,768</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">590</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">4.8%</p>
-          </div>
-        </div>
+     
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">

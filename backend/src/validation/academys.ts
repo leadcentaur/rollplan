@@ -38,6 +38,13 @@ export const addMemberSchema = yup.object({
 
 export type AddMemberBody = yup.InferType<typeof addMemberSchema>["body"];
 
+export const getAcademyMembersSchema = yup.object({
+    body: yup.object({
+        academyId: academyIdSchema.required(),
+    })
+})
+
+export type GetAcademyMembersBody = yup.InferType<typeof getAcademyMembersSchema>["body"];
 
 
 

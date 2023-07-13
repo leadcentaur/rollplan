@@ -5,7 +5,7 @@ import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
 import { email } from "envalid";
-import { AcademyBody } from "../validation/academys";
+import { AcademyBody, GetAcademyMembersBody } from "../validation/academys";
 import { AddMemberBody } from "../validation/academys";
 
 export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknown> = async (req, res, next) => {
@@ -65,8 +65,23 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
+export const getAcademyMembers: RequestHandler = async (req, res, next) => {
 
+    const academyId = new mongoose.Types.ObjectId(req.params.academyId);
+    try {
+        const members = await UserModel.find({academyReferenceId: academyId}).exec();
+        if (!members) {
+            throw createHttpError(404, "Failed to fetch members")
+        }
+        console.log("members list: " + members);
+
+        res.status(200).json(members);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
     const academyId = req.body.academyId;
     const memberId = new mongoose.Types.ObjectId(req.body.memberId);
 
