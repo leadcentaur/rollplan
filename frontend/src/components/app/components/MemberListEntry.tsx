@@ -9,7 +9,7 @@ interface MemberListItemProps {
     belt: string,
     numberOfStripes: number,
     email: string,
-    profilePicUrl: string,
+    profilePicUrl?: string,
 }
 
 export default function MemberListEntry({firstname, lastname, belt, numberOfStripes, email, profilePicUrl}: MemberListItemProps) {

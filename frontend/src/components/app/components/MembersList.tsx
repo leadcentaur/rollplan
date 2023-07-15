@@ -10,10 +10,12 @@ import { User } from "@/models/user";
 import { Members } from "@/models/members-list";
 import useAcademyMembers from "@/hooks/useAcademyMembers";
 import { ColorRing } from "react-loader-spinner";
+import MemberListEntry from "./MemberListEntry";
 
 export default function MemberList() {
 
   const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
+
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -27,6 +29,8 @@ export default function MemberList() {
         }
 
       <div className="flex flex-col">
+        
+
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
       
@@ -55,35 +59,22 @@ export default function MemberList() {
             </h5>
           </div>
         </div>
-
      
 
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <Image src={ProfilePicPlaceholder} className="rounded-full" alt="Brand" height={50} width={50}/>
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">
-              Twitter
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">2.2K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$4,635</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">467</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">4.3%</p>
-          </div>
-        </div>
+        { members &&
+            <div>
+              {members.forEach((element: any) => {
+                <MemberListEntry
+                  firstname={element.firstname}
+                  lastname={element.lastname}
+                  email={element.email}
+                  belt="white"
+                  numberOfStripes={1}
+                />
+              })}
+              </div>
+        }
+       
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">

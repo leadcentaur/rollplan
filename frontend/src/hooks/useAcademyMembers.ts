@@ -15,7 +15,7 @@ export default function useAcademyMembers() {
                 }
                 console.log("The authentictaed user: " + authenticatedUser._id);
                 const members = await AcademyApi.getAcademyMembers("64af22e02bd23047f45c8861");
-                console.log("Members from SWR: " + JSON.stringify(members));
+                console.log("Members from SWR: " + members);
 
                 return members;
 
