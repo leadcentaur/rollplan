@@ -64,6 +64,9 @@ module.exports = {
             800: "#333333",
             900: "#1a1a1a"
         },
+        purple: '#8a2be2',
+        blue: '#0000ff',
+        brown: '#a52a2a',
         formbg: '#f0f1f2',
         body: '#64748B',
         bodydark: '#AEB7C0',

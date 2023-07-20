@@ -11,6 +11,7 @@ import { Members } from "@/models/members-list";
 import useAcademyMembers from "@/hooks/useAcademyMembers";
 import { ColorRing } from "react-loader-spinner";
 import MemberListEntry from "./MemberListEntry";
+import { beltType } from "@/types/user-types";
 
 export default function MemberList() {
 
@@ -23,17 +24,8 @@ export default function MemberList() {
         Members list
       </h4>
 
-
-        { membersLoading &&
-            <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>      
-        }
-
-      <div className="flex flex-col">
-        
-
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+      <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
-      
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Member
             </h5>
@@ -45,114 +37,42 @@ export default function MemberList() {
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Revenues
+              Membership
             </h5>
           </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Sales
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
-            </h5>
-          </div>
-        </div>
-     
 
-        { members &&
-            <div>
-              {members.forEach((element: any) => {
-                <MemberListEntry
-                  firstname={element.firstname}
-                  lastname={element.lastname}
-                  email={element.email}
-                  belt="white"
-                  numberOfStripes={1}
-                />
-              })}
-              </div>
+          <div className="p-2.5 text-center xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Join date
+            </h5>
+          </div>
+
+          <div className="p-2.5 text-center xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base">
+              Edit
+            </h5>
+          </div>
+         
+        </div>
+
+
+        { membersLoading &&
+            <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>      
         }
-       
-
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <Image src={ProfilePicPlaceholder} className="rounded-full" alt="Brand" height={50} width={50}/>
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Github</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">2.1K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$4,290</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">420</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">3.7%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <Image src={ProfilePicPlaceholder} className="rounded-full" alt="Brand" height={50} width={50}/>
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Vimeo</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">1.5K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$3,580</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">389</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">2.5%</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 sm:grid-cols-5">
-          <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <Image src={ProfilePicPlaceholder} className="rounded-full" alt="Brand" height={50} width={50}/>
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">
-              Facebook
-            </p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-black dark:text-white">1.2K</p>
-          </div>
-
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="text-meta-3">$2,740</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-black dark:text-white">230</p>
-          </div>
-
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-            <p className="text-meta-5">1.9%</p>
-          </div>
-        </div>
+    { members &&
+      <div className="flex flex-col">
+        {members.map((user: User) => (
+          <MemberListEntry
+            firstname={user.firstname}
+            numberOfStripes={user.numberOfStripes}
+            lastname={user.lastname}
+            belt={user.belt as beltType}
+            email={user.email}
+            joinDate={user.createdAt}
+          />
+        ))}
       </div>
+    }
     </div>
   );
 };

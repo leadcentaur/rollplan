@@ -24,7 +24,7 @@ export const requiredFileSchema = yup.mixed<FileList>()
 
 export const academyNameSchema = yup.string()
     .max(72)
-    .matches(/^[a-zA-Z0-9 ]*$/, "Academy name can only contain letters, numbers and spaces.")
+    .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Academy name can only contain letters, numbers, spaces and dashes")
 
 export const academyLocationSchema = yup.string()
         .max(100)

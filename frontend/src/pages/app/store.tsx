@@ -3,10 +3,11 @@ import MemberList from "@/components/app/components/MembersList";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import React from "react";
 
-export default function Settings() {  
+export default function Store() {  
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Settings" />
+            <Breadcrumb pageName="Store" />
+            <MemberList/>
         </DefaultLayout>
     );
   }
