@@ -27,6 +27,9 @@ export default function FormInputField({register, label, error, wrapperStyle, pl
                 {...props}
                 placeholder={placeholder}
               />
+              { error &&
+                <div className="text-red-500">{error.message?.toString()}</div>
+              }
           </div>
     );
 }

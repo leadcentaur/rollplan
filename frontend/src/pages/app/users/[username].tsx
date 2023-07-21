@@ -215,6 +215,9 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
             error={errors.firstname}
             type="text"
           />
+          <div>
+            {errors.firstname?.message?.toString()}
+          </div>
 
           <FormInputField
             wrapperStyle="w-full sm:w-1/2"

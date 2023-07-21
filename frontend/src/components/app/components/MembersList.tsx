@@ -49,7 +49,7 @@ export default function MemberList() {
 
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Edit
+              Actions
             </h5>
           </div>
          

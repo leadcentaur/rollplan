@@ -3,8 +3,8 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUsers } from "@fortawesome/pro-solid-svg-icons";
-import Icon from "@/components/site/ui/iconography/Icon";
+import { faAngleDown, faAngleUp, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import Icon from "../components/../../site/ui/iconography/Icon";
 import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { useRef, useState } from "react";
@@ -133,10 +133,24 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                         <ul className="mt-4 flex flex-col gap-2.5 pl-6">
                           <li>
                             <Icon
+                              icon={faUserPlus}
+                              style={{ maxwidth: 54}}
+                              className="mr-3 text-bodydark2"
+                            />
+                              <Link
+                              href="/app/members"
+                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
+                            >
+                              Onboarding  
+                            </Link>
+                          </li>
+                          <li>
+                            <Icon
                               icon={faListUl}
                               style={{ maxWidth: 54 }}
                               className="mr-3 text-bodydark2"
                             />
+                            
                             <Link
                               href="/app/members"
                               className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
@@ -169,13 +183,13 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                           Settings
                         </span>
                     </Link>
-
+{/* 
                     <Link href="/app/onboarding" className="group relative mr-0 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="white" width={20} viewBox="0 0 640 512"><path d="M0 482.3C0 498.7 13.3 512 29.7 512c121.7 0 243.4 0 365.1 0C349.6 480.1 320 427.5 320 368c0-18.9 3-37.1 8.5-54.1c-18.4-6.4-38.2-9.9-58.8-9.9c-30.5 0-60.9 0-91.4 0C79.8 304 0 383.8 0 482.3zM113.1 64c-22.9 39.6-22.9 88.4 0 128s65.1 64 110.9 64s88-24.4 110.9-64s22.9-88.4 0-128S269.7 0 224 0s-88 24.4-110.9 64zM352 368c0 79.5 64.5 144 144 144s144-64.5 144-144s-64.5-144-144-144s-144 64.5-144 144zm64 0c0-8.8 7.2-16 16-16c16 0 32 0 48 0c0-16 0-32 0-48c0-8.8 7.2-16 16-16s16 7.2 16 16c0 16 0 32 0 48c16 0 32 0 48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16c-16 0-32 0-48 0c0 16 0 32 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-16 0-32 0-48c-16 0-32 0-48 0c-8.8 0-16-7.2-16-16z"/></svg>
                         <span>
                           Onboarding
                         </span>
-                    </Link>
+                    </Link> */}
 
                 </ul>
 

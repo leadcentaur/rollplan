@@ -45,7 +45,7 @@ const DropdownNotification = () => {
         </span>
 
         <svg
-          className="fill-current duration-300 ease-in-out"
+          className="fill-bodydark2 duration-300 ease-in-out"
           width="18"
           height="18"
           viewBox="0 0 18 18"
@@ -78,11 +78,15 @@ const DropdownNotification = () => {
               href="#"
             >
               <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  Edit your information in a swipe
+                <span className="text-success dark:text-white font-semibold opacity-70">
+                  Membership purchase -
                 </span>{' '}
-                Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim.
+                <span className=''>
+                  Jessica Finch has purchased membership:
+                </span>
+                <span className='font-semibold'>{' '}
+                    10 Class pass.
+                </span>
               </p>
 
               <p className="text-xs">12 May, 2025</p>

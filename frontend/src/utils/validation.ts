@@ -26,6 +26,10 @@ export const academyNameSchema = yup.string()
     .max(72)
     .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Academy name can only contain letters, numbers, spaces and dashes")
 
+export const aboutSchema = yup.string()
+    .max(320)
+    .matches
+
 export const academyLocationSchema = yup.string()
         .max(100)
         .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Address field cannot contain special characters")
@@ -47,7 +51,7 @@ export const lastnameNameSchema =  yup.string()
     .max(1)
 
 export const beltSchema = yup.mixed<beltType>().oneOf([
-    'white','blue','brown','pruple','black'
+    'white','blue','brown','purple','black'
 ])
 
 export const usertypeSchema = yup.mixed<userType>().oneOf([

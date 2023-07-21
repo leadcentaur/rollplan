@@ -3,7 +3,7 @@ import Image from "next/image";
 import profilePicPlaceholder from "../../../assets/images/profile-pic-placeholder.png";
 import * as utils from "../../../utils/utils";
 import Icon from "@/components/site/ui/iconography/Icon";
-import { faPenToSquare } from "@fortawesome/pro-solid-svg-icons";
+import { faGraduationCap, faPenToSquare, faTrashCan } from "@fortawesome/pro-solid-svg-icons";
 import { beltType } from "@/types/user-types";
 import clsx from "clsx";
 
@@ -20,11 +20,11 @@ interface MemberListItemProps {
 
 const beltStylingMap: Record<beltType, string> = {
   
-  white: "inline-flex rounded-full bg-gray  py-1 w-1/2 justify-center text-sm font-medium",
-  blue: "inline-flex rounded-full bg-blue py-1 px-3 w-1/2 justify-center text-sm text-white-500 font-medium",
-  purple: "inline-flex rounded-full bg-purple py-1 px-3 w-1/2 justify-center text-sm text-white-500 font-medium",
-  brown: "inline-flex rounded-full bg-brown py-1 px-3 text-sm w-1/2 justify-center text-white-500 font-medium",
-  black: "inline-flex rounded-full bg-black-500 py-1 px-3 text-sm w-1/2 justify-center text-white-500 font-medium",
+  white: "inline-flex rounded-full bg-gray  py-1 px-3 md:w-1/2 lg:w-1/2 xl:w-1/2 justify-center text-xs font-medium",
+  blue: "inline-flex rounded-full bg-blue py-1 px-3 md:w-1/2 lg:w-1/2 xl:w-1/2 justify-center text-xs text-white-500 font-medium",
+  purple: "inline-flex rounded-full bg-purple py-1 px-3  justify-center md:w-1/2 lg:w-1/2 xl:w-1/2 text-xs text-white-500 font-medium",
+  brown: "inline-flex rounded-full bg-brown py-1 px-3 text-xs  justify-center md:w-1/2 lg:w-1/2 xl:w-1/2 text-white-500 font-medium",
+  black: "inline-flex rounded-full bg-black-500 py-1 px-3 text-xs lg:w-1/2 xl:w-1/2 justify-center text-white-500 font-medium",
 
 }
 
@@ -58,8 +58,9 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
             <p className="text-black dark:text-white text-sm italic">{utils.toHumanDate(joinDate!)}</p>
           </div>
 
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+          <div className="hidden items-center justify-center gap-2  p-2.5 sm:flex xl:p-5">
               <Icon icon={faPenToSquare} className="hover:text-meta-5 text-lg transition ease-in-out"/>
+              <Icon icon={faGraduationCap} className="hover:text-meta-5 text-lg transition ease-in-out"/>
           </div>
         </div>
     );
