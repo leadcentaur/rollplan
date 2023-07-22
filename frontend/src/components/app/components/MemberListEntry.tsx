@@ -20,11 +20,11 @@ interface MemberListItemProps {
 
 const beltStylingMap: Record<beltType, string> = {
   
-  white: "inline-flex rounded-full bg-gray  py-1 px-3 md:w-1/2 lg:w-1/2 xl:w-1/2 justify-center text-xs font-medium",
-  blue: "inline-flex rounded-full bg-blue py-1 px-3 md:w-1/2 lg:w-1/2 xl:w-1/2 justify-center text-xs text-white-500 font-medium",
-  purple: "inline-flex rounded-full bg-purple py-1 px-3  justify-center md:w-1/2 lg:w-1/2 xl:w-1/2 text-xs text-white-500 font-medium",
-  brown: "inline-flex rounded-full bg-brown py-1 px-3 text-xs  justify-center md:w-1/2 lg:w-1/2 xl:w-1/2 text-white-500 font-medium",
-  black: "inline-flex rounded-full bg-black-500 py-1 px-3 text-xs lg:w-1/2 xl:w-1/2 justify-center text-white-500 font-medium",
+  white: "inline-flex rounded-full bg-gray py-1 px-3 lg:w-3/4 md:w-full justify-center text-black-500 text-xs font-medium",
+  blue: "inline-flex rounded-full bg-blue py-1 px-3 lg:w-3/4 md:w-full justify-center text-white-500 text-xs font-medium",
+  purple: "inline-flex rounded-full bg-purple py-1 px-3 lg:w-3/4 md:w-full justify-center text-white-500 text-xs font-medium",
+  brown: "inline-flex rounded-full bg-brown py-1 px-3 lg:w-3/4 md:w-full justify-center text-white-500 text-xs font-medium",
+  black: "inline-flex rounded-full bg-black-500 py-1 px-3 lg:w-3/4 md:w-full justify-center text-white-500 text-xs font-medium",
 
 }
 
