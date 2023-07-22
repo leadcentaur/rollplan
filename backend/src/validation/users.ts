@@ -25,7 +25,7 @@ export const numberofStripesSchema = yup.number()
     .max(1)
 
 export const beltSchema = yup.mixed<beltType>().oneOf([
-    'white','blue','brown','pruple','black'
+    'white','blue','brown','purple','black'
 ])
 
 export const usertypeSchema = yup.mixed<userType>().oneOf([

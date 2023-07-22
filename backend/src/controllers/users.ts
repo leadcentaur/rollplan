@@ -67,9 +67,9 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 
                 */
 
-                userType: userType || "owner",
-                belt: belt || "white",
-                numberOfStripes: numberOfStripes || 1,
+                userType: !userType || "member",
+                belt: !belt || "white",
+                numberOfStripes: !numberOfStripes || 1,
             });
 
             const newUser = result.toObject();

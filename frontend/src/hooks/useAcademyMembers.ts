@@ -13,13 +13,10 @@ export default function useAcademyMembers() {
                     console.log("Authentictaed user referende ID == null")
                     return null;
                 }
-                console.log("The authentictaed user: " + authenticatedUser._id);
-                if (!authenticatedUser.academyReferenceId) {
-                    null;
-                }
+     
 
                 const members = await AcademyApi.getAcademyMembers(authenticatedUser.academyReferenceId);
-                console.log("Members from SWR: " + members);
+                console.log("Members from SWR: " + JSON.stringify(members));
 
                 return members;
 

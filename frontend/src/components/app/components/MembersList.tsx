@@ -18,14 +18,14 @@ export default function MemberList() {
   const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
 
 
-  return (
+  return !membersLoadingError ? (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Top Channels
+        Members
       </h4>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+        <div className="inline-grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Member
@@ -36,24 +36,50 @@ export default function MemberList() {
               Belt
             </h5>
           </div>
-          <div className="p-2.5 text-center xl:p-5">
+          <div className="p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Revenues
+             
             </h5>
           </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
+          <div className="p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Sales
+              
             </h5>
           </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
-            </h5>
+            <div className="hidden md:block xl:block lg:block p-2.5 text-center xl:p-5 sm:shrink ">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Actions
+              </h5>
           </div>
+          <p>
+          </p>
         </div>
 
-        <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
+      { membersLoading &&
+          <ColorRing wrapperClass="h-1/2 m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>      
+      }
+
+      { members && members.length != 0 &&
+
+          <div>
+          {members.map((user: User, index: number) => (
+            <MemberListEntry
+              key={index}
+              memebrsLen={members.length}
+              firstname={user.firstname}
+              lastname={user.lastname}
+              belt={user.belt as beltType}
+              numberOfStripes={user.numberOfStripes}
+              joinDate={user.createdAt}
+              email={user.email}
+              profilePicUrl={user.profilePicUrl}
+            />
+          ))}
+          </div>
+        }
+        
+
+        {/* <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
             <div className="flex-shrink-0">
             <Image alt="user profile pic" src={ProfilePicPlaceholder} height={50} width={50} className="rounded-full"/>
@@ -181,10 +207,16 @@ export default function MemberList() {
           <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
             <p className="text-meta-5">1.9%</p>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>
-  );
+  ) : 
+  
+    <div className="w-full h-screen m-auto v-screen justify-content">
+      <div className="h-screen v-screen m-auto w-full">
+        <p className="">⚠️ There was an error loading the academy members.</p>
+      </div>
+    </div>
 };
 

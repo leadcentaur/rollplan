@@ -82,21 +82,29 @@ export const getAcademyMembers: RequestHandler = async (req, res, next) => {
 }
 
 export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
-    const academyId = req.body.academyId;
+    const academyReferenceId = req.body.academyId;
     const memberId = new mongoose.Types.ObjectId(req.body.memberId);
 
     try {
-        // will need to a check here to ensure added user is of type member.
-        const updateMembers = await AcademyModel.findByIdAndUpdate(academyId, 
-            {$addToSet: {'members': memberId}}).exec();
+        
+        const updatedUser = await UserModel.findByIdAndUpdate(memberId, {
+            $set: {
+                ...(academyReferenceId && { academyReferenceId }),
+            }
+        }, { new: true }).exec();
 
-        console.log(updateMembers); 
-
-        if (!updateMembers) {
-            throw createHttpError(404, "Failed add member to academy")
+        if (!updatedUser) {
+            throw createHttpError(404, "Failed to set academy reference Id")
         }
 
-        res.status(200).json(updateMembers);
+        const updatedMembers = await AcademyModel.findByIdAndUpdate(academyReferenceId, {
+            $addToSet: {'members': memberId}}).exec();
+        
+        if (!updatedMembers) {
+            throw createHttpError(404, "Failed to add member to academy")
+        }
+
+        res.status(200).json(updatedMembers);
 
     } catch (error) {
         next(error);
