@@ -26,7 +26,7 @@ const beltStylingMap: Record<beltType, string> = {
   blue: "inline-flex rounded-full bg-blue py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium",
   purple: "inline-flex rounded-full bg-purple py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium",
   brown: "inline-flex rounded-full bg-brown py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium",
-  black: "inline-flex rounded-full bg-black py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium",
+  black: "inline-flex rounded-full bg-black-500 py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium",
 
 }
 
@@ -35,12 +35,15 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
       <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
         <div className="flex items-center gap-3 p-2.5 xl:p-5">
           <div className="flex-shrink-0">
-            <Image alt="user profile pic" src={profilePicPlaceholder} height={50} width={50} className="rounded-full"/>
+            <Image alt="user profile pic" src={profilePicUrl || profilePicPlaceholder} height={50} width={50} className="rounded-full"/>
 
             </div>
               <p className="text-black dark:text-white sm:block text-xs lg:text-base">
                 {firstname && lastname &&
-                  utils.capitalizeFirstLetter(firstname) + ' ' + utils.capitalizeFirstLetter(lastname)
+                  <p>{utils.capitalizeFirstLetter(firstname) + ' ' + utils.capitalizeFirstLetter(lastname)}</p>
+                }
+                { (!firstname || !lastname) &&
+                  <p className="italic">N/A</p>
                 }
               </p>
             </div>
@@ -52,6 +55,9 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
                     ' ' +
                     utils.romanize(numberOfStripes)
                   }</p>
+              }
+              { (!belt || !numberOfStripes) &&
+                  <p className="italic">N/A</p>
               }
             </div>
 
@@ -65,7 +71,7 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
 
             <div className="items-center justify-center p-2.5 sm:flex xl:p-5">
               <p className="">
-                <Icon icon={faPenToSquare} className="py-5 text-xl" height={50} width={50}/>
+                <Icon icon={faPenToSquare} className="py-5 text-2xl" height={50} width={50}/>
               </p>
             </div>
     </div>

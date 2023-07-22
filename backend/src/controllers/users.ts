@@ -10,6 +10,7 @@ import env from "../env";
 import { number } from "yup";
 import academy from "../models/academy";
 import { use } from "passport";
+import { beltType } from "../../@types/user-types";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -52,6 +53,13 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
                 throw createHttpError(409, "Username already taken");
             }
 
+            const existingEmail = await UserModel.findOne({email})
+                .exec()
+            
+            if (existingEmail) {
+                throw createHttpError(409, "Email already taken");
+            }
+
             const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
             const result = await UserModel.create({
@@ -67,13 +75,12 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
 
                 */
 
-                userType: !userType || "member",
-                belt: !belt || "white",
-                numberOfStripes: !numberOfStripes || 1,
+                userType: userType,
+                belt: belt,
+                numberOfStripes: numberOfStripes as number,
             });
 
             const newUser = result.toObject();
-    
             delete newUser.password;
 
             req.logIn(newUser, error => {

@@ -14,9 +14,8 @@ import MemberListEntry from "./MemberListEntry";
 import { beltType } from "@/types/user-types";
 
 export default function MemberList() {
-
+  
   const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
-
 
   return !membersLoadingError ? (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -76,7 +75,12 @@ export default function MemberList() {
             />
           ))}
           </div>
-        }
+      }
+
+      { members && members.length == 0 &&
+          <p className="p-3 m-3">ℹ️ This academy does not have any members yet.</p>
+      }
+
         
 
         {/* <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">

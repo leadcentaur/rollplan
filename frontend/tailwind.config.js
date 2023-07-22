@@ -66,7 +66,7 @@ module.exports = {
         },
         purple: '#8a2be2',
         blue: '#0000ff',
-        brown: '#a52a2a',
+        brown: '#964B00',
         formbg: '#f0f1f2',
         body: '#64748B',
         bodydark: '#AEB7C0',

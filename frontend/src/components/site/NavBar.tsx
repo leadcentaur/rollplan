@@ -10,7 +10,7 @@ import * as UsersApi from "@/network/api/users"
 import Button from './ui/typography/Button';
 
 function routeGuard(router: NextRouter): boolean {
-	if (!router.pathname.includes("/app")) {
+	if (!router.pathname.includes("app")) {
 		return true;
 	}
 	return false

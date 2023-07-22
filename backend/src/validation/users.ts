@@ -22,7 +22,7 @@ export const lastnameNameSchema =  yup.string()
 
 
 export const numberofStripesSchema = yup.number()
-    .max(1)
+    .max(5)
 
 export const beltSchema = yup.mixed<beltType>().oneOf([
     'white','blue','brown','purple','black'
