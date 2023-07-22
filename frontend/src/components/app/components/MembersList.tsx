@@ -63,10 +63,10 @@ export default function MemberList() {
           </div>
 
           <div className="flex items-center justify-center p-2.5 xl:p-5">
-            <p className="inline-flex rounded-full bg-purple py-1 px-3 lg:w-3/4 md:w-full justify-center text-white-500 text-xs font-medium">Purple III</p>
+            <p className="inline-flex rounded-full bg-purple py-1 px-3 lg:w-auto justify-center text-white-500 text-xs font-medium">Purple III</p>
           </div>
 
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
+          <div className="hidden flex items-center justify-center p-2.5 xl:p-5 sm:flex">
             <p className="text-meta-3">$5,768</p>
           </div>
 
