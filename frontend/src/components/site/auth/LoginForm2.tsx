@@ -14,6 +14,8 @@ import LogoDark from "../../app/images/logo/logo-dark.svg"
 import Logo from "../../app/images/logo/logo.svg";
 import { passwordSchema, usernameSchema } from "@/utils/validation";
 import { error } from "console";
+import Icon from "../ui/iconography/Icon";
+import { faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 
 // add validation here
 const validationSchema = yup.object({
@@ -58,7 +60,12 @@ const router = useRouter();
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In to Rollplan
+                <span>
+                  <Icon icon={faUniformMartialArts}/>
+                </span>
+                <span className="pl-3">
+                  Sign into your academy
+                </span>
               </h2>
 
               {errorText &&
