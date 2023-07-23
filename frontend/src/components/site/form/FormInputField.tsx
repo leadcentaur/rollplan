@@ -14,17 +14,32 @@ export type forType =
 
 interface FormInputFieldProps {
     register: UseFormRegisterReturn,
-    fieldType: forType,
+    forType: forType,
     placeholder: string,
+    bodyClass: string,
     label: string,
     error?: FieldError,
 }
 
-export default function FormInputField({register, label, error, fieldType, placeholder, ...props}: FormInputFieldProps & ComponentProps<"input">) {
+export default function FormInputField({register, label, error, forType, placeholder, bodyClass, ...props}: FormInputFieldProps & ComponentProps<"input">) {
     return (
-        <div>
-               <label htmlFor={fieldType} className="block mb-2  text-sm font-medium text-gray-900 dark:text-white">{label}</label>
-            <input {...props} {...register} type={fieldType} name={fieldType} id={fieldType} className={cx(!error ? "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" : "bg-gray-500 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500")} placeholder={placeholder}/>
+        <div className={bodyClass}>
+            <label htmlFor={forType} className="mb-2.5 block font-medium text-black dark:text-white">
+            {label}
+            </label>
+                <div className="relative">
+                <input
+                    type={forType}
+                    placeholder={placeholder}
+                    {...register}
+                    {...props}
+                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                />
+
+                { error &&
+                    <div className="text-red-500">{error.message?.toString()}</div>
+                }
+            </div>
         </div>
     );
 }

@@ -171,7 +171,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       label="Email"
                       placeholder="email@example.com"
                       maxLength={320}
-                      fieldType="email"
+            
                       error={errors.email}
                     />
 

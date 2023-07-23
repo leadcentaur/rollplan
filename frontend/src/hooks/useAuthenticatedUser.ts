@@ -1,5 +1,5 @@
 import * as UsersApi from "@/network/api/users";
-import { UnauthorizedError } from "@/network/http-errors";
+import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 
@@ -12,9 +12,12 @@ export default function useAuthenticatedUser() {
                 return await UsersApi.getAuthenticatedUser();
             } catch (error) {
                 if (error instanceof UnauthorizedError) {
-                    router.push("/login")
                     return null;
-                } else {
+                } 
+                if (error instanceof NotFoundError) {
+                    return null;
+                }
+                else {
                     throw error;
                 }
             }

@@ -9,12 +9,12 @@ import profilePicPlaceholder from "@/assets/images/profile-pic-placeholder.png";
 import * as UsersApi from "@/network/api/users"
 import Button from './ui/typography/Button';
 
-function routeGuard(router: NextRouter): boolean {
-	if (!router.pathname.includes("app")) {
-		return true;
-	}
-	return false
-}
+// function routeGuard(router: NextRouter): boolean {
+// 	if (!router.pathname.includes("/app") && router.pathname) {
+// 		return true;
+// 	}
+// 	return false
+// }
 
 export default function NavBar() {
 	
@@ -22,7 +22,7 @@ export default function NavBar() {
 	const { user } = useAuthenticatedUser();
     const [mobileMenuSate, setMobileMenuState] = useState(false);
 
-    return routeGuard(router) ? (
+    return (
         <nav className="sticky top-0 z-50 overflow relative px-5 py-5 flex justify-between items-center bg-black-500">
 					<Link href='/' className='text-3xl font-bold leading-none mt-1 mr-1 pr-1'>
                         <Image
@@ -55,8 +55,7 @@ export default function NavBar() {
 				{user ? <NavBarLoggedInview user={user}/> : <NavBarLoggedOutView/>}
                    
 			</nav>
-    ) :
-	null
+	);
 }
 
 interface LoggedInViewProps {

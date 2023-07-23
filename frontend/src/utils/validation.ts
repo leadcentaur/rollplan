@@ -4,7 +4,7 @@ import { beltType, userType } from "@/types/user-types";
 export const requiredStringSchema = yup.string().required("Required")
 
 export const usernameSchema = yup.string()
-    .max(20, "Must be 20 characters or less")
+    .max(30, "Maximum of 30 characters")
     .matches(/^[a-zA-z0-9_]*$/, "Only letters, numbers and underscores are allowed")
 
 export const emailSchema = yup.string()

@@ -34,17 +34,24 @@ import { IconDefinition } from "@fortawesome/pro-solid-svg-icons";
 import NoGiIcon from "../../../assets/images/NoGi.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
+import next from "next/types";
+import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
-  const username = params?.username?.toString();
-  if (!username) throw Error("username missing");
+  try {
+    const username = params?.username?.toString();
+    if (!username) throw Error("username missing");
 
-  const user = await UsersApi.getUserByUsername(username);
-  console.log(user.academyReferenceId);
-
-  console.log("The username: " + user.username);
-  return {
-    props: { user }
+    const user = await UsersApi.getUserByUsername(username);
+    return {
+      props: { user }
+    }
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return { notFound: true }
+    } else {
+      throw error
+    }
   }
 }
 
@@ -59,11 +66,10 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     even though the page is fetched serverside
   
   */
-    const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser(); 
-
+    const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser();
     const [profileUser, setProfileUser] = useState(user);
     const profileUserIsLoggedInUser = (loggedInUser && (loggedInUser._id === profileUser._id)) || false;
-
+  
     function handleUserUpdated(updatedUser: User) {
         mutateLoggedInUser(updatedUser);
         setProfileUser(updatedUser);
@@ -192,7 +198,11 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
       onUserUpdated(updatedUser);
 
     } catch (error) {
-      
+      if (error instanceof NotFoundError) {
+        return { notFound: true }
+      } else {
+
+      }
     }
   }
 

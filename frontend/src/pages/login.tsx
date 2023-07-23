@@ -1,4 +1,4 @@
-import LoginForm from "@/components/site/auth/LoginForm";
+import LoginForm from "@/components/site/auth/LoginForm2";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

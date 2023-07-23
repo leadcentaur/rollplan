@@ -20,6 +20,18 @@ module.exports = {
             800: "#0b0b0b",
             900: "#050505"
           },
+          yellow: {
+            100: "#fffbcc",
+            200: "#fff799",
+            300: "#fff266",
+            400: "#ffee33",
+            500: "#ffea00",
+            600: "#ccbb00",
+            700: "#998c00",
+            800: "#665e00",
+            900: "#332f00"
+          },
+          gold: "#FDDC5C",
           white: {
             100: "#ffffff",
             200: "#ffffff",
@@ -98,6 +110,9 @@ module.exports = {
         success: '#219653',
         danger: '#D34053',
         warning: '#FFA70B',
+      },
+      variants: {
+        fill: ['hover', 'focus'], // this line does the trick
       },
       extend: {
         fontSize: {

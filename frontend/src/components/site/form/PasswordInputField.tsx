@@ -9,29 +9,56 @@ import cx from "clsx";
 interface Password {
     register: UseFormRegisterReturn,
     placeholder: string,
-    label: string,
     error?: FieldError,
 }
 
-export default function PasswordInputField({register, label, error, placeholder, ...props}: Password & ComponentProps<"input">) {
+export default function PasswordInputField({register, error, placeholder, ...props}: Password & ComponentProps<"input">) {
 
-    const passwordType = "password";
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <div>
-            <label htmlFor={passwordType} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Your {label}
-                <div className="py-2" x-data="{ show: true }">  
-                <div className="relative">
-                  <input {...props} className={cx(!error ? "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" : "bg-gray-500 border border-red-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-red-700 dark:border-red-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500")}
-                     type={showPassword ? "text" : passwordType} placeholder={placeholder} {...register} />
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                    <Icon icon={showPassword ? faEye : faEyeSlash} className="" onClick={() => {setShowPassword(!showPassword)}}/>
-                  </div>
-                </div>
-              </div>
-            </label>
+      <div className="mb-6">
+      <label htmlFor="password" className="mb-2.5 block font-medium text-black dark:text-white">
+        Password
+      </label>
+      <div className="relative">
+        <input
+          id="password"
+          type={showPassword ? "text" : "password"}
+          {...props}
+          placeholder={placeholder} 
+          {...register}
+          className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+        />
+
+         <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+            <Icon icon={showPassword ? faEye : faEyeSlash} className="" onClick={() => {setShowPassword(!showPassword)}}/>
         </div>
+      </div>
+    </div>
     );
 }
+
+/*
+
+
+                <div className="mb-6">
+                  <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    {label}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="password"
+                      {...props}
+                      placeholder={placeholder} 
+                      {...register}
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+
+                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                        <Icon icon={showPassword ? faEye : faEyeSlash} className="" onClick={() => {setShowPassword(!showPassword)}}/>
+                    </div>
+                  </div>
+                </div>
+
+*/
