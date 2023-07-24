@@ -35,7 +35,9 @@ export default function LoginForm({onDismiss, onSignUpInsteadClicked, onForgotPa
 
 const router = useRouter();
   const { mutateUser } = useAuthenticatedUser();
-  const { register, handleSubmit, formState: { errors, isSubmitting} } = useForm<LoginFormData>();
+  const { register, handleSubmit, formState: { errors, isSubmitting} } = useForm<LoginFormData>({
+    resolver: yupResolver(validationSchema)
+  });
   const [errorText, setErrorText] = useState<string | null>(null);
 
   async function onSubmit(credentials: LoginFormData) {
@@ -55,15 +57,15 @@ const router = useRouter();
   }
 
     return (
-        <div className="rounded-md dark:border-strokedark dark:bg-boxdark">
-          <div className="w-full dark:border-strokedark shadow-lg xl:w-1/2 mt-20 mb-5 rounded-lg bg-[#fcfbfa] opacity-90 border border-stroke m-auto">
-            <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+        <div className="rounded-md dark:border-strokedark dark:bg-boxdark text-white-500">
+          <div className="w-full dark:border-strokedark shadow-xl xl:w-1/2 mt-20 mb-5 rounded-lg bg-gradient-to-b from-slate-600 via-blurple-600 to-white-600 opacity-100 border border-stroke m-auto">
+            <div className="w-full p-4 sm:p-12.5 xl:p-17.5 ">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                <span>
+                <span className="text-white-500">
                   <Icon icon={faUniformMartialArts}/>
                 </span>
-                <span className="pl-3">
+                <span className="pl-3 text-white-500">
                   Sign into your academy
                 </span>
               </h2>
@@ -114,11 +116,11 @@ const router = useRouter();
                   <input
                     type="submit"
                     value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-black bg-red-500 p-4 text-white-500 transition hover:bg-opacity-90"
+                    className="w-full cursor-pointer rounded-lg  bg-red-500 p-4 text-white-500 transition hover:bg-opacity-90"
                   />
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-siteGray-100 p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-siteGray-100">
+                <button className="text-black-500 flex w-full items-center justify-center gap-3.5 rounded-lg  bg-siteGray-100 p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-siteGray-100">
                   <span>
                     <svg
                       width="20"
