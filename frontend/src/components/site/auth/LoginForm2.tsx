@@ -57,15 +57,12 @@ const router = useRouter();
   }
 
     return (
-        <div className="rounded-md dark:border-strokedark dark:bg-boxdark text-white-500">
-          <div className="w-full dark:border-strokedark shadow-xl xl:w-1/2 mt-20 mb-5 rounded-lg bg-gradient-to-b from-slate-600 via-blurple-600 to-white-600 opacity-100 border border-stroke m-auto">
+        <div className="rounded-md dark:border-strokedark dark:bg-boxdark text-black-500">
+          <div className="w-full dark:border-strokedark shadow-2xl xl:w-1/2 mt-20 mb-5 rounded-lg bg-[#f5f5f7] opacity-100 border border-stroke m-auto">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5 ">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                <span className="text-white-500">
-                  <Icon icon={faUniformMartialArts}/>
-                </span>
-                <span className="pl-3 text-white-500">
+                <span className="pl-3">
                   Sign into your academy
                 </span>
               </h2>
@@ -112,6 +109,7 @@ const router = useRouter();
 
                  
 
+                    
                 <div className="mb-5">
                   <input
                     type="submit"

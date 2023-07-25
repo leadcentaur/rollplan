@@ -6,6 +6,7 @@ module.exports = {
       './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
+
       colors: {
           bodydark1: '#DEE4EE',
           bodydark2: '#8A99AF',
@@ -115,6 +116,9 @@ module.exports = {
         fill: ['hover', 'focus'], // this line does the trick
       },
       extend: {
+        backgroundImage: {
+          'roll-plan': "url('/assets/images/rollplan.jpg')"
+        },
         fontSize: {
           'title-xxl': ['44px', '55px'],
           'title-xl': ['36px', '45px'],
