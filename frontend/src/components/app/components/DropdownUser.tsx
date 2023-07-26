@@ -28,11 +28,13 @@ interface DropDownUserProps {
   user: User,
 }
 
-const DropdownUser = () => {
+const DropdownUser = ({user}: DropDownUserProps) => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
   const { academy: userAcademy, mutateAcademy: mutateUserAcademy } = useUserAcademy();
+
+  const [profileUser, setProfileUser] = useState(user);
 
   const router = useRouter();
 

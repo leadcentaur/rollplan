@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 // next.config.js
 
+const { hostname } = require('os');
+
 
 const nextConfig = {
   reactStrictMode: true,
@@ -19,6 +21,11 @@ const nextConfig = {
         hostname: 'i.imgur.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+      }
     ]
   },
 }

@@ -36,17 +36,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
 import next from "next/types";
 import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
+import { error } from "console";
+import { useRouter } from "next/router";
+import NotFoundPage from "@/pages/404";
+import NavBar from "@/components/site/NavBar";
+
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   try {
-    const username = params?.username?.toString();
-    if (!username) throw Error("username missing");
 
+    const username = params?.username?.toString();
     const user = await UsersApi.getUserByUsername(username);
+ 
     return {
       props: { user }
     }
   } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return { notFound: true }
+    }
     if (error instanceof NotFoundError) {
       return { notFound: true }
     } else {
@@ -65,10 +73,14 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     We put the user in a state because then we can update the page
     even though the page is fetched serverside
   
-  */
+  */ 
+
     const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser();
+
+
     const [profileUser, setProfileUser] = useState(user);
     const profileUserIsLoggedInUser = (loggedInUser && (loggedInUser._id === profileUser._id)) || false;
+
   
     function handleUserUpdated(updatedUser: User) {
         mutateLoggedInUser(updatedUser);
