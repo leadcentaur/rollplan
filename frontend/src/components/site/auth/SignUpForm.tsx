@@ -212,6 +212,6 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
           </div>
       </div>
   </div>
-</section>
+    </section>
   );
 }

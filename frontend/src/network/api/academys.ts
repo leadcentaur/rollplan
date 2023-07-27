@@ -20,6 +20,7 @@ export async function getAcademyMembers(academyId: string) {
 }
 
 export async function getAcademyByID(academyId: string) {
+    console.log("passed aid: " + academyId);
     const response = await api.get<Academy>("/academy/" + academyId);
     return response.data;
 }

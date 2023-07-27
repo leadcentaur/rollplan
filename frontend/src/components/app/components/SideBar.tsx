@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp, faBagsShopping, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "../components/../../site/ui/iconography/Icon";
 import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
@@ -91,6 +91,17 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                         </span>
               </Link>
 
+              <Link href="/app/shop" className="group relative mr-1 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+                        <Icon
+													icon={faBagsShopping}
+													className={clsx('text-1xl justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span>
+                            Shop
+                        </span>
+              </Link>
+
              
 
               <SidebarLinkGroup
@@ -130,16 +141,16 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                           !memberDropdownSate && 'hidden'
                         }`}
                       >
-                        <ul className="mt-4 flex flex-col gap-2.5 pl-6">
+                        <ul className="mt-4 flex  flex-col gap-2.5 pl-6">
                           <li>
                             <Icon
                               icon={faUserPlus}
                               style={{ maxwidth: 54}}
-                              className="mr-3 text-bodydark2"
+                              className="pr-2 text-bodydark2"
                             />
                               <Link
                               href="/app/onboarding"
-                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
+                              className="text-bodydark2 pr-0 mr-2 duration-30]0 ease-in-out hover:text-white-300"
                             >
                               Onboarding  
                             </Link>
@@ -148,7 +159,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                             <Icon
                               icon={faListUl}
                               style={{ maxWidth: 54 }}
-                              className="mr-3 text-bodydark2"
+                              className="mr-1 pr-2  text-bodydark2"
                             />
                             
                             <Link
@@ -180,7 +191,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 													style={{ maxWidth: 54 }}
 												/>
                         <span>
-                          Settings
+                          Academy ettings
                         </span>
                     </Link>
 {/* 

@@ -73,12 +73,12 @@ function isPublicUrl(pathname: string) {
 
 function useOnboardingRedirect() {
 
-  const { user } = useAuthenticatedUser();
+  const { user, userLoading } = useAuthenticatedUser();
   const router = useRouter();
 
   useEffect(() => {
     console.log(router.pathname);
-    if (!user && router.pathname.includes("/app")) {
+    if (!userLoading && !user && router.pathname.includes("/app")) {
       router.push("/login")
     }
 
