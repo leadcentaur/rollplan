@@ -35,6 +35,7 @@ export const academyLocationSchema = yup.string()
         .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Address field cannot contain special characters")
         // .matches(/^[a-zA-z0-9_]*$/, "Only letters, numbers and underscores are allowed")
 
+
 export const academyOwnerSchema = yup.string()
         .email()
         .max(320)

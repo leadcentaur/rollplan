@@ -11,7 +11,7 @@ const academyLocationSchema = yup.string()
     .matches(/^[#.0-9a-zA-Z\s,-]+$/)
 
 const academyOwnerSchema = yup.string()
-    .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
+    .matches(/^[a-f\d]{24}$/i, "Invalid Id")
     .max(24)
 
 const academyIdSchema = yup.string()
