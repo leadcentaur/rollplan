@@ -11,6 +11,7 @@ export const userSchema = new Schema({
         unique: true, 
         sparse: true
     },
+    displayName: { type: String },
     email: { 
         type: String, 
         unique: true, 

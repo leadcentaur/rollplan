@@ -9,7 +9,8 @@ export default function useAuthenticatedUser() {
     const { data, isLoading, error, mutate } = useSWR("user",
         async () => {
             try {
-                return await UsersApi.getAuthenticatedUser();
+                const authenticatedUser = await UsersApi.getAuthenticatedUser();
+                return authenticatedUser;
             } catch (error) {
                 if (error instanceof UnauthorizedError) {
                     return null;

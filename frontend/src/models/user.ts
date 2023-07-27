@@ -5,6 +5,7 @@ export interface User {
     username?: string,
     email?: string,
     about?: string,
+    displayName?: string,
     profilePicUrl?: string,
     belt?: string,
     numberOfStripes?: number

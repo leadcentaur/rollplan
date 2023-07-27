@@ -45,6 +45,7 @@ export async function logout() {
 interface UpdateUserValues {
     username?: string,
     firstname?: string,
+    displayName?: string,
     lastname?: string,
     about?: string,
     academyReferenceId?: string,

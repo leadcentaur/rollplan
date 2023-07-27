@@ -15,11 +15,12 @@ import { beltType } from "../../@types/user-types";
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
     try {
-     
-        assertIsDefined(authenticatedUser);
+                assertIsDefined(authenticatedUser)
+       
+                console.log("Authenticated user is defined: " + authenticatedUser._id);
+                const user = await UserModel.findById(authenticatedUser._id).select("+email").exec();
+                res.status(200).json(user);
 
-        const user = await UserModel.findById(authenticatedUser._id).select("+email").exec();
-        res.status(200).json(user);
 
     } catch (error) {
         next(error);
@@ -28,9 +29,8 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 
 export const getUserByUsername: RequestHandler = async (req, res, next) => {
     
-
-    try {
-
+    try {   
+            console.log(req.session.id);
             const user = await UserModel.findOne({ username: req.params.username }).exec();
             if (!user) { throw createHttpError(404, "User not found"); }
 

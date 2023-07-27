@@ -16,6 +16,7 @@ import { GetServerSideProps } from 'next';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 import SideBar from '@/components/app/components/SideBar';
 import * as UsersApi from "../network/api/users";
+import { useRouter } from 'next/router';
 config.autoAddCss = false
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
@@ -37,8 +38,7 @@ interface GlobalAppProps {
 
 export default function App({ Component, pageProps }: AppProps) {
 
-  const { user, userLoading, userLoadingError, mutateUser } = useAuthenticatedUser();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  useOnboardingRedirect();
 
   return  (
     <>
@@ -51,7 +51,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
         <div className={jakarta.className}>
           <NextNprogress color='#AA4A44' height={5}/>
-          <NavBar loggedInUser={user}/>
+          <NavBar/>
 
           <main>
               <Component {...pageProps} />
@@ -59,4 +59,32 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
     </>
   )
+}
+
+function isPublicUrl(pathname: string) {
+    let publicPaths = ['/login','/signup','/blog','/privacy'];
+    if (publicPaths.includes(pathname)) {
+      console.log(pathname + " is a public url")
+      return true;
+    } else {
+      return false;
+    }
+}
+
+function useOnboardingRedirect() {
+
+  const { user } = useAuthenticatedUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(router.pathname);
+    if (!user && router.pathname.includes("/app")) {
+      router.push("/login")
+    }
+
+    if (user && !user.username && router.pathname !== "/onboarding")  {
+      router.push("/onboarding?returnTo=" + router.asPath)
+    }
+  }, [user, router])
+
 }
