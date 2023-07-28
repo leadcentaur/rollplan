@@ -24,7 +24,7 @@ export const requiredFileSchema = yup.mixed<FileList>()
 
 export const academyNameSchema = yup.string()
     .max(72)
-    .matches(/^\w[\w.\-#&\s]*$/, "Academy name cannot contain any special characters")
+    .matches(/^\w[\w.\-#&\s]*$/, "Academy name cannot be blank or contain special characters")
 
 export const aboutSchema = yup.string()
     .max(320)
@@ -32,7 +32,7 @@ export const aboutSchema = yup.string()
 
 export const academyLocationSchema = yup.string()
         .max(100)
-        .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Address field cannot contain special characters")
+        .matches(/^[#.0-9a-zA-Z\s,-]+$/, "Location field cannot be blank or contain special characters")
         // .matches(/^[a-zA-z0-9_]*$/, "Only letters, numbers and underscores are allowed")
 
 
@@ -42,11 +42,11 @@ export const academyOwnerSchema = yup.string()
 
 export const firstNameSchema =  yup.string()
     .max(100)
-    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "First name must not contain special characters.s.")
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "First name must not be blank or contain special characters.")
 
 export const lastnameNameSchema =  yup.string()
     .max(100)
-    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not contain special characters.")
+    .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not be blank or contain special characters.")
 
     export const numberofStripesSchema = yup.number()
     .max(1)

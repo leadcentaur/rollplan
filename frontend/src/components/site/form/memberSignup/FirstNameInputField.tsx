@@ -23,13 +23,16 @@ export default function FirstNameInputField({register, error, forType, ...props}
     return (
         <div className="w-full md:w-1/2 relative flex-shrink-0">        
             <input 
-                type="text"
-                {...register}
-                {...props}
-                id="first_name" 
+                type="firstname"
                 className='w-full rounded-md border bg-transparent border-stroke  mb-2 px-4 py-4 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                 placeholder="First name" 
-            />     
+                {...props}
+                {...register}
+            /> 
+
+            { error &&
+                    <div className="text-red-500">{error.message?.toString()}</div>
+            }
         </div>
     );
 }

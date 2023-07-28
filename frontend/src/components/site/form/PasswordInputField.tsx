@@ -9,10 +9,11 @@ import cx from "clsx";
 interface Password {
     register: UseFormRegisterReturn,
     placeholder: string,
+    passwordCompare: (compareStr: string) => void,
     error?: FieldError,
 }
 
-export default function PasswordInputField({register, error, placeholder, ...props}: Password & ComponentProps<"input">) {
+export default function PasswordInputField({register, error, placeholder, passwordCompare, ...props}: Password & ComponentProps<"input">) {
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -23,11 +24,11 @@ export default function PasswordInputField({register, error, placeholder, ...pro
       </label>
       <div className="relative">
         <input
-          id="password"
           type={showPassword ? "text" : "password"}
-          {...props}
           placeholder={placeholder} 
+          {...props}
           {...register}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {passwordCompare(e.target.value.toString())}}
           className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
         />
 
@@ -35,6 +36,12 @@ export default function PasswordInputField({register, error, placeholder, ...pro
             <Icon icon={showPassword ? faEye : faEyeSlash} className="" onClick={() => {setShowPassword(!showPassword)}}/>
         </div>
       </div>
+
+      { error &&
+          <div className="text-red-500">{error.message?.toString()}</div>
+
+      }
+
     </div>
     );
 }

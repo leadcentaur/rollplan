@@ -14,6 +14,8 @@ import FirstNameInputField from "@/components/site/form/memberSignup/FirstNameIn
 import { emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, usernameSchema } from "@/utils/validation";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import LastNameInputField from "@/components/site/form/memberSignup/LastNameInputField";
+import EmailInputField from "@/components/site/form/memberSignup/EmailInputField";
 
 interface MemberSignPageProps {
     academy: Academy,
@@ -96,31 +98,18 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
                             register={register("firstname", {required: "Required"})}
                             forType="firstname"
                             label="firstname"
-                        />
+                        />  
                         
-                        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 relative flex-shrink-0 ">
-                            <input type="text" 
-                                id="last_name" 
-                                className=' w-full rounded-md border bg-transparent border-stroke mb-2 px-4 py-4 lg:ml-none md:ml-none   outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
-                                placeholder="Last name"
-                            />
-                        </div>
+                        <LastNameInputField
+                            register={register("lastname", {required: "Required"})}
+                            forType="lastname"
+                            label="lastname"
+                        />
                 </div>
 
-                    <div className="mb-4">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Email
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="email"
-                      autoComplete="fill"
-                      id="email"
-                      placeholder="Enter your email"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    <EmailInputField
+                        register={register("email", {required: "Required"})}
                     />
-                  </div>
-                </div>
 
 
                 <div className="mb-4">
