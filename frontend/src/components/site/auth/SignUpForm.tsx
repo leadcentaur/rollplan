@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as UsersApi from "@/network/api/users";
 import * as AcademyApi from "@/network/api/academys";
-import FormInputField from "../form/FormInputField";
+import FormInputField from "../form/SiteFormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useState } from "react";

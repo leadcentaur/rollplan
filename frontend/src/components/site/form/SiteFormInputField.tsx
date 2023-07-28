@@ -14,7 +14,7 @@ export type forType =
 
 interface FormInputFieldProps {
     register: UseFormRegisterReturn,
-    forType: forType,
+    forType?: forType,
     placeholder: string,
     bodyClass: string,
     label: string,
@@ -24,7 +24,7 @@ interface FormInputFieldProps {
 export default function FormInputField({register, label, error, forType, placeholder, bodyClass, ...props}: FormInputFieldProps & ComponentProps<"input">) {
     return (
         <div className={bodyClass}>
-            <label htmlFor={forType} className="mb-2.5 block font-medium text-black dark:text-white">
+            <label htmlFor={forType || "text"} className="mb-2.5 block font-medium text-black dark:text-white">
             {label}
             </label>
                 <div className="relative">

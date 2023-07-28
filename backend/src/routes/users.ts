@@ -6,6 +6,7 @@ import requiresAuth from "../middlewares/requiresAuth";
 import validateRequestSchema from "../middlewares/validateRequestSchema";
 import { setAcademyReferenceIdSchema, signUpSchema, updateUserSchema } from "../validation/users";
 import env from "../env";
+import setSessionReturnTo from "../middlewares/setSessionReturnTo";
 
 const router = express.Router();
 
@@ -17,10 +18,11 @@ router.post("/signup", validateRequestSchema(signUpSchema), UsersController.sign
 
 router.post("/login", passport.authenticate("local"), (req, res) => res.status(200).json(req.user));
 
-router.get("/login/google", passport.authenticate("google"));
+router.get("/login/google", setSessionReturnTo, passport.authenticate("google"));
 
 router.get("/oauth2/redirect/google", passport.authenticate("google", {
-    successRedirect: env.WEBSITE_URL
+    successReturnToOrRedirect: env.WEBSITE_URL,
+    keepSessionInfo: true,
 }))
 
 router.post("/logout", UsersController.logOut);

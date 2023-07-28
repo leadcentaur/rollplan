@@ -5,7 +5,7 @@ export default function SocialSignInSection() {
     return (
         <div>
             <GoogleSignButton/>
-            <FacebookSignButton/>
+            {/* <FacebookSignButton/> */}
         </div>
     );
 }

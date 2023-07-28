@@ -6,8 +6,8 @@ import React from "react";
 export default function Store() {  
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Store" />
-            <MemberList/>
+            <Breadcrumb pageName="Shop" />
+
         </DefaultLayout>
     );
   }

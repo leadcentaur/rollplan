@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as UsersApi from "@/network/api/users";
 import * as AcademyApi from "@/network/api/academys";
-import FormInputField from "../form/FormInputField";
+import SiteFormInputField from "../form/SiteFormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useState } from "react";
@@ -17,6 +17,8 @@ import { Academy } from "@/models/academy";
 
 import LogoDark from "../../app/images/logo/logo-dark.svg"
 import Logo from "../../app/images/logo/logo.svg";
+import FirstNameInputField from "../form/memberSignup/FirstNameInputField";
+import LastNameInputField from "../form/memberSignup/LastNameInputField";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
@@ -90,63 +92,51 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
           <div className="w-full border-stroke bg-[#f5f5f7] dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
 
-          
-
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Get started with rollplan today
               </h2>
 
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-4">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Academy name
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Enter the name of your academy"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    />
-                  </div>
-                </div>
+                  <SiteFormInputField
+                      register={register("academy_name", {required: "Required"})}
+                      type="academy_name"
+                      label="Academy name"
+                      placeholder="10th planet Ju-jitsu, Austin"
+                      maxLength={72}
 
-                <div className="mb-4">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Academy Location
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="The location of your academy"
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      bodyClass="mb-4"
+                      error={errors.academy_name}
                     />
-                  </div>
-                </div>
+
+                  <SiteFormInputField
+                      register={register("academy_location", {required: "Required"})}
+                      type="academy_location"
+                      label="Academy location"
+                      placeholder="Austin, texas"
+                      maxLength={72}
+                      bodyClass="mb-4"
+                      error={errors.academy_name}
+                    />
 
                 <label htmlFor="billing-address" className="mt-4 mb-2 block font-medium">Account details</label>
-                <div className="flex flex-col sm:flex-row">  
-                        <div className="relative flex-shrink-0 sm:w-1/2 sm:pr-3">
-                          
-                            <input 
-                                type="text" 
-                                id="first_name" 
-                                className='w-full rounded-md border bg-transparent border-stroke  mb-2 px-4 py-4 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
-                                placeholder="First name" 
-                            />
-                        <div>
-                          </div>
-                        </div>
-                            <input type="text" 
-                                id="last_name" 
-                                className='w-full rounded-md border bg-transparent border-stroke mb-2 px-4 py-4 lg:ml-none md:ml-none   outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
-                                placeholder="Last name"
-                            />
-                            <div>
-                        </div>
+                  <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
+                        
+                        <FirstNameInputField
+                            register={register("firstname", {required: "Required"})}
+                            forType="firstname"
+                            label="firstname"
+                        />
+                        
+                        <LastNameInputField
+                            register={register("lastname", {required: "Required"})}
+                            forType="firstname"
+                            label="firstname"
+                        />
+                        
                     </div>
 
-                    <div className="mb-4">
+                <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>

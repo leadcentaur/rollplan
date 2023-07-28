@@ -7,7 +7,7 @@ import { aI } from "@fullcalendar/core/internal-common";
 import { Academy } from "@/models/academy";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import FormInputField from "@/components/app/form/FormInputField";
+import FormInputField from "@/components/app/form/AppFormInputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import FirstNameInputField from "@/components/site/form/memberSignup/FirstNameInputField";
@@ -90,7 +90,7 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
         
 
                 <label htmlFor="billing-address" className="mt-4 mb-2 block font-medium">Account details</label>
-                <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3   flex-shrink-0 ">  
+                <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
                         
                         <FirstNameInputField
                             register={register("firstname", {required: "Required"})}
@@ -105,7 +105,7 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
                                 placeholder="Last name"
                             />
                         </div>
-                    </div>
+                </div>
 
                     <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">

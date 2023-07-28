@@ -144,19 +144,6 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                         <ul className="mt-4 flex  flex-col gap-2.5 pl-6">
                           <li>
                             <Icon
-                              icon={faUserPlus}
-                              style={{ maxwidth: 54}}
-                              className="pr-2 text-bodydark2"
-                            />
-                              <Link
-                              href="/app/onboarding"
-                              className="text-bodydark2 pr-0 mr-2 duration-30]0 ease-in-out hover:text-white-300"
-                            >
-                              Onboarding  
-                            </Link>
-                          </li>
-                          <li>
-                            <Icon
                               icon={faListUl}
                               style={{ maxWidth: 54 }}
                               className="mr-1 pr-2  text-bodydark2"
@@ -191,7 +178,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 													style={{ maxWidth: 54 }}
 												/>
                         <span>
-                          Academy ettings
+                          Settings
                         </span>
                     </Link>
 {/* 

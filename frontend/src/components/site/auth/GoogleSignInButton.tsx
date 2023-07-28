@@ -1,8 +1,12 @@
+import { useRouter } from "next/router";
 
 
 export default function GoogleSignButton() {
+
+    const router = useRouter();
+
     return (
-        <a href={process.env.NEXT_PUBLIC_BACKEND_URL + "/users/login/google"}>
+        <a href={process.env.NEXT_PUBLIC_BACKEND_URL + "/users/login/google?returnTo=" + "/app"}>
             <button className="text-black-500 flex w-full items-center justify-center gap-3.5 rounded-lg mb-3  bg-siteGray-100  p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-siteGray-100">
                     <span>
                         <svg

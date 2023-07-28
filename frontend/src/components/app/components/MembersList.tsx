@@ -1,4 +1,4 @@
-import ProfilePicPlaceholder from "../../../assets/images/profile-pic-placeholder.png"
+import ProfilePicPlaceholder from "../../../assets/images/placeholders/profile-pic-placeholder.png"
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";

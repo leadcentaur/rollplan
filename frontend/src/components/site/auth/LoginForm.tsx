@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import * as UsersApi from "@/network/api/users";
-import FormInputField from "../form/FormInputField";
+import FormInputField from "../form/SiteFormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import { UnauthorizedError } from "@/network/http-errors";
 import { use, useState } from "react";

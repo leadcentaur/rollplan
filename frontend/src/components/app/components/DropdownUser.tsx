@@ -8,7 +8,7 @@ import * as UsersApi from "../../../network/api/users";
 import * as utils from "../../../utils/utils";
 import { GetServerSideProps } from 'next';
 import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
-import profilePicturePlaceholder from "../../../assets/images/profile-pic-placeholder.png"
+import profilePicturePlaceholder from "../../../assets/images/placeholders/profile-pic-placeholder.png"
 import { useRouter } from 'next/router';
 import useUserAcademy from '@/hooks/useCurrentAcademy';
 

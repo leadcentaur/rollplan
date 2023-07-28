@@ -3,7 +3,7 @@ import Image from "next/image";
 import * as utils from "../../../utils/utils";
 import Icon from "@/components/site/ui/iconography/Icon";
 import { faGraduationCap, faPenToSquare, faTrashCan } from "@fortawesome/pro-solid-svg-icons";
-import profilePicPlaceholder from '@/assets/images/profile-pic-placeholder.png'
+import profilePicPlaceholder from '@/assets/images/placeholders/profile-pic-placeholder.png'
 import { beltType } from "@/types/user-types";
 import clsx from "clsx";
 import { utimesSync } from "fs";

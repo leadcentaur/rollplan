@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/app/components/Breadcrumb";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import CoverOne from "@/components/app/images/cover/cover-01.png"
 import userSix from  "@/components/app/images/user/user-01.png";
-import profilePicPlaceHolder from "@/assets/images/profile-pic-placeholder.png"
+import profilePicPlaceHolder from "@/assets/images/placeholders/profile-pic-placeholder.png"
 import Image from "next/image";
 import { User } from "@/models/user";
 import { GetServerSideProps } from "next";
@@ -22,7 +22,7 @@ import LoadingButton from "@/components/app/components/LoadingButton";
 import { isSetIterator } from "util/types";
 import useUserAcademy from "@/hooks/useCurrentAcademy";
 import { Academy } from "@/models/academy";
-import FormInputField from "@/components/app/form/FormInputField";
+import FormInputField from "@/components/app/form/AppFormInputField";
 import DropDownInputField from "@/components/app/form/DropDownInputField";
 import { ColorRing } from "react-loader-spinner";
 import EmailInputField from "@/components/app/form/EmailInputField";
