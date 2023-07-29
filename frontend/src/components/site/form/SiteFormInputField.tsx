@@ -36,7 +36,7 @@ export default function FormInputField({register, label, error, icon, forType, p
                     placeholder={placeholder}
                     {...register}
                     {...props}
-                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 pl-13 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
                 { icon &&
                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">

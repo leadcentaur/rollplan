@@ -87,7 +87,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
             if (error instanceof ConflictError || error instanceof BadRequestError) {
               setErrorText(error.message);
             } else {
-              alert(error);
+              console.error("User password mismatch")
             } 
           }
     }
@@ -181,8 +181,8 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   </div>
                 </div>
 
-                {errorText && passwordsMatch &&
-                  <div className="text-red-500">{errorText}</div>
+                {errorText && !passwordsMatch &&
+                  <div className="text-red-500 m-3">{errorText}</div>
                 }
 
                 <div className="mb-5">

@@ -12,7 +12,7 @@ export default function PasswordInputField({register, error, ...props}: Password
     return (
 <div className="mb-4">
         <label className="mb-2.5 block font-medium text-black dark:text-white">
-          sassword
+          Password
         </label>
         <div className="relative">
           <input

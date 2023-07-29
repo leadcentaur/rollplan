@@ -26,7 +26,7 @@ export default function AcademyNameInputField({register, error, ...props}: FormI
             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-            <Icon className="pl-2  text-red-500 opacity-20" icon={faHouse}/>
+            <Icon className="pl-2 text-red-500 opacity-20" icon={faHouse}/>
           </div>
         </div>
         { error &&
