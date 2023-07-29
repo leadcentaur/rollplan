@@ -21,13 +21,13 @@ export default function UsernameInputField({register, error, ...props}: Username
           <input
             type="username"
             placeholder="Enter an account username"
-            className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 pl-13 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             {...props}
             {...register}
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                <Icon className="m-2 mb-5 mt-5 text-red-500 text-md " icon={faUser}/>
-            </div>
+                <Icon className="m-2 mb-5 mt-5 text-red-500 text-md opacity-20" icon={faUser}/>
+          </div>
 
         </div>
 

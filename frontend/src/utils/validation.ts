@@ -24,7 +24,7 @@ export const requiredFileSchema = yup.mixed<FileList>()
 
 export const academyNameSchema = yup.string()
     .max(72)
-    .matches(/^\w[\w.\-#&\s]*$/, "Academy name cannot be blank or contain special characters")
+    .matches(/^\w[\w.\-#&'\s]*$/, "Academy name cannot be blank or contain special characters")
 
 export const aboutSchema = yup.string()
     .max(320)

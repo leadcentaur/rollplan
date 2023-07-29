@@ -181,7 +181,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   </div>
                 </div>
 
-                {errorText && 
+                {errorText && passwordsMatch &&
                   <div className="text-red-500">{errorText}</div>
                 }
 

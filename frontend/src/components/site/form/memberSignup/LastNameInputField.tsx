@@ -27,7 +27,7 @@ export default function LastNameInputField({register, error, forType, ...props}:
             <input type="text" 
                 {...register}
                 {...props}
-                className=' w-full rounded-md border bg-transparent border-stroke mb-2 px-3 py-4 pl-12 lg:ml-none md:ml-none   outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                className=' w-full rounded-md border bg-transparent border-stroke mb-2 px-3 py-4 lg:ml-none md:ml-none   outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                 placeholder="Last name"
             />
        

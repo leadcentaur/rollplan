@@ -15,7 +15,7 @@ import Logo from "../../app/images/logo/logo.svg";
 import { passwordSchema, usernameSchema } from "@/utils/validation";
 import { error } from "console";
 import Icon from "../ui/iconography/Icon";
-import { faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import { faUniformMartialArts, faUser } from "@fortawesome/pro-solid-svg-icons";
 import SocialSignInSection from "./SocialSignInSection";
 
 // add validation here
@@ -80,6 +80,7 @@ const router = useRouter();
                     placeholder="Please login with your username"
                     fieldType="username"
                     bodyClass="mb-4"
+                    icon={faUser}
                     error={errors.username}
                 />
 

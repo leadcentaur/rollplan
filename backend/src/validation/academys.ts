@@ -4,7 +4,7 @@ import { userIdSchema } from "./users";
 
 const academyNameSchema = yup.string()
     .max(72)
-    .matches(/^\w[\w.\-#&\s]*$/)
+    .matches(/^\w[\w.\-#&'\s]*$/)
 
 const academyLocationSchema = yup.string()
     .max(100)
