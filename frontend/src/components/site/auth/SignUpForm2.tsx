@@ -8,7 +8,7 @@ import * as AcademyApi from "@/network/api/academys";
 import SiteFormInputField from "../form/SiteFormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BadRequestError, ConflictError } from "@/network/http-errors";
 import * as yup from "yup";
 import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, usernameSchema } from "@/utils/validation";
@@ -23,6 +23,8 @@ import EmailInputField from "../form/memberSignup/EmailInputField";
 import UsernameInputField from "../form/memberSignup/UsernameInputField";
 import AcademyLocationInputField from "../form/academySignup/AcademyLocationInputField";
 import AcademyNameInputField from "../form/academySignup/AcademyNameInputField";
+import Icon from "../ui/iconography/Icon";
+import { faClipboard } from "@fortawesome/pro-solid-svg-icons";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
@@ -59,7 +61,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
         try {
 
             if (passwordOriginal != passwordCompare) {
-              setErrorText("Passwords do not match")
+      
               throw Error("Passwords do not match")
             }
 
@@ -96,8 +98,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
         <div className="flex flex-wrap items-center bg-cover bg-[url('/uploads/site-pictures/roll3.jpg')]">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
-             
-        
+                      
             </div>
           </div>
 
@@ -116,14 +117,19 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     maxLength={72}
                   />
 
+                  
+
                   <AcademyLocationInputField
                     register={register("academy_location", {required: "Required"})}
                     error={errors.academy_location}
                     maxLength={100}
                   />
 
-                <label htmlFor="billing-address" className="mt-4 mb-2 block font-medium">Account details</label>
-                  <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
+                <label htmlFor="billing-address" className="mt-4 mb-2 block font-medium">
+                  Account details
+          
+                  </label>
+                  <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
                         
                         <FirstNameInputField
                             register={register("firstname", {required: "Required"})}
@@ -168,11 +174,16 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     <input
                       type="password"
                       placeholder="Re-enter your password"
+                      onChange={(passwordcompare: React.ChangeEvent<HTMLInputElement>) => setPasswordCompare(passwordcompare.target.value)}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
 
                   </div>
                 </div>
+
+                {errorText && 
+                  <div className="text-red-500">{errorText}</div>
+                }
 
                 <div className="mb-5">
                   <button 

@@ -1,6 +1,6 @@
 import { ComponentProps, useState } from "react";
 import { FieldError,UseFormRegisterReturn } from "react-hook-form";
-import { faEyeSlash, faEye } from "@fortawesome/pro-solid-svg-icons";
+import { faEyeSlash, faEye, faKey } from "@fortawesome/pro-solid-svg-icons";
 import  {IconDefinition} from "@fortawesome/pro-solid-svg-icons";
 import Button from "../ui/typography/Button";
 import Icon from "../ui/iconography/Icon";
@@ -29,18 +29,24 @@ export default function PasswordInputField({register, error, placeholder, passwo
           {...props}
           {...register}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {passwordCompare(e.target.value.toString())}}
-          className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+          className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
         />
+        <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                <Icon className="m-2 mb-4 mt-5 text-red-500 text-md " icon={faKey}/>
+            </div>
+
 
          <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
             <Icon icon={showPassword ? faEye : faEyeSlash} className="" onClick={() => {setShowPassword(!showPassword)}}/>
-        </div>
+         </div>
       </div>
 
       { error &&
           <div className="text-red-500">{error.message?.toString()}</div>
 
       }
+
+      {}
 
     </div>
     );
