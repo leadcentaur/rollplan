@@ -3,6 +3,7 @@ import express from "express";
 
 import usersRoutes from "./routes/users";
 import academyRoutes from "./routes/academy";
+import onboardingRoutes from "./routes/onboardings";
 
 import cors from "cors"
 import env from "./env";
@@ -27,10 +28,12 @@ app.use(session(sessionConfig));
 app.use(passport.authenticate("session"));
 
 app.use("/src/uploads/profile-pictures", express.static("src/uploads/profile-pictures"));
+app.use("/src/uploads/academy-logos", express.static("src/uploads/academy-logos"));
 
 app.use("/users", usersRoutes);
 app.use("/app", requiresAuth);
-app.use("/academy", academyRoutes)
+app.use("/academy", academyRoutes);
+app.use("/onboarding", onboardingRoutes);
 
 app.use((req, res, next) => next(createHttpError(404, "Endpoint not found")));
 
