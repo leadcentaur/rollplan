@@ -1,23 +1,15 @@
+import { RequestHandler } from "express";
+import createHttpError from "http-errors";
+import UserModel from "../../models/user";
+import AcademyModel from "../../models/academy";
+import { CustomerValidationBody } from "../../validation/onboarding";
+import { usernameSchema } from "../../validation/users";
 
-/** 
- *  HttpErrorResponse(null)
- * 
-*   if (username Exists) {
-        set HttpErrorResponse("User with the same username already exists")
+export const customerValidation: RequestHandler<unknown, unknown, CustomerValidationBody, unknown> = async (req, res, next) => {
+    const { email, username, academy_name } = req.body
+    try {   
+            
+    } catch (error) {
+        next(error);
     }
-
-    if (email Exists) {
-        set HttpErrorResponse("User with the same email already exists")
-    }
- * 
- *  If (academyName Exists) {
- *      set HttpErrorResponse("Academy name already exists")
- *  }
- * 
- * 
- * if (HttpResponse != Null) {
- *     throw CreateHttpError(409, HttpErrorResponse)
- * }
- *  
- * 
- */
+}

@@ -4,7 +4,7 @@ import AcademyModel from "../models/academy";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import assertIsDefined from "../utils/assertIsDefined";
-import { SetAcademyReferenceIdBody, SignUpBody, UpdateUserBody } from "../validation/users";
+import { SetAcademyReferenceIdBody, UserSignUpBody, UpdateUserBody } from "../validation/users";
 import sharp from "sharp";
 import env from "../env";
 import { number } from "yup";
@@ -41,7 +41,7 @@ export const getUserByUsername: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = async (req, res, next) => {
+export const signUp: RequestHandler<unknown, unknown, UserSignUpBody, unknown> = async (req, res, next) => {
     //you can rename the password via the below syntax
 
 

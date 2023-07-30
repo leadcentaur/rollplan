@@ -44,7 +44,7 @@ export const userIdSchema = yup.string()
     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid id")
 
 
-export const signUpSchema = yup.object({
+export const userSignUpSchema = yup.object({
     body: yup.object({
         username: usernameSchema.required(),
         email: emailSchema.required(),
@@ -57,7 +57,7 @@ export const signUpSchema = yup.object({
     }),
 });
 
-export type SignUpBody = yup.InferType<typeof signUpSchema>["body"];
+export type UserSignUpBody = yup.InferType<typeof userSignUpSchema>["body"];
 
 export const updateUserSchema = yup.object({
     body: yup.object({

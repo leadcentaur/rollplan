@@ -2,19 +2,19 @@ import * as yup from "yup";
 import { userIdSchema } from "./users";
 
 
-const academyNameSchema = yup.string()
+export const academyNameSchema = yup.string()
     .max(72)
     .matches(/^\w[\w.\-#&'\s]*$/)
 
-const academyLocationSchema = yup.string()
+export const academyLocationSchema = yup.string()
     .max(100)
     .matches(/^[#.0-9a-zA-Z\s,-]+$/)
 
-const academyOwnerSchema = yup.string()
+export const academyOwnerSchema = yup.string()
     .matches(/^[a-f\d]{24}$/i, "Invalid Id")
     .max(24)
 
-const academyIdSchema = yup.string()
+export const academyIdSchema = yup.string()
     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid user id")
     .max(24)
 
