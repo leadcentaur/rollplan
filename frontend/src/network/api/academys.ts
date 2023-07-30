@@ -3,9 +3,9 @@ import { Academy } from "@/models/academy";
 import { Members } from "@/models/members-list";
 
 export interface CreateAcademyProps {
-    academy_name: string,
-    academy_location: string,
-    academy_owner: string,
+    academy_name?: string,
+    academy_location?: string,
+    academy_owner?: string,
 }
 
 export async function createAcademy(acdemycredentials: CreateAcademyProps) {

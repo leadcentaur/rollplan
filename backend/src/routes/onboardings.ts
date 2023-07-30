@@ -1,5 +1,5 @@
 import express from "express";
-import * as CustomerValidationController from "../controllers/validation/customer-onboarding";
+import * as CustomerValidationController from "../controllers/validation/customerConflictValidator";
 
 const router = express.Router();
 

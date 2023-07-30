@@ -24,7 +24,10 @@ import UsernameInputField from "../form/memberSignup/UsernameInputField";
 import AcademyLocationInputField from "../form/academySignup/AcademyLocationInputField";
 import AcademyNameInputField from "../form/academySignup/AcademyNameInputField";
 import Icon from "../ui/iconography/Icon";
-import { faClipboard } from "@fortawesome/pro-solid-svg-icons";
+import { faClipboard, faKey } from "@fortawesome/pro-solid-svg-icons";
+import ErrorAlert from "@/components/app/components/ErrorAlert";
+import Spinner from "../ui/typography/Spinner";
+import { useRouter } from "next/router";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
@@ -46,50 +49,104 @@ interface SignUphtmlFormProps {
 
 export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtmlFormProps) {
 
+    const router = useRouter();
     const { mutateUser } = useAuthenticatedUser();
     const [errorText, setErrorText] = useState<string | null>(null);
 
     const [passwordOriginal, setPasswordOriginal] = useState<string|null>(null);
     const [passwordCompare, setPasswordCompare] = useState<string|null>(null);
     const [passwordsMatch, setPasswordsmatch] = useState<boolean>();
+    const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<SignUpFormData>({
       resolver: yupResolver(validationSchema)
     });
 
     async function onSubmit(credentials: SignUpFormData) {
+        setIsProcessing(true);
         try {
-
-            if (passwordOriginal != passwordCompare) {
-      
-              throw Error("Passwords do not match")
-            }
-
             setErrorText(null);
-            const newUser = await UsersApi.signUp(credentials);
-            mutateUser(newUser);
+            if (passwordCompare != passwordOriginal) {
+              setPasswordsmatch(false);
+              throw Error(
+                "Passwords do not match!"
+              )
+            } else {
+              setPasswordsmatch(true);
+            }
+          
+            const validateEmail = credentials.email;
+            const validateUsername = credentials.username;
+            const validateAcademyname = credentials.academy_name;
 
-            const newUserId = newUser._id;
-            const newAcademy: Academy = await AcademyApi.createAcademy({
-              academy_name: credentials.academy_name,
-              academy_location: credentials.academy_location,
-              academy_owner: newUserId,
+            const customerValidation = await UsersApi.customerValidator({
+                  email: validateEmail, 
+                  username: validateUsername,
+                  academy_name: validateAcademyname
             });
+            if (customerValidation && passwordsMatch) {
+
+                const username = credentials.username;
+                const email = credentials.email;
+                const password = credentials.password;
+                const firstname = credentials.firstname;
+                const lastname = credentials.lastname;
+
+                const numberOfStripes = "0";
+                const userType = "owner";
+                const belt = "black";
+           
+
+                const newUser = await UsersApi.signUp({
+                  username,
+                  email,
+                  password,
+                  firstname,
+                  lastname,
+                  numberOfStripes,
+                  userType,
+                  belt,
+                });
+                
+                console.log("New user created: " + newUser);
+                mutateUser(newUser);
+    
+                const newUserId = newUser._id;
+                const newAcademy: Academy = await AcademyApi.createAcademy({
+                  academy_name: credentials.academy_name,
+                  academy_location: credentials.academy_location,
+                  academy_owner: newUserId,
+                });
+
+                console.log("New acadmey created: " + newAcademy);
+                
+                const newAcademyId = newAcademy._id;
+                const updateUser = await UsersApi.setAcademyReferenceId({
+                  userId: newUserId,
+                  academyReferenceId: newAcademyId
+                });
+
+                console.log("Updated user with academy reference Id: " + updateUser);
+                router.push("/app")
             
-            const newAcademyId = newAcademy._id;
-
-            const updateUser = await UsersApi.setAcademyReferenceId({
-              userId: newUserId,
-              academyReferenceId: newAcademyId
-            });
-
+            } else {
+              throw Error(
+                "An unkown error has occured"
+              )
+            }
         } catch (error) {
             if (error instanceof ConflictError || error instanceof BadRequestError) {
               setErrorText(error.message);
             } else {
-              console.error("User password mismatch")
-            } 
+              if (passwordCompare != passwordOriginal) {
+                setErrorText("Passwords do not match")
+              } else {
+                console.log("ERROR: " + error);
+                setErrorText("An unkown erromahs occurred");
+              }
+            }
           }
+      setIsProcessing(false);
     }
   
 
@@ -111,13 +168,12 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
               </h2>
 
               <form onSubmit={handleSubmit(onSubmit)}>
+
                   <AcademyNameInputField
                     register={register("academy_name", {required: "Required"})}
                     error={errors.academy_name}
                     maxLength={72}
                   />
-
-                  
 
                   <AcademyLocationInputField
                     register={register("academy_location", {required: "Required"})}
@@ -129,24 +185,21 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   Account details
           
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
-                        
+                  <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
                         <FirstNameInputField
                             register={register("firstname", {required: "Required"})}
                             forType="firstname"
                             label="firstname"
                             error={errors.firstname}
                             maxLength={100}
-                        />
-                        
+                        />        
                         <LastNameInputField
                             register={register("lastname", {required: "Required"})}
                             forType="firstname"
                             label="firstname"
                             error={errors.lastname}
                             maxLength={72}
-                        />
-                        
+                        />          
                     </div>
 
                 <EmailInputField
@@ -166,33 +219,28 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   error={errors.password}
                 />
 
-                <div className="mb-6">
-                  <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="password"
-                      placeholder="Re-enter your password"
-                      onChange={(passwordcompare: React.ChangeEvent<HTMLInputElement>) => setPasswordCompare(passwordcompare.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    />
-
-                  </div>
-                </div>
-
-                {errorText && !passwordsMatch &&
-                  <div className="text-red-500 m-3">{errorText}</div>
+                
+                <PasswordInputField
+                  placeholder="Please re-enter your password"
+                  label="Re-type password"
+                  onChange={(passwordcompare: React.ChangeEvent<HTMLInputElement>) => setPasswordCompare(passwordcompare.target.value)}
+                />
+                
+                { errorText &&
+                      <ErrorAlert errorText={errorText}/>
                 }
 
                 <div className="mb-5">
-                  <button 
-                    type="submit"
-                    className="w-full text-white-500 cursor-pointer rounded-lg  bg-red-500 p-4 text-white transition hover:bg-opacity-90"
-                  >
-                    Create account
-                  </button>
-              
+                    { isProcessing ? (
+                      <Spinner/>
+                    ) : (
+                      <button 
+                        type="submit"
+                        className="w-full text-white-500 cursor-pointer rounded-lg  bg-red-500 p-4 text-white transition hover:bg-opacity-90"
+                        >
+                        Create account
+                      </button>
+                    )}
                 </div>
 
                 <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">

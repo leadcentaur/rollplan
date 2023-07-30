@@ -11,7 +11,18 @@ export async function getUserByUsername(username: string) {
     return response.data;
 }
 
-interface SignUpValues {
+interface CustomerValidationValues {
+    username: string,
+    email: string,
+    academy_name: string,
+}
+
+export async function customerValidator(validationObject: CustomerValidationValues) {
+    const response = await api.post("/onboarding/customer/validation", validationObject);
+    return response.data;
+}
+
+export interface SignUpValues {
     username: string,
     email: string,
     password: string,

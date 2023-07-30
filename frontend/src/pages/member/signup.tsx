@@ -18,6 +18,7 @@ import LastNameInputField from "@/components/site/form/memberSignup/LastNameInpu
 import EmailInputField from "@/components/site/form/memberSignup/EmailInputField";
 import BJJLogo from "../../components/app/images/logo/bjj_logo.jpg"
 import BJJCork from "../../assets/images/placeholders/profile-pic-placeholder.png"
+import UsernameInputField from "@/components/site/form/memberSignup/UsernameInputField";
 
 interface MemberSignPageProps {
     academy: Academy,
@@ -50,12 +51,7 @@ export const getServerSideProps: GetServerSideProps<MemberSignPageProps> = async
         }
         
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        return { notFound: true }
-      } else {
-        console.log("error!")
-        throw error
-      }
+      return { notFound: true }
     }
   }
 
@@ -119,6 +115,10 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
                             label="lastname"
                         />
                 </div>
+
+                    <UsernameInputField
+                      register={register("username", {required: "Required"})}
+                    />
 
                     <EmailInputField
                         register={register("email", {required: "Required"})}
