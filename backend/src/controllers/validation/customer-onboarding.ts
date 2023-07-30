@@ -6,7 +6,7 @@ import { CustomerValidationBody } from "../../validation/onboarding";
 import { usernameSchema } from "../../validation/users";
 
 export const customerValidation: RequestHandler<unknown, unknown, CustomerValidationBody, unknown> = async (req, res, next) => {
-    const { email, username, academy_name } = req.body
+const { email, username, academy_name } = req.body
     try {
         const userEmail = await UserModel.findOne({email: email}).exec();
         if (userEmail) {

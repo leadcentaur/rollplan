@@ -16,8 +16,8 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import LastNameInputField from "@/components/site/form/memberSignup/LastNameInputField";
 import EmailInputField from "@/components/site/form/memberSignup/EmailInputField";
-import BJJCork from "../../../../frontend/public/uploads/academy-brands/Untitled.jpg";
-import GrappleLab from "../../../../frontend/public/uploads/academy-brands/gl.jpg";
+import BJJLogo from "../../components/app/images/logo/bjj_logo.jpg"
+import BJJCork from "../../assets/images/placeholders/profile-pic-placeholder.png"
 
 interface MemberSignPageProps {
     academy: Academy,
@@ -86,7 +86,7 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
               <div className="flex flex row">
 
                 <div className="flex-none">
-                  <Image src={BJJCork} alt="bjj" height={110} width={110} className="rounded-full border border-stroke"/>
+                  <Image src={BJJLogo} alt="bjj" height={110} width={110} className="mr-3 rounded-full border border-stroke"/>
                 </div>
                 <div className="ml-3">
                 <span className="mb-1.5 block font-medium mt-4 ">Member signup</span>
