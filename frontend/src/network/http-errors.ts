@@ -29,3 +29,7 @@ export class ConflictError extends HttpError { }
  * Status code: 429
  */
 export class TooManyRequestsError extends HttpError { }
+/**
+ * Status code: 500
+ */
+export class ServerError extends HttpError { }

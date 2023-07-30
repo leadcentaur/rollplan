@@ -3,4 +3,5 @@ export interface Academy {
     academy_name?: string;
     academy_location?: string;
     academy_owner?: string;
+    academyLogoUrl?: string;
 }

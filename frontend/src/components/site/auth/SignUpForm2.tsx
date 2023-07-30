@@ -28,6 +28,7 @@ import { faClipboard, faKey } from "@fortawesome/pro-solid-svg-icons";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
 import Spinner from "../ui/typography/Spinner";
 import { useRouter } from "next/router";
+import { constrainPoint } from "@fullcalendar/core/internal";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
@@ -66,12 +67,17 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
         setIsProcessing(true);
         try {
             setErrorText(null);
+            console.log("password original: " + passwordOriginal);
+            console.log("password compare: " + passwordCompare);
+
+
             if (passwordCompare != passwordOriginal) {
               setPasswordsmatch(false);
               throw Error(
                 "Passwords do not match!"
               )
             } else {
+              console.log("Passwords match!")
               setPasswordsmatch(true);
             }
           
@@ -84,7 +90,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   username: validateUsername,
                   academy_name: validateAcademyname
             });
-            if (customerValidation && passwordsMatch) {
+            if (customerValidation) {
 
                 const username = credentials.username;
                 const email = credentials.email;
@@ -92,44 +98,55 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                 const firstname = credentials.firstname;
                 const lastname = credentials.lastname;
 
-                const numberOfStripes = "0";
+                const numberOfStripes = "1"
                 const userType = "owner";
                 const belt = "black";
            
 
                 const newUser = await UsersApi.signUp({
-                  username,
-                  email,
-                  password,
-                  firstname,
-                  lastname,
-                  numberOfStripes,
-                  userType,
-                  belt,
+                    username,
+                    email,
+                    password,
+                    firstname,
+                    lastname,
+                    numberOfStripes,
+                    userType,
+                    belt,
                 });
                 
-                console.log("New user created: " + newUser);
-                mutateUser(newUser);
-    
-                const newUserId = newUser._id;
-                const newAcademy: Academy = await AcademyApi.createAcademy({
+                if (!newUser) {
+                  console.log("Failed to create user.")
+                } else {
+                  console.log("User created successfully.");
+                  mutateUser(newUser);
+                }
+
+                console.log("Academy name: " + credentials.academy_name);
+                console.log("Academy location: " + credentials.academy_location)
+                console.log("Academy owner: " + newUser._id);
+                
+                const newAcademy = await AcademyApi.createAcademy({
                   academy_name: credentials.academy_name,
                   academy_location: credentials.academy_location,
-                  academy_owner: newUserId,
-                });
+                  academy_owner: newUser._id,
+                })
 
-                console.log("New acadmey created: " + newAcademy);
+                if (!newAcademy) { 
+                  console.log("Failed to create new academy")
+                } else {
+                  console.log("Academy created successfully.");
+                }
                 
                 const newAcademyId = newAcademy._id;
                 const updateUser = await UsersApi.setAcademyReferenceId({
-                  userId: newUserId,
+                  userId: newUser._id,
                   academyReferenceId: newAcademyId
                 });
 
-                console.log("Updated user with academy reference Id: " + updateUser);
                 router.push("/app")
             
             } else {
+              console.log("We hit this section")
               throw Error(
                 "An unkown error has occured"
               )
@@ -145,8 +162,9 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                 setErrorText("An unkown erromahs occurred");
               }
             }
+            setIsProcessing(false);
           }
-      setIsProcessing(false);
+          setIsProcessing(false);
     }
   
 

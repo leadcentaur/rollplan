@@ -148,7 +148,7 @@ export default function Settings() {
                       name="onboarding"
                       id="onboarding"
                       placeholder="devidjhon24"
-                      defaultValue="devidjhon24"
+                      defaultValue={"http://localhost:3000/member/signup?aid=" + academy?._id}
                     />
                   </div>
 
@@ -195,7 +195,7 @@ export default function Settings() {
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
-                  Your Photo
+                  Your academy logo
                 </h3>
               </div>
               <div className="p-7">
@@ -206,7 +206,7 @@ export default function Settings() {
                     </div>
                     <div>
                       <span className="mb-1.5 text-black dark:text-white">
-                        Edit your photo
+                        Edit your academy Logo
                       </span>
                       <span className="flex gap-2.5">
                         <button className="text-sm hover:text-primary">

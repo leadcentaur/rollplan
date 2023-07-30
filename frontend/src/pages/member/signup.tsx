@@ -87,7 +87,7 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
                 <div className="ml-3">
                 <span className="mb-1.5 block font-medium mt-4 ">Member signup</span>
                       <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                        {"Join " + " " + "Grapple lab"}
+                        {"Join " + " " + academy.academy_name}
                       </h2>
                 </div>
 
