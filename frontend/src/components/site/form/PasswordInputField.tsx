@@ -29,7 +29,7 @@ export default function PasswordInputField({register, error, placeholder, passwo
 
             <input
             type={showPassword ? "text" : "password"}
-            placeholder={placeholder} 
+            placeholder={placeholder || "Enter your password"} 
             {...props}
             {...register}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {passwordCompare(e.target.value.toString())}}

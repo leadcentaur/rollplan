@@ -7,7 +7,7 @@ interface EmailInputFieldProps {
     register: UseFormRegisterReturn,
     wrapperStyle?: string,
     placeholder?: string,
-    label: string,
+    label?: string,
     error?: FieldError,
     htmlFor: string,
 }
@@ -19,7 +19,7 @@ export default function EmailInputField({register, label, error, wrapperStyle, p
           className="mb-3 block text-sm font-medium text-black dark:text-white"
           htmlFor="emailAddress"
         >
-            {label}
+            {label || "Email"}
         </label>
         <div className="relative">
           <input

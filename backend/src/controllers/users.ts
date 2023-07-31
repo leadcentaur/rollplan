@@ -15,6 +15,8 @@ import { use } from "passport";
 import { beltType } from "../../@types/user-types";
 import crypto from "crypto"
 import * as Email from "../utils/email"
+import user from "../models/user";
+import { destroyAllActiveSessionsForUser } from "../utils/auth";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
@@ -159,12 +161,41 @@ export const requestResetPasswordCode: RequestHandler<unknown, unknown, RequestV
 
 export const resetPassword: RequestHandler<unknown, unknown, ResetPasswordBody, unknown> = async (req, res, next) => {
 
-    const { email, password: newPasswordRaw} = req.body
+    const { email, password: newPasswordRaw, verificationCode} = req.body
 
     try {
-        const exitingUser = await UserModel.findOne({email}).select();
+        const exitingUser = await UserModel.findOne({email}).select("+email")
+            .collation({locale: "en", })
+            .exec();
+
+        if (!exitingUser) {
+            throw createHttpError(404, "User not found");
+        }
+
+        const passwordResetToken = await PasswordResetToken.findOne({email, verificationCode}).exec();
+        if (!passwordResetToken) {
+            throw createHttpError(400, "Verification code incorrect or expired.");
+        } else {
+            await passwordResetToken.deleteOne();
+        }
+
+        await destroyAllActiveSessionsForUser(exitingUser?.id.toString());
+
+        const newPasswordHashed = await bcrypt.hash(newPasswordRaw, 10);
+        exitingUser.password = newPasswordHashed;
+
+        await exitingUser.save();
+
+        const user = exitingUser.toObject();
+
+        delete user.password;
+
+        req.logIn(user, error => {
+            if (error) throw error;
+            res.status(200).json(user);
+        });
     } catch (error) {
-        
+        next(error)
     }
 }
 
