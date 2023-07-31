@@ -4,8 +4,9 @@ import AcademyModel from "../models/academy";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import assertIsDefined from "../utils/assertIsDefined";
-import { SetAcademyReferenceIdBody, UserSignUpBody, UpdateUserBody, RequestVerificationCodeBody } from "../validation/users";
-import EmailVerificationToken  from "../models/email-verification-token";
+import { SetAcademyReferenceIdBody, UserSignUpBody, UpdateUserBody, RequestVerificationCodeBody, ResetPasswordBody } from "../validation/users";
+import EmailVerificationToken from "../models/email-verification-token";
+import PasswordResetToken from "../models/password-reset-token";
 import sharp from "sharp";
 import env from "../env";
 import { number } from "yup";
@@ -130,13 +131,40 @@ export const requestEmailVerificationCode: RequestHandler<unknown, unknown, Requ
     }
 }
 
-export const requestEmailVerificationCode: RequestHandler<unknown, unknown, RequestVerificationCodeBody, unknown> = async (req, res, next) => {
+
+export const requestResetPasswordCode: RequestHandler<unknown, unknown, RequestVerificationCodeBody, unknown> = async (req, res, next) => {
 
     const { email } = req.body;
     try {
-    
+        
+        const user = await UserModel.findOne({email})
+            .collation({locale: "en", strength: 2})
+            .exec()
+
+        if (!user) {
+            throw createHttpError(404, "A user with this email doesn't exist. Please sign up instead.")
+        }
+
+        const verificationCode = crypto.randomInt(100000, 999999).toString();
+        await PasswordResetToken.create({email, verificationCode});
+
+        await Email.sendPasswordResetCode(email, verificationCode);
+
+        res.sendStatus(200);
+
     } catch (error) {
         next(error);
+    }
+}
+
+export const resetPassword: RequestHandler<unknown, unknown, ResetPasswordBody, unknown> = async (req, res, next) => {
+
+    const { email, password: newPasswordRaw} = req.body
+
+    try {
+        const exitingUser = await UserModel.findOne({email}).select();
+    } catch (error) {
+        
     }
 }
 
