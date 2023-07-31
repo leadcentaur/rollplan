@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import { beltType, userType } from "../../@types/user-types";
 import { imageFileSchema } from "../utils/validation";
+import { email } from "envalid";
 
 export const usernameSchema = yup.string()
     .max(20, "Username Must be 20 characters or less")
@@ -53,7 +54,8 @@ export const userSignUpSchema = yup.object({
         lastname: lastnameNameSchema.required(),
         userType: usertypeSchema.required(),
         belt: beltSchema,
-        numberOfStripes: numberofStripesSchema
+        numberOfStripes: numberofStripesSchema,
+        verificationCode: yup.string().required(),
     }),
 });
 
@@ -93,3 +95,20 @@ export const setAcademyReferenceIdSchema = yup.object({
 })
 export type SetAcademyReferenceIdBody = yup.InferType<typeof setAcademyReferenceIdSchema>["body"];
 
+export const requestVerificationCodeSchema = yup.object({
+    body: yup.object({
+        email: emailSchema.required(),
+    })
+});
+
+export type RequestVerificationCodeBody = yup.InferType<typeof requestVerificationCodeSchema>["body"];
+
+export const resetPasswordSchema = yup.object({
+    body: yup.object({
+        email: emailSchema.required(),
+        password: passwordSchema.required(),
+        verificationCode: yup.string(),
+    })
+});
+
+export type ResetPasswordBody = yup.InferType<typeof resetPasswordSchema>["body"];

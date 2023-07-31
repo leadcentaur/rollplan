@@ -8,6 +8,7 @@ const env = cleanEnv(process.env, {
     SESSION_SECRET: str(),
     GOOGLE_CLIENT_ID: str(),
     GOOGLE_CLIENT_SECRET: str(),
+    SMTP_PASSWORD: str(),
 });
 
 export default env;
