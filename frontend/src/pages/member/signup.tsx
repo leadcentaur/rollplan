@@ -62,7 +62,9 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
 
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<MemberSignUpFormData>({
         resolver: yupResolver(validationSchema)
-      });
+     });
+
+    async function onSubmit(memberCredentials: w)
 
 
     return (
