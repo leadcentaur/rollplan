@@ -1,7 +1,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { GetServerSideProps } from "next";
-import { NotFoundError } from "@/network/http-errors";
+import { BadRequestError, ConflictError, NotFoundError, TooManyRequestsError } from "@/network/http-errors";
 import * as AcademyApi from "../../network/api/academys";
 import { aI } from "@fullcalendar/core/internal-common";
 import { Academy } from "@/models/academy";
@@ -11,7 +11,7 @@ import FormInputField from "@/components/app/form/AppFormInputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import FirstNameInputField from "@/components/site/form/memberSignup/FirstNameInputField";
-import { emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, usernameSchema } from "@/utils/validation";
+import { emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, requiredStringSchema, usernameSchema } from "@/utils/validation";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import LastNameInputField from "@/components/site/form/memberSignup/LastNameInputField";
@@ -19,6 +19,12 @@ import EmailInputField from "@/components/site/form/memberSignup/EmailInputField
 import BJJLogo from "../../components/app/images/logo/bjj_logo.jpg"
 import BJJCork from "../../assets/images/placeholders/profile-pic-placeholder.png"
 import UsernameInputField from "@/components/site/form/memberSignup/UsernameInputField";
+import VerificationCodeInputField from "@/components/site/form/memberSignup/VerificationCodeInputField";
+import { useRouter } from "next/router";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
+import { useState } from "react";
+import * as UsersApi from "@/network/api/users";
+import useCountdown from "@/hooks/useCountdown";
 
 interface MemberSignPageProps {
     academy: Academy,
@@ -30,6 +36,7 @@ const validationSchema = yup.object({
   password: passwordSchema.required("Required"),
   firstname: firstNameSchema.required("Required"),
   lastname: lastnameNameSchema.required("Required"),
+  verificationCode: requiredStringSchema,
 })
 
 type MemberSignUpFormData = yup.InferType<typeof validationSchema>;
@@ -57,15 +64,118 @@ export const getServerSideProps: GetServerSideProps<MemberSignPageProps> = async
 
 export default function MemberSignupPage({academy}: MemberSignPageProps) {
 
-    const params = useSearchParams();
-    console.log("Signup Params: " + params)
+    const router = useRouter();
+    const { mutateUser } = useAuthenticatedUser();
+    const [errorText, setErrorText] = useState<string | null>(null);
+
+    const [verificationCodeRequestPending, setVerificationCodeRequestPending] = useState(false);
+    const [showVerificationCodeSentText, setShowVerificationCodeSentText] = useState(false);
+    const { secondsLeft: verificationCodeCooldownSecondsLeft, start: startVerificationCodeCooldown } = useCountdown();
+
+    const [passwordOriginal, setPasswordOriginal] = useState<string|null>(null);
+    const [passwordCompare, setPasswordCompare] = useState<string|null>(null);
+    const [passwordsMatch, setPasswordsmatch] = useState<boolean>();
+    const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<MemberSignUpFormData>({
         resolver: yupResolver(validationSchema)
      });
 
-    async function onSubmit(memberCredentials: w)
+     async function onSubmit(credentials: MemberSignUpFormData) {
+        
+        try {
+            setErrorText(null);
+            setIsProcessing(true);
+            setShowVerificationCodeSentText(false);
+      
 
+            if (passwordCompare != passwordOriginal) {
+
+              setPasswordsmatch(false);
+              throw Error(
+                "Passwords do not match!"
+              )
+            } else {
+              setPasswordsmatch(true);
+            }
+          
+            const validateEmail = credentials.email;
+            const validateUsername = credentials.username;
+            
+
+            const memberValidation = UsersApi.memberValidator({
+              
+            })
+
+            if (customerValidation) {
+
+                const username = credentials.username;
+                const email = credentials.email;
+                const password = credentials.password;
+                const firstname = credentials.firstname;
+                const lastname = credentials.lastname;
+
+                const numberOfStripes = "1"
+                const userType = "owner";
+                const belt = "black";
+           
+
+                const newUser = await UsersApi.signUp(credentials);
+                
+                if (!newUser) {
+                  console.log("Failed to create user.")
+                } else {
+                  console.log("User created successfully.");
+                  mutateUser(newUser);
+                }
+
+                console.log("Academy name: " + credentials.academy_name);
+                console.log("Academy location: " + credentials.academy_location)
+                console.log("Academy owner: " + newUser._id);
+                
+                const newAcademy = await AcademyApi.createAcademy({
+                  academy_name: credentials.academy_name,
+                  academy_location: credentials.academy_location,
+                  academy_owner: newUser._id,
+                })
+
+                if (!newAcademy) { 
+                  console.log("Failed to create new academy")
+                } else {
+                  console.log("Academy created successfully.");
+                }
+                
+                const newAcademyId = newAcademy._id;
+                const updateUser = await UsersApi.setAcademyReferenceId({
+                  userId: newUser._id,
+                  academyReferenceId: newAcademyId
+                });
+
+                router.push("/app")
+            
+            } else {
+              throw Error(
+                "An unkown error has occured"
+              )
+            }
+        } catch (error) {
+            if (error instanceof ConflictError || error instanceof BadRequestError) {
+              setErrorText(error.message);
+            }
+            if (error instanceof TooManyRequestsError) {
+              setErrorText("You are trying to often please try again leter");
+            } else {
+              if (passwordCompare != passwordOriginal) {
+                setErrorText("Passwords do not match")
+              } else {
+                console.log("ERROR: " + error);
+                setErrorText("An unkown error has occurred.");
+              }
+            }
+          } finally {
+            setIsProcessing(false);
+          }
+    }
 
     return (
         <div className="rounded-sm  shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -196,6 +306,9 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
                     </span>
                   </div>
                 </div>
+
+                <VerificationCodeInputField
+                  register={register("verificationCode")}
 
                 <div className="mb-5">
                   <button 

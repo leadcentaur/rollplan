@@ -11,34 +11,10 @@ import { GetServerSideProps } from "next";
 import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import { Academy } from "@/models/academy";
 
-export const getServerSideProps: GetServerSideProps<AcademySettingsPageProps> = async ({query}) => {
 
-    try {
+export default function Settings() {  
 
-        const aid = query?.aid?.toString();
-        if (!aid) {
-            return { notFound: true }
-        }
-        const academy = await AcademyApi.getAcademyByID(aid!);
-        return {
-            props: { academy }
-        }
-        
-    } catch (error) {
-      return { notFound: true }
-    }
-  }
-
-  interface AcademySettingsPageProps {
-    academy: Academy
-  }
-
-export default function Settings({academy}: AcademySettingsPageProps) {  
-
-
-    const [authententicatedAcademy, setAcademy] = useState(academy);
     const {academy: userAcademy, academyLoading, academyLoadingError, mutateAcademy} = useUserAcademy();
-    console.log(academy);
 
     if (academyLoadingError) {
         return (
@@ -49,10 +25,6 @@ export default function Settings({academy}: AcademySettingsPageProps) {
         );
     }
 
-    function handleAcademyUpdated(updatedAcademy: Academy) {
-        mutateAcademy(academy)
-        setAcademy(authententicatedAcademy);
-    }
 
     return (
         <DefaultLayout>
@@ -178,11 +150,11 @@ export default function Settings({academy}: AcademySettingsPageProps) {
                     </label>
                     <input
                       className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
+                      type="text"s
                       name="onboarding"
                       id="onboarding"
                       placeholder="devidjhon24"
-                      defaultValue={"http://localhost:3000/member/signup?aid=" + academy?._id}
+                      defaultValue={"http://localhost:3000/member/signup?aid=" + userAcademy?._id}
                     />
                   </div>
 
@@ -226,8 +198,7 @@ export default function Settings({academy}: AcademySettingsPageProps) {
             </div>
           </div>
           <div className="col-span-5 xl:col-span-2">
-            <AcademyLocationInputField
-                register={regist
+          
           </div>
         </div>
       </div>

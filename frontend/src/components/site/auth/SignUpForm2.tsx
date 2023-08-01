@@ -9,7 +9,7 @@ import SiteFormInputField from "../form/SiteFormInputField";
 import PasswordInputField from "../form/PasswordInputField";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import React, { useState } from "react";
-import { BadRequestError, ConflictError } from "@/network/http-errors";
+import { BadRequestError, ConflictError, TooManyRequestsError } from "@/network/http-errors";
 import * as yup from "yup";
 import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, requiredStringSchema, usernameSchema } from "@/utils/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -157,12 +157,15 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
         } catch (error) {
             if (error instanceof ConflictError || error instanceof BadRequestError) {
               setErrorText(error.message);
+            }
+            if (error instanceof TooManyRequestsError) {
+              setErrorText("You are trying to often please try again leter");
             } else {
               if (passwordCompare != passwordOriginal) {
                 setErrorText("Passwords do not match")
               } else {
                 console.log("ERROR: " + error);
-                setErrorText("An unkown erromahs occurred");
+                setErrorText("An unkown error has occurred.");
               }
             }
           } finally {

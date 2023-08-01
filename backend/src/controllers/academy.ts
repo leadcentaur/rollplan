@@ -27,7 +27,7 @@ export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknow
             .exec();
 
         if (existingAcademy) {
-            throw createHttpError(409, "An academy with the same name already exists.");
+            throw createHttpError(409, "An academy with the same name already exists in the system. Please contact support or use a new name.");
         }
 
         const owner = await UserModel.findById(owner_id).exec();

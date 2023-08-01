@@ -107,7 +107,7 @@ export const resetPasswordSchema = yup.object({
     body: yup.object({
         email: emailSchema.required(),
         password: passwordSchema.required(),
-        verificationCode: yup.string(),
+        verificationCode: yup.string().required()
     })
 });
 

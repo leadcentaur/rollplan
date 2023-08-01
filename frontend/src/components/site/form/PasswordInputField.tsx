@@ -60,12 +60,6 @@ export default function PasswordInputField({register, error, placeholder, passwo
          </div>
       </div>
 
-      { error &&
-          <div className="text-red-500">{error.message?.toString()}</div>
-
-      }
-
-      {}
 
     </div>
     );

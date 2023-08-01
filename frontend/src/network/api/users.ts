@@ -22,6 +22,16 @@ export async function customerValidator(validationObject: CustomerValidationValu
     return response.data;
 }
 
+interface MemberValidationValues {
+    username: string,
+    email: string,
+}
+
+export async function memberValidator(validationObject: MemberValidationValues) {
+    const response = await api.post("/onboarding/member/validation", validationObject)
+    return response.data;
+} 
+
 export interface SignUpValues {
     username: string,
     email: string,
