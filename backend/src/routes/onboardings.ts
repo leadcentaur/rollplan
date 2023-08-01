@@ -4,6 +4,6 @@ import * as ValidationController from "../controllers/validation/ConflictValidat
 const router = express.Router();
 
 router.post("/customer/validation", ValidationController.customerValidation);
-router.post("/member/validation", ValidationController)
+router.post("/member/validation", ValidationController.memberValidation)
 
 export default router;

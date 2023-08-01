@@ -83,7 +83,7 @@ const router = useRouter();
                     label="Username"
                     placeholder="Please login with your username"
                     bodyClass="mb-4"
-                    icon={faUser}
+                    icon={faUniformMartialArts}
                     error={errors.username}
                 />
 
