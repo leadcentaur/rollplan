@@ -94,8 +94,6 @@ const router = useRouter();
                   </div>
 
                   }
-
-
                 <PasswordInputField
                     register={register("password", {required: "Required"})}
                     placeholder="Please enter your password to login"
