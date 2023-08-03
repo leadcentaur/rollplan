@@ -93,7 +93,10 @@ const DropdownUser = ({user}: DropDownUserProps) => {
           <span className="block text-xs">
             { userAcademy &&
               userAcademy.academy_name
-            } 
+            }
+            { !userAcademy &&
+              <p>N/A</p>
+            }
           </span>
         </span>
 

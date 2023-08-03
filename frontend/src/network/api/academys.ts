@@ -24,3 +24,20 @@ export async function getAcademyByID(academyId: string) {
     const response = await api.get<Academy>("/academy/" + academyId);
     return response.data;
 }
+
+interface UpdateAcademyValues {
+    academy_name?: string,
+    academy_location?: string,
+    academyDescription?: string,
+    academyEmail?: string,
+    academyLogo?: File,
+}
+
+export async function updateAcademy(input: UpdateAcademyValues) {
+    const formData = new FormData();
+    Object.entries(input).forEach(([key, value]) => {
+        if (value !== undefined) formData.append(key, value);
+    });
+    const response = await api.patch<Academy>("/academy/update", formData);
+    return response.data;
+}

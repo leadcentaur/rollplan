@@ -5,8 +5,10 @@ import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
 import { email } from "envalid";
-import { AcademyBody, GetAcademyMembersBody } from "../validation/academys";
+import { AcademyBody, GetAcademyMembersBody, UpdateAcademyBody } from "../validation/academys";
 import { AddMemberBody } from "../validation/academys";
+import sharp from "sharp";
+import env from "../env";
 
 export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknown> = async (req, res, next) => {
 
@@ -109,6 +111,54 @@ export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown>
 
         res.status(200).json(updatedMembers);
 
+    } catch (error) {
+        next(error);
+    }
+}
+
+interface UpdateAcademyUrlParams {
+    id: string
+}
+
+export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, UpdateAcademyBody, unknown> = async (req, res, next) => {
+    const { academy_name, academy_location, academyEmail, acadmeyDescription } = req.body;
+    
+    const academyLogo = req.file;
+    const authenticatedUser = req.user;
+    const academyId = req.params.id;
+
+    try {
+        assertIsDefined(authenticatedUser);
+        
+        // might remove this as I can forsee instances where
+        // my customers have academy's with the same name
+        
+        const existingAcademy = await AcademyModel.findOne({ academy_name })
+            .collation({ locale: "en", strength: 2 })
+            .exec();
+
+        let academyLogoDestinationPath: string | undefined = undefined;
+
+        if (academyLogo) {
+            academyLogoDestinationPath = "/src/uploads/academy-logos/" + authenticatedUser._id + ".png";
+
+            await sharp(academyLogo.buffer)
+                .resize(500, 500, { withoutEnlargement: true })
+                .toFile("./" + academyLogoDestinationPath);
+
+        }
+
+        const updatedUser = await AcademyModel.findByIdAndUpdate(existingAcademy?.id, {
+            $set: {
+                ...(academy_name && {academy_name}),
+                ...(academyEmail && {academyEmail}),
+                ...(academy_location && {academy_location}),
+                ...(acadmeyDescription && { acadmeyDescription }),
+                ...(academyLogo && { academyLogoUrl: env.SERVER_URL + academyLogoDestinationPath + "?lastupdated=" + Date.now() }),
+            }
+        }, { new: true }).exec();
+
+        res.status(200).json(updatedUser);
     } catch (error) {
         next(error);
     }

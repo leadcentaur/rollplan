@@ -12,6 +12,8 @@ import useAcademyMembers from "@/hooks/useAcademyMembers";
 import { ColorRing } from "react-loader-spinner";
 import MemberListEntry from "./MemberListEntry";
 import { beltType } from "@/types/user-types";
+import ErrorAlert from "./ErrorAlert";
+import WarningAlert from "./WarningAlert";
 
 export default function MemberList() {
   
@@ -77,22 +79,18 @@ export default function MemberList() {
           </div>
       }
 
-      { members && (members.length == 0 || !members) &&
-          <p className="p-10 m-auto">ℹ️ This academy does not have any members yet.</p>
+      { !members &&
+         <WarningAlert warningTextHeading="Page notification" warningText="You have not joined an acadmey."/>
       }
 
-      { !members &&
-        <p className="p-10 m-auto"> ⚠️This academy does not have any members yet.</p>
+      { members && (members.length == 0) &&
+          <WarningAlert warningTextHeading="Page notification" warningText="This academy does not have any memebrs yet"/>
       }
 
       </div>
     </div>
   ) : 
   
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="flex flex-col">
-        <p className="p-10 m-auto">⚠️ There was an error loading the academy members.</p>
-      </div>
-    </div>
+    <ErrorAlert errorTextHeading="Page error" errorText="There was an error loading the academy members"/>
 };
 

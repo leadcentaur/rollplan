@@ -14,6 +14,7 @@ export const academyScehma = new Schema({
     academyDescription: { type: String },
     academyLogoUrl: { type: String },
     subscriptionStatus: { type: Number },
+    academyEmail: { type: String },
     
     //any reference to the users should be made via objectid ref
     academy_owner: {type: Schema.Types.ObjectId, required: true},

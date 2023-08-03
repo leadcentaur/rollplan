@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import { userIdSchema } from "./users";
+import { imageFileSchema } from "../utils/validation";
 
 
 export const academyNameSchema = yup.string()
@@ -43,8 +44,18 @@ export const getAcademyMembersSchema = yup.object({
         academyId: academyIdSchema.required(),
     })
 })
-
 export type GetAcademyMembersBody = yup.InferType<typeof getAcademyMembersSchema>["body"];
+
+export const updateAcademySchema = yup.object({
+    body: yup.object({
+        academy_name: academyNameSchema.required(),
+        academy_location: academyLocationSchema.required(),
+        academyEmail: yup.string().email(),
+        acadmeyDescription: yup.string().max(320),
+    }),
+    file: imageFileSchema,
+})
+export type UpdateAcademyBody = yup.InferType<typeof updateAcademySchema>["body"];
 
 
 

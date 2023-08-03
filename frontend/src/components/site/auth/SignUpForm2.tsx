@@ -123,10 +123,6 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                   console.log("User created successfully.");
                   mutateUser(newUser);
                 }
-
-                console.log("Academy name: " + credentials.academy_name);
-                console.log("Academy location: " + credentials.academy_location)
-                console.log("Academy owner: " + newUser._id);
                 
                 const newAcademy = await AcademyApi.createAcademy({
                   academy_name: credentials.academy_name,

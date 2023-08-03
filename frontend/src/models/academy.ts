@@ -4,4 +4,6 @@ export interface Academy {
     academy_location?: string;
     academy_owner?: string;
     academyLogoUrl?: string;
+    academyDescription?: string,
+    academyEmail?: string,
 }
