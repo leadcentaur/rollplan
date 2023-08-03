@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import mongoose, { Mongoose, Schema } from "mongoose";
+import mongoose, { Mongoose, Schema, isValidObjectId } from "mongoose";
 import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
@@ -124,23 +124,28 @@ export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, Upda
     const { academy_name, academy_location, academyEmail, acadmeyDescription } = req.body;
     
     const academyLogo = req.file;
-    const authenticatedUser = req.user;
     const academyId = req.params.id;
 
     try {
-        assertIsDefined(authenticatedUser);
+
+        if (!isValidObjectId(academyId)) {
+            throw createHttpError(404, "Academy not found");
+        }
         
-        // might remove this as I can forsee instances where
-        // my customers have academy's with the same name
         
-        const existingAcademy = await AcademyModel.findOne({ academy_name })
+        const existingAcademy = await AcademyModel.findById({ academyId })
             .collation({ locale: "en", strength: 2 })
             .exec();
+        console.log("Academy found: " + existingAcademy);
+
+        if (!existingAcademy) {
+            throw createHttpError(404, "Academy not found");
+        }
 
         let academyLogoDestinationPath: string | undefined = undefined;
 
         if (academyLogo) {
-            academyLogoDestinationPath = "/src/uploads/academy-logos/" + authenticatedUser._id + ".png";
+            academyLogoDestinationPath = "/src/uploads/academy-logos/" + academyId + ".png";
 
             await sharp(academyLogo.buffer)
                 .resize(500, 500, { withoutEnlargement: true })
@@ -148,7 +153,7 @@ export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, Upda
 
         }
 
-        const updatedUser = await AcademyModel.findByIdAndUpdate(existingAcademy?.id, {
+        const updatedAcademy = await AcademyModel.findByIdAndUpdate(existingAcademy?.id, {
             $set: {
                 ...(academy_name && {academy_name}),
                 ...(academyEmail && {academyEmail}),
@@ -158,7 +163,7 @@ export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, Upda
             }
         }, { new: true }).exec();
 
-        res.status(200).json(updatedUser);
+        res.status(200).json(updatedAcademy);
     } catch (error) {
         next(error);
     }

@@ -14,6 +14,7 @@ import MemberListEntry from "./MemberListEntry";
 import { beltType } from "@/types/user-types";
 import ErrorAlert from "./ErrorAlert";
 import WarningAlert from "./WarningAlert";
+import Spinner from "@/components/site/ui/typography/Spinner";
 
 export default function MemberList() {
   
@@ -57,7 +58,7 @@ export default function MemberList() {
         </div>
 
       { membersLoading &&
-          <ColorRing wrapperClass="h-1/2 m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>      
+        <Spinner/>        
       }
 
       { members && members.length != 0 &&
@@ -79,8 +80,12 @@ export default function MemberList() {
           </div>
       }
 
-      { !members &&
-         <WarningAlert warningTextHeading="Page notification" warningText="You have not joined an acadmey."/>
+      { !members && !membersLoading &&  
+         <WarningAlert warningTextHeading="Page notification" warningText="Unable to load academy members."/>
+      }
+
+      {
+
       }
 
       { members && (members.length == 0) &&
