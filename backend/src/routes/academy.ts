@@ -4,6 +4,7 @@ import validateRequestSchema from "../middlewares/validateRequestSchema";
 import { academyCreationSchema } from "../validation/academys";
 import { createAcademyRateLimit } from "../middlewares/rate-limit";
 import requiresAuth from "../middlewares/requiresAuth";
+import requiresOwner from "../middlewares/requiresOwner";
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post("/create", createAcademyRateLimit, validateRequestSchema(academyCrea
 // might need to kind of lockdown on this endpoint in the future
 router.get("/:id", AcademyController.getAcademyByID)
 router.patch("/add/member", AcademyController.addMember);
-router.patch("/update/:id", AcademyController.updateAcademy), 
+router.patch("/update/:id", requiresOwner, AcademyController.updateAcademy), 
 router.get("/:academyId/members",   requiresAuth, AcademyController.getAcademyMembers);
 
 export default router;

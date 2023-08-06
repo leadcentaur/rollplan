@@ -11,6 +11,7 @@ export const academyScehma = new Schema({
     academy_location: {
         type: String
     },
+    academyPhone: { type: String}, 
     academyDescription: { type: String },
     academyLogoUrl: { type: String },
     subscriptionStatus: { type: Number },

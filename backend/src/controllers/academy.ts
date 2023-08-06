@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
-import mongoose, { Mongoose, Schema, isValidObjectId } from "mongoose";
+import mongoose, { Mongoose, Schema, mongo, isValidObjectId } from "mongoose";
 import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
@@ -116,15 +116,12 @@ export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown>
     }
 }
 
-interface UpdateAcademyUrlParams {
-    id: string
-}
-
-export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, UpdateAcademyBody, unknown> = async (req, res, next) => {
-    const { academy_name, academy_location, academyEmail, acadmeyDescription } = req.body;
+export const updateAcademy: RequestHandler = async (req, res, next) => {
+    const { academy_name, academy_location, academyEmail, academyDescription } = req.body;
     
     const academyLogo = req.file;
     const academyId = req.params.id;
+    req.user?._id
 
     try {
 
@@ -132,8 +129,7 @@ export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, Upda
             throw createHttpError(404, "Academy not found");
         }
         
-        
-        const existingAcademy = await AcademyModel.findById({ academyId })
+        const existingAcademy = await AcademyModel.findById(academyId)
             .collation({ locale: "en", strength: 2 })
             .exec();
         console.log("Academy found: " + existingAcademy);
@@ -158,7 +154,7 @@ export const updateAcademy: RequestHandler<UpdateAcademyUrlParams, unknown, Upda
                 ...(academy_name && {academy_name}),
                 ...(academyEmail && {academyEmail}),
                 ...(academy_location && {academy_location}),
-                ...(acadmeyDescription && { acadmeyDescription }),
+                ...(academyDescription && { academyDescription }),
                 ...(academyLogo && { academyLogoUrl: env.SERVER_URL + academyLogoDestinationPath + "?lastupdated=" + Date.now() }),
             }
         }, { new: true }).exec();

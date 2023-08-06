@@ -5,10 +5,8 @@ import Image from "next/image";
 import AcademyPlaceholderLogo from "../../app/images/logo/bjj_logo.jpg";
 import { Academy } from "@/models/academy";
 
-interface AcademyLogoInputFieldProps {
-    register: UseFormRegisterReturn,
-    placeholder: string,
-    label: string,
+interface SettingsAcademyLogoInputFieldProps {
+    register?: UseFormRegisterReturn,
     error?: FieldError,
     academy?: Academy
 }
@@ -18,7 +16,7 @@ const handleAcadmeyLogoUpload= (e: React.ChangeEvent<HTMLInputElement>) => {
   return e.target.files[0].name;
 }
 
-export default function AcademyLogoInputField({register, label, error, placeholder, academy, ...props}: AcademyLogoInputFieldProps & ComponentProps<"input">) {
+export default function SettingsAcademyLogoInputField({register, error, academy, ...props}: SettingsAcademyLogoInputFieldProps & ComponentProps<"input">) {
 
     const [fileName, setFilename] = useState<string|null>();
 
@@ -26,7 +24,7 @@ export default function AcademyLogoInputField({register, label, error, placehold
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
-                  Your academy logo
+                  Branding
                 </h3>
               </div>
               <div className="p-7">
@@ -43,9 +41,6 @@ export default function AcademyLogoInputField({register, label, error, placehold
                         <button className="text-sm hover:text-primary">
                           Delete
                         </button>
-                        <button className="text-sm hover:text-primary">
-                          Update
-                        </button>
                       </span>
                     </div>
                   </div>
@@ -57,6 +52,9 @@ export default function AcademyLogoInputField({register, label, error, placehold
                     <input
                       type="file"
                       accept="image/*"
+                      {...register} 
+                      {...props}
+                      onInputCapture={(e: React.ChangeEvent<HTMLInputElement>) => setFilename(handleAcadmeyLogoUpload(e))}
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                     />
                     <div className="flex flex-col items-center justify-center space-y-3">
@@ -97,20 +95,7 @@ export default function AcademyLogoInputField({register, label, error, placehold
                     </div>
                   </div>
 
-                  <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-70"
-                      type="submit"
-                    >
-                      Save
-                    </button>
-                  </div>
+                 
                 </form>
               </div>
             </div>

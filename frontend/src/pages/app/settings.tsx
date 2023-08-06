@@ -14,6 +14,12 @@ import SettingsAcademyNameInputField from "@/components/app/form/SettingsAcademy
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
+import SettingsAcademyPhoneNumberInputField from "@/components/app/form/SettingsAcademyPhoneNumberField";
+import SettingsAcademyLocationInputField from "@/components/app/form/SettingsAcademyLocationInputField";
+import SettingsAcademyEmailInputField from "@/components/app/form/SettingsAcademyEmailInputField";
+import SettingsAcademyOnboardingURLInputField from "@/components/app/form/SettingsAcademyOnboardingURLInputField";
+import SettingsAcademyDescriptionInputField from "@/components/app/form/SettingsAcademyDescriptionInputField";
+import SettingsAcademyLogoInputField from "@/components/app/form/SettingsAcademyLogoInputField";
 
 
 interface UserProfilePageProps {
@@ -38,8 +44,8 @@ export default function Settings() {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Settings" />
-                <div className="mx-auto max-w-270">
-        <div className="grid grid-cols-5 gap-8">
+                <div className="mx-auto w-full">
+        <div className=" gap-8">
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -51,99 +57,18 @@ export default function Settings() {
                 <form action="#">
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
 
-                    <div className="w-full sm:w-1/2">
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber"
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
-                      />
-                    </div>
+                    <SettingsAcademyNameInputField/>
+                    <SettingsAcademyPhoneNumberInputField/>
+                    
                   </div>
 
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="emailAddress"
-                    >
-                      Location
-                    </label>
-                    <div className="relative">
-                  
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        type="email"
-                        name="emailAddress"
-                        id="emailAddress"
-                        placeholder="devidjond45@gmail.com"
-                        defaultValue="devidjond45@gmail.com"
-                      />
-                    </div>
-                  </div>
+                  <SettingsAcademyLocationInputField/>
+                  <SettingsAcademyEmailInputField/>
+                  <SettingsAcademyOnboardingURLInputField userAcademy={userAcademy}/>
+                  <SettingsAcademyDescriptionInputField/>
 
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username"
-                    >
-                      Email
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="Username"
-                      id="Username"
-                      placeholder="devidjhon24"
-                      defaultValue="devidjhon24"
-                    />
-                  </div>
-
-                  
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username"
-                    >
-                      Onboarding URL
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="onboarding"
-                      id="onboarding"
-                      placeholder="devidjhon24"
-                      defaultValue={"http://localhost:3000/member/signup?aid=" + userAcademy?._id}
-                    />
-                  </div>
-
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username"
-                    >
-                      BIO
-                    </label>
-                    <div className="relative">
-                     
-
-                      <textarea
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        name="bio"
-                        id="bio"
-                        rows={6}
-                        placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
-                      ></textarea>
-                    </div>
-                  </div>
+                  <SettingsAcademyLogoInputField />
+                 
 
                   <div className="flex justify-end gap-4.5">
                     <button
@@ -153,7 +78,7 @@ export default function Settings() {
                       Cancel
                     </button>
                     <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
+                      className="flex text-red-500 text-lg opacity-90 justify-center rounded bg-red-500 py-2 px-6 font-medium text-white-500 hover:shadow-1"
                       type="submit"
                     >
                       Save

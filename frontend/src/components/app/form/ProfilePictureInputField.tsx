@@ -16,7 +16,7 @@ const handleProfilePicupload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 export default function ProfilePictureInputField({register, label, error, placeholder, ...props}: ProfilePictureInputFieldProps & ComponentProps<"input">) {
 
-    const [fileName, setFilename] = useState<string|null>();
+  const [fileName, setFilename] = useState<string|null>();
 
     return (
       <div className="rounded-sm border mb-5 border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

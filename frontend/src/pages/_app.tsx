@@ -43,10 +43,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return  (
     <>
       <Head>
-        <title>Rollplan</title>
-        <meta name="description" content="Rollplan roll with confidence" />
+        <title>Roll Plan - roll with confidence</title>
+        <meta name="description" content="A content management system built specificfully for ju-jitsu academies." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <meta property="og:image" content="https://rollplanbjj.com/social_media_review_image.png"/>
+        <meta name="twitter:card" content="summary_large_image"/>
       </Head>
 
         <div className={jakarta.className}>
