@@ -6,7 +6,7 @@ interface ErrorAlertProps {
 
 export default function ErrorAlert({errorText, errorTextHeading}: ErrorAlertProps) {
     return (
-        <div className="flex w-full mb-5 border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
+        <div className="flex w-full rounded-md mb-5 border-l-6 border-[#F87171] bg-[#F87171] bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9">
             <div className="mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg bg-[#F87171]">
             <svg
                 width="13"

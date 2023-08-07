@@ -1,5 +1,4 @@
 
-interface
 
 
 export default function AddEventModal() {

@@ -40,6 +40,7 @@ import { error } from "console";
 import { useRouter } from "next/router";
 import NotFoundPage from "@/pages/404";
 import NavBar from "@/components/site/NavBar";
+import ErrorAlert from "@/components/app/components/ErrorAlert";
 
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
@@ -199,7 +200,9 @@ interface UpdateUserProfileSectionProps {
 
 function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps) {
 
+  const [errorText, setErrorText] = useState("");
   const { register, handleSubmit, formState : { isSubmitting, errors } } = useForm<UpdateUserProfileFormData>();
+  
 
   async function onSubmit({about, profilePic, firstname, lastname} : UpdateUserProfileFormData) {
     if (!about && !firstname && !lastname && (!profilePic || profilePic.length === 0)) return;
@@ -211,9 +214,10 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
 
     } catch (error) {
       if (error instanceof NotFoundError) {
+        setErrorText(error.message);
         return { notFound: true }
       } else {
-        console.log(error);
+        setErrorText("Please ensure image files are either [JPEG or PNG]");
       }
     }
   }
@@ -291,7 +295,13 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
           </button>
         </div>
       </form>
+    
     </div>
+    { errorText &&
+      <div className="p-5">
+        <ErrorAlert errorText={errorText} errorTextHeading="Submission error"/>
+      </div>
+      }
   </div>
   );
 }

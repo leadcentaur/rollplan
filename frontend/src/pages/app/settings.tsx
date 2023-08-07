@@ -8,7 +8,7 @@ import useUserAcademy from "@/hooks/useCurrentAcademy";
 import AcademyLocationInputField from "@/components/site/form/academySignup/AcademyLocationInputField";
 import * as AcademyApi from "../../network/api/academys";
 import { GetServerSideProps } from "next";
-import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
+import { BadRequestError, NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import { Academy } from "@/models/academy";
 import SettingsAcademyNameInputField from "@/components/app/form/SettingsAcademyNameInputField";
 import * as yup from "yup";
@@ -72,9 +72,9 @@ interface UpdateAcademyInfoSectionProps {
 function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademyInfoSectionProps) {
 
   
-  console.log("infosectionaid " + userAcademy?._id);
   const academyId = userAcademy?._id;
-
+  
+  const [errorText, setErrorText] = useState<string|null>();
   const { register, handleSubmit, formState : { isSubmitting, errors } } = useForm<UpdateAcademyInfoSectionData>();
 
   async function onSubmit({academy_name, academy_location, academyPhone, academyEmail, academyDescription, academyLogo} : UpdateAcademyInfoSectionData) {
@@ -84,11 +84,18 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
       
       const updatedAcademy = await AcademyApi.updateAcademy({academyId, academy_name, academyPhone, academy_location, academyDescription, academyEmail, academyLogo: academyLogo?.item(0) || undefined})
       onAcademyUpdated(updatedAcademy);
+      setErrorText(null);
 
     } catch (error) {
       if (error instanceof NotFoundError) {
+        setErrorText("The academy to be updated could not be found.")
         return { notFound: true }
-      } else {
+      } 
+      if (error instanceof BadRequestError) {
+        setErrorText(error.message);
+      }
+      else {
+        setErrorText("An submission error has occurred. Please ensure your grips are tighther and you're uploading .PNG or JPEG files.")
       }
     }
   }
@@ -104,6 +111,11 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Academy Settings
+                  {errorText && 
+            <div className="m-5">
+                <ErrorAlert errorText={errorText} errorTextHeading="Submission error"/>
+            </div>
+          }
                 </h3>
               </div>
               <div className="p-7">
@@ -130,6 +142,7 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
               <SettingsAcademyLogoInputField register={register("academyLogo")} userAcademy={userAcademy}/>
             </div>
           </div>
+
           </form>
   );
 }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as UsersApi from "@/network/api/users";
 import * as AcademyApi from "@/network/api/academys";
 import SiteFormInputField from "../form/SiteFormInputField";
@@ -24,7 +24,7 @@ import UsernameInputField from "../form/memberSignup/UsernameInputField";
 import AcademyLocationInputField from "../form/academySignup/AcademyLocationInputField";
 import AcademyNameInputField from "../form/academySignup/AcademyNameInputField";
 import Icon from "../ui/iconography/Icon";
-import { faBadgeCheck, faClipboard, faCode, faKey } from "@fortawesome/pro-solid-svg-icons";
+import { faBadgeCheck, faClipboard, faCode, faKey, faLocationDot } from "@fortawesome/pro-solid-svg-icons";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
 import Spinner from "../ui/typography/Spinner";
 import { useRouter } from "next/router";
@@ -33,6 +33,7 @@ import WarningAlert from "@/components/app/components/WarningAlert";
 import FormInputField from "../form/SiteFormInputField";
 import VerificationCodeInputField from "../form/memberSignup/VerificationCodeInputField";
 import useCountdown from "@/hooks/useCountdown";
+import ReactGoogleAutoComplete from "react-google-autocomplete";
 
 const validationSchema = yup.object({
   username: usernameSchema.required("Required"),
@@ -68,7 +69,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
     const [passwordsMatch, setPasswordsmatch] = useState<boolean>();
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
-    const { register, handleSubmit, getValues, trigger, formState: {errors, isSubmitting} } = useForm<SignUpFormData>({
+    const { control, register, handleSubmit, getValues, trigger, formState: {errors, isSubmitting} } = useForm<SignUpFormData>({
       resolver: yupResolver(validationSchema)
     });
 
@@ -211,7 +212,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
 
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Get started with rollplan today
+                Get started with rollplan today 
               </h2>
 
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -221,12 +222,37 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     error={errors.academy_name}
                     maxLength={72}
                   />
+          
+                  <div className="mb-4">
+                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                      Academy Location 
+                    </label>
+                    <div className="relative">
+                        <Controller
+                            control={control}
+                            name="academy_location"
+                            render={({ field: { onChange } }) => (
+                              
+                            <ReactGoogleAutoComplete
+                                apiKey="AIzaSyBg712qOpu_RSC-NFFZEyhMBdOkCNxx8U4"
+                                className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                onPlaceSelected={(place) => onChange(place.formatted_address)}
+                            /> 
 
-                  <AcademyLocationInputField
-                    register={register("academy_location", {required: "Required"})}
-                    error={errors.academy_location}
-                    maxLength={100}
-                  />
+                            )}
+                        />
+                      <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                        <Icon className="pl-2 text-red-500 opacity-20" icon={faLocationDot}/>
+                      </div>
+                    </div>
+
+                    </div>
+
+
+
+              
+
+
 
                 <label htmlFor="billing-address" className="mt-4 mb-2 block font-medium">
                   Account details
