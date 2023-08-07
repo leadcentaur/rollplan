@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faBagsShopping, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp, faBagsShopping, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faLandmark, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "../components/../../site/ui/iconography/Icon";
 import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
@@ -60,7 +60,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 
               <Link href="/app" className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out rounded-lg hover:bg-graydark dark:hover:bg-meta-4">                   
                         <Icon
-													icon={faTableColumns}
+													icon={faLandmark}
 													className={clsx(' pr-1 ml-1 justify-center flex')}
 													style={{ maxWidth: 54 }}
 												/>

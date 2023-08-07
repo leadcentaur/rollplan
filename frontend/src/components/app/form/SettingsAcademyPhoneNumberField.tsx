@@ -7,11 +7,11 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 
 interface SettingsAcademyPhoneNumberInputFieldProps {
     register?: UseFormRegisterReturn,
-    academy_name?: string,
+    academyPhone?: string,
     error?: FieldError,
 }
 
-export default function SettingsAcademyPhoneNumberInputField({register, error, placeholder, academy_name, ...props}: SettingsAcademyPhoneNumberInputFieldProps & ComponentProps<"input">) {
+export default function SettingsAcademyPhoneNumberInputField({register, error, placeholder, academyPhone, ...props}: SettingsAcademyPhoneNumberInputFieldProps & ComponentProps<"input">) {
     return (
       <div className="w-full sm:w-1/2">
                       <label
@@ -27,10 +27,9 @@ export default function SettingsAcademyPhoneNumberInputField({register, error, p
         <input
           className="w-full pl-13 rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
           type="text"
-          name="fullName"
-          id="fullName"
-          placeholder="Devid Jhon"
-          defaultValue="Devid Jhon"
+          {...register}
+          {...props}
+          defaultValue={academyPhone || "Academy number not set."}
         />
       </div>
       </div>

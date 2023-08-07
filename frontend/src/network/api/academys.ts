@@ -20,15 +20,16 @@ export async function getAcademyMembers(academyId: string) {
 }
 
 export async function getAcademyByID(academyId: string) {
-    console.log("passed aid: " + academyId);
     const response = await api.get<Academy>("/academy/" + academyId);
     return response.data;
 }
 
 interface UpdateAcademyValues {
+    academyId?: string,
     academy_name?: string,
     academy_location?: string,
     academyDescription?: string,
+    academyPhone?: string,
     academyEmail?: string,
     academyLogo?: File,
 }
@@ -36,8 +37,13 @@ interface UpdateAcademyValues {
 export async function updateAcademy(input: UpdateAcademyValues) {
     const formData = new FormData();
     Object.entries(input).forEach(([key, value]) => {
-        if (value !== undefined) formData.append(key, value);
+        if (value !== undefined) {
+            formData.append(key, value);
+            console.log(key + " " + value);
+        } 
     });
-    const response = await api.patch<Academy>("/academy/update", formData);
+    
+
+    const response = await api.patch<Academy>("/academy/update/" + input.academyId, formData);
     return response.data;
 }

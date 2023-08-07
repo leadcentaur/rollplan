@@ -209,7 +209,7 @@ export default function MemberSignupPage({academy}: MemberSignPageProps) {
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <div className="flex flex row">
                 <div className="flex-none">
-                  <Image src={BJJLogo} alt="bjj" height={110} width={110} className="mr-3 rounded-full"/>
+                  <Image src={academy.academyLogoUrl || BJJLogo} alt="bjj" height={110} width={110} className="mr-3 rounded-full"/>
                 </div>
                 <div className="ml-3">
                 <span className="mb-1.5 block font-medium mt-4 ">Member signup</span>

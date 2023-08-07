@@ -13,7 +13,7 @@ export const profilePicUpload = multer({
     }
 });
 
-export const academyPictureUpload = multer({
+export const academyLogoUpload = multer({
     limits: {
         fileSize: 5 * 1024 * 1024,
     },

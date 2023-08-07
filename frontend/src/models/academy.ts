@@ -6,4 +6,5 @@ export interface Academy {
     academyLogoUrl?: string;
     academyDescription?: string,
     academyEmail?: string,
+    academyPhone?: string,
 }

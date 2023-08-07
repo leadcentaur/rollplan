@@ -7,11 +7,11 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 
 interface SettingsAcademyEmailInputFieldProps {
     register?: UseFormRegisterReturn,
-    academy_name?: string,
+    academyEmail?: string,
     error?: FieldError,
 }
 
-export default function SettingsAcademyEmailInputField({register, error, placeholder, academy_name, ...props}: SettingsAcademyEmailInputFieldProps & ComponentProps<"input">) {
+export default function SettingsAcademyEmailInputField({register, error, placeholder, academyEmail, ...props}: SettingsAcademyEmailInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="mb-5.5">
         <label
@@ -29,10 +29,8 @@ export default function SettingsAcademyEmailInputField({register, error, placeho
             type="email"
             {...register}
             {...props}
-            name="emailAddress"
             id="emailAddress"
-            placeholder="devidjond45@gmail.com"
-            defaultValue="devidjond45@gmail.com"
+            defaultValue={academyEmail || "Academy email not set."}
           />
         </div>
       </div>

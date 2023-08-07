@@ -117,7 +117,7 @@ export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown>
 }
 
 export const updateAcademy: RequestHandler = async (req, res, next) => {
-    const { academy_name, academy_location, academyEmail, academyDescription } = req.body;
+    const { academy_name, academy_location, academyEmail, academyDescription, academyPhone } = req.body;
     
     const academyLogo = req.file;
     const academyId = req.params.id;
@@ -153,6 +153,7 @@ export const updateAcademy: RequestHandler = async (req, res, next) => {
             $set: {
                 ...(academy_name && {academy_name}),
                 ...(academyEmail && {academyEmail}),
+                ...(academyPhone && {academyPhone}),
                 ...(academy_location && {academy_location}),
                 ...(academyDescription && { academyDescription }),
                 ...(academyLogo && { academyLogoUrl: env.SERVER_URL + academyLogoDestinationPath + "?lastupdated=" + Date.now() }),

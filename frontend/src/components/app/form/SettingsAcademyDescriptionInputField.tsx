@@ -28,6 +28,7 @@ export default function SettingsAcademyDescriptionInputField({register, error, p
             <textarea
                 className="w-full rounded pl-13 border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 name="bio"
+                {...register}
                 id="bio"
                 rows={6}
                 placeholder="Write the academy bio here"

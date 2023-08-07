@@ -33,6 +33,7 @@ router.post("/logout", UsersController.logOut);
 
 router.patch("/me", requiresAuth, profilePicUpload.single("profilePic"), validateRequestSchema(updateUserSchema), UsersController.updateUser);
 
+
 //need to lock this down somehow
 router.patch("/setRefId", validateRequestSchema(setAcademyReferenceIdSchema), UsersController.setAcademyReferenceId);
 

@@ -19,6 +19,8 @@ export const academyIdSchema = yup.string()
     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid user id")
     .max(24)
 
+export const academyPhoneSchema = yup.string()
+
 
 export const academyCreationSchema = yup.object({
     body: yup.object({
@@ -48,10 +50,11 @@ export type GetAcademyMembersBody = yup.InferType<typeof getAcademyMembersSchema
 
 export const updateAcademySchema = yup.object({
     body: yup.object({
-        academy_name: academyNameSchema.required(),
-        academy_location: academyLocationSchema.required(),
+        academy_name: academyNameSchema,
+        academy_location: academyLocationSchema,
         academyEmail: yup.string().email(),
         acadmeyDescription: yup.string().max(320),
+        academyPhone: academyPhoneSchema,
     }),
     file: imageFileSchema,
 })

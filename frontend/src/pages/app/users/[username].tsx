@@ -213,7 +213,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
       if (error instanceof NotFoundError) {
         return { notFound: true }
       } else {
-
+        console.log(error);
       }
     }
   }
