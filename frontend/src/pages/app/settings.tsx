@@ -22,6 +22,7 @@ import SettingsAcademyDescriptionInputField from "@/components/app/form/Settings
 import SettingsAcademyLogoInputField from "@/components/app/form/SettingsAcademyLogoInputField";
 import Spinner from "@/components/site/ui/typography/Spinner";
 import { ColorRing } from "react-loader-spinner";
+import SuccessAlert from "@/components/app/components/SuccessAlert";
 
 
 interface UserProfilePageProps {
@@ -75,6 +76,7 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
   const academyId = userAcademy?._id;
   
   const [errorText, setErrorText] = useState<string|null>();
+  const [successText, setSuccessText] = useState<string|null>();
   const { register, handleSubmit, formState : { isSubmitting, errors } } = useForm<UpdateAcademyInfoSectionData>();
 
   async function onSubmit({academy_name, academy_location, academyPhone, academyEmail, academyDescription, academyLogo} : UpdateAcademyInfoSectionData) {
@@ -84,6 +86,7 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
       
       const updatedAcademy = await AcademyApi.updateAcademy({academyId, academy_name, academyPhone, academy_location, academyDescription, academyEmail, academyLogo: academyLogo?.item(0) || undefined})
       onAcademyUpdated(updatedAcademy);
+      setSuccessText("Academy details have been updated successfully.")
       setErrorText(null);
 
     } catch (error) {
@@ -111,11 +114,20 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Academy Settings
+
                   {errorText && 
-            <div className="m-5">
-                <ErrorAlert errorText={errorText} errorTextHeading="Submission error"/>
-            </div>
-          }
+                    <div className="m-5">
+                        <ErrorAlert errorText={errorText} errorTextHeading="Submission Error"/>
+                    </div>
+                  }
+
+                  {successText &&
+                      <div className="m-5">
+                      <SuccessAlert successText={successText} successTextHeading="Academy Updated Successfully"/>
+                  </div>
+                  }
+
+
                 </h3>
               </div>
               <div className="p-7">

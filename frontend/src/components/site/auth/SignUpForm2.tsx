@@ -35,7 +35,7 @@ import VerificationCodeInputField from "../form/memberSignup/VerificationCodeInp
 import useCountdown from "@/hooks/useCountdown";
 import ReactGoogleAutoComplete from "react-google-autocomplete";
 
-const validationSchema = yup.object({
+const signupValidationSchema = yup.object({
   username: usernameSchema.required("Required"),
   email: emailSchema.required("Required"),
   password: passwordSchema.required("Required"),
@@ -46,7 +46,7 @@ const validationSchema = yup.object({
   verificationCode: requiredStringSchema,
 })
 
-type SignUpFormData = yup.InferType<typeof validationSchema>;
+type SignUpFormData = yup.InferType<typeof signupValidationSchema>;
 
 
 interface SignUphtmlFormProps {
@@ -70,7 +70,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
     const { control, register, handleSubmit, getValues, trigger, formState: {errors, isSubmitting} } = useForm<SignUpFormData>({
-      resolver: yupResolver(validationSchema)
+      resolver: yupResolver(signupValidationSchema)
     });
 
     async function onSubmit(credentials: SignUpFormData) {

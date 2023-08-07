@@ -40,6 +40,7 @@ interface GlobalAppProps {
 
 export default function App({ Component, pageProps }: AppProps) {
 
+  const router = useRouter();
   useOnboardingRedirect();
 
   return  (
@@ -60,7 +61,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <main>
               <Component {...pageProps} />
           </main>
-          <footer className='m-5'>
+
+          { router.pathname === "/" &&
+             <footer className='m-5'>
               <div className="mt-6 text-center">
                 <Text size="sm" variant="muted">
                   <Link className='text-sm' href="/tos">
@@ -76,8 +79,10 @@ export default function App({ Component, pageProps }: AppProps) {
                   Rollplan {new Date().getFullYear()} © 
                 </Text>
               </div>
-          </footer>
-        </div>
+            </footer>
+         } 
+       </div>
+          
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import mongoose, { Mongoose, Schema, mongo, isValidObjectId } from "mongoose";
-import EventModel from "../models/calendar";
+import EventModel from "../models/event";
 import assertIsDefined from "../utils/assertIsDefined";
 import { CreateEventBody } from "../validation/calendar";
 import sharp from "sharp";
