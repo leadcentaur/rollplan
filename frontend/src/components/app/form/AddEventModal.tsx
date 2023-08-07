@@ -1,4 +1,7 @@
 
+interface
+
+
 export default function AddEventModal() {
     return (
     <div>

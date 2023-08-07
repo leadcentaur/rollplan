@@ -17,6 +17,8 @@ import useAuthenticatedUser from '@/hooks/useAuthenticatedUser';
 import SideBar from '@/components/app/components/SideBar';
 import * as UsersApi from "../network/api/users";
 import { useRouter } from 'next/router';
+import Text from '@/components/site/ui/typography/Text';
+import Link from 'next/link';
 config.autoAddCss = false
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
@@ -58,6 +60,23 @@ export default function App({ Component, pageProps }: AppProps) {
           <main>
               <Component {...pageProps} />
           </main>
+          <footer className='m-5'>
+              <div className="mt-6 text-center">
+                <Text size="sm" variant="muted">
+                  <Link className='text-sm' href="/tos">
+                    Terms of Service
+                  </Link>
+                  {' · '}
+                  <Link className="text-sm" href="/privacy">
+                    Privacy Policy
+                  </Link>
+                </Text>
+
+                <Text size="sm" className='m-2' variant="muted">
+                  Rollplan {new Date().getFullYear()} © 
+                </Text>
+              </div>
+          </footer>
         </div>
     </>
   )

@@ -164,21 +164,7 @@ export default function Pricing() {
 					</div>
 				</div>
 
-				<div className="mt-6 text-center">
-					<Text size="sm" variant="muted">
-						<Link className='text-sm' href="/tos">
-							Terms of Service
-						</Link>
-						{' · '}
-						<Link className="text-sm" href="/privacy">
-							Privacy Policy
-						</Link>
-					</Text>
-
-					<Text size="sm" variant="muted">
-						Prices and limits subject to change before release!
-					</Text>
-				</div>
+				
 			</div>
 		</div>
     );
