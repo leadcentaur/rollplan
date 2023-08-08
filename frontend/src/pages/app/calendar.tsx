@@ -15,6 +15,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
 import Link from "next/link";
 import AddEventModal from "@/components/app/form/AddEventModal";
+import { useStyleRegistry } from "styled-jsx";
 
 interface DemoAppState {
     weekendsVisible: boolean
@@ -24,6 +25,8 @@ interface DemoAppState {
 export default function Calendar({weekendsVisible, currentEvents}: DemoAppState) {  
     
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
+    const [title, setTitle] = useState("")
+    const [startDate, setStartDate] = useState<Date>();
 
     return (
         <DefaultLayout>
