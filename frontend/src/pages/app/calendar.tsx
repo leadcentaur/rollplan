@@ -28,19 +28,20 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
     const [title, setTitle] = useState("")
     const [startDate, setStartDate] = useState<Date>();
 
+    async function handleDateSelect(selectinfo: DateSelectArg){
+      setStartDate(selectinfo.start)
+      setShowAddEventModal(true);
+    }
+
+    async function handleEventAdd(select)
+
     return (
         <DefaultLayout>
 
-            <Link
-              href="#"
-              className="inline-flex items-center justify-center rounded-md border border-black py-4 px-10 text-center font-medium text-black hover:bg-opacity-90 lg:px-8 xl:px-10"
-              onClick={() => {setShowAddEventModal(true)}}
-            >
-              Add event
-            </Link>
+        
             
             { showAddEventModal &&
-                <AddEventModal isOpen={showAddEventModal} onDismiss={() => {setShowAddEventModal(false)}}/>
+                <AddEventModal isOpen={showAddEventModal} selectedDate={startDate!.toISOString().split('T')[0]} onDismiss={() => {setShowAddEventModal(false)}}/>
             }
 
 
@@ -61,7 +62,7 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
                     dayMaxEvents={true}
                     weekends={true}
                     initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-                    // select={this.handleDateSelect}
+                    select={handleDateSelect}
                     // eventContent={renderEventContent} // custom render function
                     // eventClick={this.handleEventClick}
                     // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed

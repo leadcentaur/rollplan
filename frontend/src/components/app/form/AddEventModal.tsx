@@ -3,17 +3,31 @@ import Icon from "@/components/site/ui/iconography/Icon";
 import { Event } from "@/models/event";
 import { UnauthorizedError } from "@/network/http-errors";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarCheck, faCalendarStar, faHouse, faSign, faSignHanging, faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import { faCalendarCheck, faCalendarStar, faHouse, faInfoCircle, faSign, faSignHanging, faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
 
+export type EventType = 
+   | "BJJ Gi (Adult)"
+   | "BJJ No-Gi (Adult)"
+   | "BJJ Gi (Youth)"
+   | "BJJ No-Gi (Youth)"
+   | "BJJ Gi Advanced (Adult)"
+   | "BJJ Gi Advanced (Youth)"
+   | "BJJ No-Gi Advanced (Adult)"
+   | "BJJ No-gi Advanced (Youth)"
+   | "Open mat Gi"
+   | "Open mat No-Gi"
+   | "Open mat (Gi/No-Gi)"
+   | "Seminar"
 
 interface AddEventModalProps {
     onDismiss: () => void;
-    onEventCreated?: (event: Event) => void;
+    onEventCreated: (event: Event) => Event;
+    selectedDate: string,
     isOpen: boolean;
 }
 
@@ -27,16 +41,25 @@ export const createEventSchema = yup.object().shape({
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
-export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEventModalProps) {
+export default function AddEventModal({onDismiss, onEventCreated, selectedDate, isOpen}: AddEventModalProps) {
             
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
         resolver: yupResolver(createEventSchema),
     });
+
+    const [eventName, setEventName] = useState<string|undefined>();
+    const [startDate, setStartDate] = useState<string|undefined>(selectedDate);
+    const [endDate, setEndDate] = useState<string|undefined>(selectedDate);
     
+
     async function onSubmit(eventData: CreateEventData) {
         try {
-            
+            onEventCreated({
+                eventName,
+                startDate,
+                endDate,
+            })
         } catch (error) {
            if (error instanceof UnauthorizedError) {
                 setErrorText(error.message.toString());
@@ -58,7 +81,7 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
             </button>
             <div className="px-6 py-6 lg:px-8 ">
                 <h3 className="mb-4 text-xl font-medium border-b border-stroke pb-3 text-gray-900 dark:text-white">Create event</h3>
-
+                           
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
@@ -69,8 +92,7 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
                                 </label>
                                 <div className="relative">
                                     <input
-                                        type="text"
-                                        placeholder="Default Input"
+                                        type="text" 
                                         className="w-full pl-12 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
                                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -83,12 +105,12 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
                         <div className="flex flex-col ">
                             <div>
                                 <label className="mb-3 block text-black dark:text-white">
-                                 Event type
+                                 Event type <Icon className="text-blue-500 text-md opacity-20 ml-1 " icon={faInfoCircle}/>
                                 </label>
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        placeholder="Default Input"
+                                        placeholder=""
                                         className="w-full pl-12 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
                                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -102,20 +124,37 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
                         <div>
                             <div>
                                 <label className="mb-3 block text-black dark:text-white">
-                                Date  
-                                </label>
+                                Start date  
+                                </label>    
                                 <div className="relative">
                                 <input
                                     type="date"
+                                    value={startDate}
+                                    onChange={(startDate) => setStartDate(startDate.target.value)}
                                     className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
-                                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                                         <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarCheck}/>
                                      </div>
                                 </div>
 
+
+                                <label className="mb-3 mt-3 block text-black dark:text-white">
+                                End date  
+                                </label>    
+                                <div className="relative">
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(endDate) => setEndDate(endDate.target.value)}
+                                    className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarCheck}/>
+                                     </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
                     <div>
                 <label className="mb-3 block text-black dark:text-white">
@@ -124,7 +163,6 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
                 <div className="relative">
                     <textarea
                     rows={6}
-                    placeholder="Default textarea"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     ></textarea>
                     
@@ -139,7 +177,7 @@ export default function AddEventModal({onDismiss, onEventCreated, isOpen}: AddEv
                     }
 
                   
-                    <button disabled={isSubmitting} type="submit" className="w-full text-white-500 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+                    <button disabled={isSubmitting} type="submit" className="w-full text-white-500 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create event</button>
                    
                 </form>
             </div>
