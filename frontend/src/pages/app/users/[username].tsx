@@ -17,7 +17,7 @@ import * as yup from "yup";
 import { Form, useForm } from "react-hook-form";
 import Link from "next/link";
 import TextAreaInputField from "@/components/app/form/TextAreaInputField";
-import ProfilePictureInputField from "@/components/app/form/ProfilePictureInputField";
+import ProfilePictureInputField from "@/components/app/form/profile/ProfilePictureInputField";
 import LoadingButton from "@/components/app/components/LoadingButton";
 import { isSetIterator } from "util/types";
 import useUserAcademy from "@/hooks/useCurrentAcademy";

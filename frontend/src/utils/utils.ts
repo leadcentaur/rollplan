@@ -20,6 +20,12 @@ export function capitalizeFirstLetter(string: string) {
         return "Undefined"; 
 }
 
+export function toDateTimeLocal(date: string) {
+    const d = new Date(date);
+    const dateTimeLocalValue = (new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString()).slice(0, -1);
+    return dateTimeLocalValue
+}
+
 export function toHumanDate(date: string) {
 
 const monthNames = ["January", "February", "March", "April", "May", "June",

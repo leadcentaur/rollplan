@@ -32,7 +32,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
     return (
         <aside
         className={`absolute left-0 top-0 z-9999 w-72.5 flex h-screen flex-col overflow-y-hidden bg-gradient-to-b from-slate-900 to-slate-600 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-full' : '-translate-x-full'
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         

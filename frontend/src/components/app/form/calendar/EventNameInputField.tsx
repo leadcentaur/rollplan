@@ -10,7 +10,7 @@ interface AddEventNameInputFieldProps {
     error?: FieldError,
 }
 
-export default function AddEventNameInputField({register, error, placeholder, ...props}: AddEventNameInputFieldProps & ComponentProps<"input">) {
+export default function EventNameInputField({register, error, placeholder, ...props}: AddEventNameInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="flex flex-col   ">
             <div>

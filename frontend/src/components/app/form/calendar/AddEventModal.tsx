@@ -9,6 +9,10 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
+import SuccessAlert from "../../components/SuccessAlert";
+import { toDateTimeLocal } from "@/utils/utils";
+import EventNameInputField from "./EventNameInputField";
+import EventTypeInputField from "./EventTypeInputField";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -33,6 +37,7 @@ interface AddEventModalProps {
 
 export const createEventSchema = yup.object().shape({
     eventName: yup.string().required(),
+    evemtType: yup.string().required(),
     eventDescription: yup.string().required(),
     startDate: yup.string().required(),
     endDate: yup.string().required(),
@@ -42,18 +47,25 @@ export const createEventSchema = yup.object().shape({
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
 export default function AddEventModal({onDismiss, onEventCreated, selectedDate, isOpen}: AddEventModalProps) {
-            
+
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
         resolver: yupResolver(createEventSchema),
     });
 
+    const selectedDateLo = toDateTimeLocal(selectedDate);
+
     const [eventName, setEventName] = useState<string|undefined>();
-    const [startDate, setStartDate] = useState<string|undefined>(selectedDate);
-    const [endDate, setEndDate] = useState<string|undefined>(selectedDate);
+    const [startDate, setStartDate] = useState<string|undefined>(selectedDateLo);
+    const [endDate, setEndDate] = useState<string|undefined>(selectedDateLo);
     
 
     async function onSubmit(eventData: CreateEventData) {
+
+        const eventName = eventData.eventName;
+        const startDate = eventData.startDate;
+        const endDate = eventData.endDate;
+
         try {
             onEventCreated({
                 eventName,
@@ -84,41 +96,14 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
                            
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
-                        <div className="flex flex-col   ">
-                            <div>
-                                <label className="mb-3 block text-black dark:text-white">
-                                Event Name
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text" 
-                                        className="w-full pl-12 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    />
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faSignHanging}/>
-                                     </div>
-                                </div>
-                            </div> 
-                        </div>
+                    <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
+                            <EventNameInputField
+                                register={register("eventName", {required: true})}
+                                error={errors.eventName}
+                            />
 
-                        <div className="flex flex-col ">
-                            <div>
-                                <label className="mb-3 block text-black dark:text-white">
-                                 Event type <Icon className="text-blue-500 text-md opacity-20 ml-1 " icon={faInfoCircle}/>
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder=""
-                                        className="w-full pl-12 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    />
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarStar}/>
-                                     </div>
-                                </div>
-                            </div>
-                        </div>   
+                            <EventTypeInputField/>
+
                     </div>
 
                         <div>
@@ -128,7 +113,7 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
                                 </label>    
                                 <div className="relative">
                                 <input
-                                    type="date"
+                                    type="datetime-local"
                                     value={startDate}
                                     onChange={(startDate) => setStartDate(startDate.target.value)}
                                     className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -144,9 +129,9 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
                                 </label>    
                                 <div className="relative">
                                 <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(endDate) => setEndDate(endDate.target.value)}
+                                    type="datetime-local"
+                                    value={toDateTimeLocal(selectedDate)}
+                                    onChange={(endDate) => setEndDate(toDateTimeLocal(endDate.target.value))}
                                     className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                                     <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
@@ -176,9 +161,9 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
                         </div>
                     }
 
-                  
+                    {/* <SuccessAlert successText="Event has been created successfully" successTextHeading="Submission success"/> */}
                     <button disabled={isSubmitting} type="submit" className="w-full text-white-500 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create event</button>
-                   
+                    
                 </form>
             </div>
         </div>

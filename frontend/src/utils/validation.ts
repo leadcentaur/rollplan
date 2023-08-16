@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { beltType, userType } from "@/types/user-types";
+import { beltType, eventType, userType } from "@/types/user-types";
 
 export const requiredStringSchema = yup.string().required("Required")
 
@@ -53,6 +53,25 @@ export const lastnameNameSchema =  yup.string()
 
 export const beltSchema = yup.mixed<beltType>().oneOf([
     'white','blue','brown','purple','black'
+])
+
+export const eventTypeSchema = yup.mixed<eventType>().oneOf([
+    "BJJ Gi",
+    "BJJ No-Gi",
+    "BJJ Gi Fundamentals",
+    "BJJ No-Gi Fundamentals",
+    "BJJ Gi (Adult)",
+    "BJJ No-Gi (Adult)",
+    "BJJ Gi (Youth)",
+    "BJJ No-Gi (Youth)",
+    "BJJ Gi Advanced (Adult)",
+    "BJJ Gi Advanced (Youth)",
+    "BJJ No-Gi Advanced (Adult)",
+    "BJJ No-gi Advanced (Youth)",
+    "Open mat Gi",
+    "Open mat No-Gi",
+    "Open mat (Gi/No-Gi)",
+    "Seminar",
 ])
 
 export const usertypeSchema = yup.mixed<userType>().oneOf([

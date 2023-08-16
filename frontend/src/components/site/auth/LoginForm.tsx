@@ -63,8 +63,8 @@ const router = useRouter();
   }
 
     return (
-      <div className="rounded-md dark:border-strokedark dark:bg-boxdark text-black-500">
-          <div className="w-full dark:border-strokedark shadow-2xl xl:w-1/2 mt-20 mb-5 rounded-lg bg-[#f5f5f7] opacity-100 border border-stroke m-auto">
+      <div className="rounded-md dark:border-strokedark dark:bg-boxdark text-black-500 ">
+          <div className="w-full dark:border-strokedark shadow-2xl xl:w-1/2 mt-20 mb-5 rounded-lg bg-[#EFEFEF] opacity-100 border border-stroke m-auto">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5 ">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
@@ -108,7 +108,7 @@ const router = useRouter();
 
                 }             
                     
-                <div className="mb-5">
+                <div className="mb">
                   <input
                     type="submit"
                     value="Sign In"

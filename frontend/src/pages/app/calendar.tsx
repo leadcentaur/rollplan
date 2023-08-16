@@ -14,7 +14,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
 import Link from "next/link";
-import AddEventModal from "@/components/app/form/AddEventModal";
+import AddEventModal from "@/components/app/form/calendar/AddEventModal";
 import { useStyleRegistry } from "styled-jsx";
 
 interface DemoAppState {
@@ -33,7 +33,7 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
       setShowAddEventModal(true);
     }
 
-    async function handleEventAdd(select)
+    // async function handleEventAdd(select)
 
     return (
         <DefaultLayout>
@@ -41,7 +41,7 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
         
             
             { showAddEventModal &&
-                <AddEventModal isOpen={showAddEventModal} selectedDate={startDate!.toISOString().split('T')[0]} onDismiss={() => {setShowAddEventModal(false)}}/>
+                <AddEventModal isOpen={showAddEventModal} selectedDate={startDate?.toISOString()!} onDismiss={() => {setShowAddEventModal(false)}}/>
             }
 
 

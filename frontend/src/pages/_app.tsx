@@ -54,17 +54,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
 
-        <div className={jakarta.className}>
+        <div className={jakarta.className + ' '}>
           <NextNprogress color='#AA4A44' height={5}/>
           <NavBar/>
 
-          <main>
+          <main className=''>
               <Component {...pageProps} />
           </main>
 
           { router.pathname === "/" &&
              <footer className='m-5'>
-              <div className="mt-6 text-center">
+              <div className="mt-6 text-center ">
                 <Text size="sm" variant="muted">
                   <Link className='text-sm' href="/tos">
                     Terms of Service

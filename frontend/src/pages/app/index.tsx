@@ -20,7 +20,7 @@ export default function Dashboard() {
 
   return (
     <DefaultLayout>
-      <div>
+      <div className="">
        
       </div>
     </DefaultLayout>
