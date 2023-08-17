@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/app/components/Breadcrumb";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   EventApi,
   DateSelectArg,
@@ -16,17 +16,19 @@ import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
 import Link from "next/link";
 import AddEventModal from "@/components/app/form/calendar/AddEventModal";
 import { useStyleRegistry } from "styled-jsx";
+import { Event } from "@/models/event";
 
-interface DemoAppState {
+interface CalendarState {
     weekendsVisible: boolean
     currentEvents: EventApi[]
 }
 
-export default function Calendar({weekendsVisible, currentEvents}: DemoAppState) {  
+export default function Calendar({weekendsVisible, currentEvents}: CalendarState) {  
     
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [title, setTitle] = useState("")
     const [startDate, setStartDate] = useState<Date>();
+    const calendarRef = useRef("");
 
     async function handleDateSelect(selectinfo: DateSelectArg){
       setStartDate(selectinfo.start)
@@ -41,7 +43,7 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
         
             
             { showAddEventModal &&
-                <AddEventModal isOpen={showAddEventModal} selectedDate={startDate?.toISOString()!} onDismiss={() => {setShowAddEventModal(false)}}/>
+                <AddEventModal isOpen={showAddEventModal}  selectedDate={startDate?.toISOString()!} onDismiss={() => {setShowAddEventModal(false)}}/>
             }
 
 
@@ -66,11 +68,9 @@ export default function Calendar({weekendsVisible, currentEvents}: DemoAppState)
                     // eventContent={renderEventContent} // custom render function
                     // eventClick={this.handleEventClick}
                     // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-                    /* you can update a remote database when these fire:
                     eventAdd={function(){}}
                     eventChange={function(){}}
                     eventRemove={function(){}}
-                    */
                 />
                 </div>
             </div>

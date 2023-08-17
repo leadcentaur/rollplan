@@ -18,8 +18,8 @@ export default function EventTypeInputField({register, error, placeholder, ...pr
                     Event type
                 </label>
                 <div className="relative">
-                <select className="rounded border border-stroke py-3 px-2 outline-none ">
-                    <option value="">BJJ Gi</option>
+                <select className="rounded text-sm border border-stroke py-3 text-center outline-none">
+                    <option className="text-right" value="">BJJ Gi</option>
                     <option value="">BJJ No-Gi</option>
                     <option value="">BJJ Gi Fundamentals</option>
                     <option value="">BJJ No-Gi Fundamentals</option>

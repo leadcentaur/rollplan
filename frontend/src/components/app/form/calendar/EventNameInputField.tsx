@@ -17,7 +17,7 @@ export default function EventNameInputField({register, error, placeholder, ...pr
                 <label className="mb-3 block text-black dark:text-white">
                     Event Name
                 </label>
-                <div className="relative">
+                <div className="relative text-sm">
                     <input
                         type="text"
                         {...register}

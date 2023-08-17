@@ -13,6 +13,8 @@ import SuccessAlert from "../../components/SuccessAlert";
 import { toDateTimeLocal } from "@/utils/utils";
 import EventNameInputField from "./EventNameInputField";
 import EventTypeInputField from "./EventTypeInputField";
+import EventDateInputField from "./DateInputField";
+import EventDetailsInputField from "./EventDetailsInputField";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -37,7 +39,7 @@ interface AddEventModalProps {
 
 export const createEventSchema = yup.object().shape({
     eventName: yup.string().required(),
-    evemtType: yup.string().required(),
+    eventType: yup.string().required(),
     eventDescription: yup.string().required(),
     startDate: yup.string().required(),
     endDate: yup.string().required(),
@@ -97,63 +99,38 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
+
                             <EventNameInputField
                                 register={register("eventName", {required: true})}
                                 error={errors.eventName}
                             />
 
-                            <EventTypeInputField/>
-
+                            <EventTypeInputField
+                                register={register("eventType", {required: true})}
+                                error={errors.eventType}
+                            />
                     </div>
 
                         <div>
-                            <div>
-                                <label className="mb-3 block text-black dark:text-white">
-                                Start date  
-                                </label>    
-                                <div className="relative">
-                                <input
-                                    type="datetime-local"
-                                    value={startDate}
-                                    onChange={(startDate) => setStartDate(startDate.target.value)}
-                                    className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarCheck}/>
-                                     </div>
-                                </div>
-
-
-                                <label className="mb-3 mt-3 block text-black dark:text-white">
-                                End date  
-                                </label>    
-                                <div className="relative">
-                                <input
-                                    type="datetime-local"
-                                    value={toDateTimeLocal(selectedDate)}
-                                    onChange={(endDate) => setEndDate(toDateTimeLocal(endDate.target.value))}
-                                    className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
-                                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarCheck}/>
-                                     </div>
-                                </div>
-                            </div>
+                            <EventDateInputField
+                                register={register("startDate")}
+                                label="Start Date"
+                                error={errors.startDate}
+                                selectedDate={startDate}
+                            />
+                            
+                            <EventDateInputField
+                                register={register("endDate")}
+                                label="End Date"
+                                error={errors.endDate}
+                                selectedDate={endDate}
+                            />
                         </div>
-
-                    <div>
-                <label className="mb-3 block text-black dark:text-white">
-                  Event details
-                </label>
-                <div className="relative">
-                    <textarea
-                    rows={6}
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                    ></textarea>
-                    
-                </div>
-              </div>
-                    
+                            
+                            <EventDetailsInputField
+                                register={register("eventDescription")}
+                                error={errors.eventDescription}
+                            />
 
                     { errorText &&
                         <div className="pt-5 m-1 text-red-400 text-ital">
