@@ -1,5 +1,5 @@
 import api from "@/network/axiosInstance";
-import { Event } from "@/models/event";
+import { CalendarEvent } from "@/models/event";
 
 export interface CreateEventProps {
     eventName?: string,
@@ -10,6 +10,14 @@ export interface CreateEventProps {
 }
 
 export async function createEvent(createEventObject: CreateEventProps) {
-    const response = await api.post<Event>("/calendar/create-event", createEventObject);
+
+    console.log("Event object = " + JSON.stringify(createEventObject));
+
+    const response = await api.post<CalendarEvent>("/calendar/create-event", createEventObject);
+    return response.data;
+}
+
+export async function getAcademyEventsById(academyId: string) {
+    const response = await api.get<CalendarEvent[]>("/calendar/events/" + academyId);
     return response.data;
 }

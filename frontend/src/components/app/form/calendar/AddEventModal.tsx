@@ -37,6 +37,7 @@ interface AddEventModalProps {
     onDismiss: () => void;
     onEventTitle: (eventName: string) => void;
     onEventDescription: (eventDescription: string) => void;
+    onEventCreatedSuccessfully: (status: boolean) => void,
     calendarApi: CalendarApi,
     selectedDate: string,
     isOpen: boolean;
@@ -72,7 +73,10 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
         const endDate = eventData.endDate;
         const eventDescription = eventData.eventDescription;
 
-        console.log("Event name from form: " + eventName);
+        console.log("OnSubmit eventName " + eventName + "\n")
+        console.log("OnSubmit startDate " + startDate + "\n")
+        console.log("OnSubmit endDate " + endDate + "\n")
+        console.log("OnSubmit eventDescription " + eventDescription + "\n")
         
         onEventTitle(eventName);
         onEventDescription(eventDescription);
@@ -83,26 +87,11 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
             start: startDate,
             end: endDate,
         })
-
-        try {
-            onEventCreated({
-                eventName,
-                startDate,
-                endDate,
-            })
-        } catch (error) {
-           if (error instanceof UnauthorizedError) {
-                setErrorText(error.message.toString());
-           } else {
-            alert(error);
-           }
-           console.log(error);
-        }
     }
     
 
     return (
-        <div className='bg-black-200 bg-opacity-80 flex overflow-auto justify-center items-start md:items-center lg:items-center xl:items-center w-screen h-screen fixed z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)]' data-aria-modal="hidden">
+        <div className='bg-black-200 text-sm bg-opacity-80 flex overflow-hidden justify-center items-start md:items-center m-auto lg:items-center xl:items-center w-screen h-screen fixed z-30 w-full p-4 md:inset-34 h-[calc(100%-1rem)]' data-aria-modal="hidden">
         <div className="w-full max-w-lg fixed z-10">
         <div className={clsx(`${isOpen ? 'animate-fade transform transition-all duration-500 delay-100 ease-in translate-y-10 relative bg-white-500 rounded-lg shadow dark:bg-gray-700' : 'relative bg-white-500 rounded-lg shadow dark:bg-gray-700'}`)}>
             <button type="button" onClick={onDismiss} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">

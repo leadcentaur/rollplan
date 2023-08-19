@@ -1,4 +1,4 @@
-export interface Event {
+export interface CalendarEvent {
     _id?: string,
     eventName?: string,
     eventDescription?: string,
