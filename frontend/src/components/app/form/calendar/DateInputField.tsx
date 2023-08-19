@@ -8,7 +8,7 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 interface AddEventDateInputFieldProps {
     register: UseFormRegisterReturn,
     selectedDate?: string,
-    setGeneralDate?: () => string|undefined,
+    setGeneralDate: (dateStr: string) => void,
     error?: FieldError,
     label: string,
 }
@@ -24,7 +24,9 @@ export default function EventDateInputField({register, error, placeholder, label
         <div className="relative">
           <input
             type="datetime-local"
-            value={generalDate}
+            value={selectedDate}
+            {...register}
+            {...props}
             onChange={(date) => setGeneralDate(date.target.value)}
             className="custom-input-date custom-input-date-2 pl-12 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
           />
@@ -34,6 +36,11 @@ export default function EventDateInputField({register, error, placeholder, label
               icon={faCalendarCheck}
             />
           </div>
+          {error && 
+                    <div>
+                        <p className="text-red-500 italic">{error.message?.toString()}</p>
+                    </div>
+                }
         </div>
       </div>
     );

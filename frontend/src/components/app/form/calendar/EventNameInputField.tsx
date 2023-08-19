@@ -28,6 +28,11 @@ export default function EventNameInputField({register, error, placeholder, ...pr
                         <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faSignHanging} />
                     </div>
                 </div>
+                {error && 
+                    <div>
+                        <p className="text-red-500 italic">{error.message?.toString()}</p>
+                    </div>
+                }
             </div>
         </div>
     );

@@ -11,5 +11,6 @@ import { createCalendarEventSchema } from "../validation/calendar";
 const router = express.Router();
 
 router.post("/create-event", validateRequestSchema(createCalendarEventSchema), CalendarController.createCalendarEvent);
+router.get("/events/:id", CalendarController.getAcademyEventsById); 
 
 export default router;

@@ -95,7 +95,6 @@ export default function MemberList() {
       </div>
     </div>
   ) : 
-  
     <ErrorAlert errorTextHeading="Page error" errorText="There was an error loading the academy members"/>
 };
 

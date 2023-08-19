@@ -18,7 +18,7 @@ export default function EventTypeInputField({register, error, placeholder, ...pr
                     Event type
                 </label>
                 <div className="relative">
-                <select className="rounded text-sm border border-stroke py-3 text-center outline-none">
+                <select {...register} className="rounded text-sm border border-stroke py-3 text-center outline-none">
                     <option className="text-right" value="">BJJ Gi</option>
                     <option value="">BJJ No-Gi</option>
                     <option value="">BJJ Gi Fundamentals</option>
@@ -40,6 +40,11 @@ export default function EventTypeInputField({register, error, placeholder, ...pr
                         <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarStar} />
                     </div>
                 </div>
+                {error && 
+                    <div>
+                        <p className="text-red-500 italic">{error.message?.toString()}</p>
+                    </div>
+                }
             </div>
         </div>
     );

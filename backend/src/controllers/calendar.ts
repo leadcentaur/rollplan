@@ -20,6 +20,16 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
     }
 }
 
+export const getAcademyEventsById: RequestHandler = async (req, res, next) => {
+    try {
+        const academy = await EventModel.find({academyReferenceId: req.params.id}).exec();
+        if (!academy) { throw createHttpError(404, "Academy not found"); }
+        res.status(200).json(academy);
+    } catch (error) {
+        next(error);
+    }
+}
+
 // export const deleteCalendarEvent: RequestHandler<unknown, unknown, DeleteEventBody, unknown> = async (req, res, next) => {
 //     try {
         

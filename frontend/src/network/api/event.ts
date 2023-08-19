@@ -1,4 +1,5 @@
 import api from "@/network/axiosInstance";
+import { Event } from "@/models/event";
 
 export interface CreateEventProps {
     eventName?: string,

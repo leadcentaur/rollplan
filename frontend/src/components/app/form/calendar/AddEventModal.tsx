@@ -9,12 +9,15 @@ import clsx from "clsx";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup"
+import * as EventApi from "@/network/api/event";
 import SuccessAlert from "../../components/SuccessAlert";
 import { toDateTimeLocal } from "@/utils/utils";
 import EventNameInputField from "./EventNameInputField";
 import EventTypeInputField from "./EventTypeInputField";
 import EventDateInputField from "./DateInputField";
 import EventDetailsInputField from "./EventDetailsInputField";
+import { CalendarApi, DateSelectArg } from "@fullcalendar/core";
+import { createEventId } from "@/utils/event-utils";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -32,23 +35,23 @@ export type EventType =
 
 interface AddEventModalProps {
     onDismiss: () => void;
-    onEventCreated: (event: Event) => Event;
+    onEventTitle: (eventName: string) => void;
+    onEventDescription: (eventDescription: string) => void;
+    calendarApi: CalendarApi,
     selectedDate: string,
     isOpen: boolean;
 }
 
 export const createEventSchema = yup.object().shape({
     eventName: yup.string().required(),
-    eventType: yup.string().required(),
     eventDescription: yup.string().required(),
     startDate: yup.string().required(),
     endDate: yup.string().required(),
-    academyReferenceId: yup.string().required(),
 })
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
-export default function AddEventModal({onDismiss, onEventCreated, selectedDate, isOpen}: AddEventModalProps) {
+export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onEventDescription, selectedDate, isOpen}: AddEventModalProps) {
 
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
@@ -67,6 +70,19 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
         const eventName = eventData.eventName;
         const startDate = eventData.startDate;
         const endDate = eventData.endDate;
+        const eventDescription = eventData.eventDescription;
+
+        console.log("Event name from form: " + eventName);
+        
+        onEventTitle(eventName);
+        onEventDescription(eventDescription);
+
+        calendarApi.addEvent({
+            id: createEventId(),
+            title: eventName,
+            start: startDate,
+            end: endDate,
+        })
 
         try {
             onEventCreated({
@@ -86,7 +102,7 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
     
 
     return (
-        <div className='bg-black-200 bg-opacity-80 flex justify-center items-start md:items-center lg:items-center xl:items-center w-screen h-screen fixed z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)]' data-aria-modal="hidden">
+        <div className='bg-black-200 bg-opacity-80 flex overflow-auto justify-center items-start md:items-center lg:items-center xl:items-center w-screen h-screen fixed z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)]' data-aria-modal="hidden">
         <div className="w-full max-w-lg fixed z-10">
         <div className={clsx(`${isOpen ? 'animate-fade transform transition-all duration-500 delay-100 ease-in translate-y-10 relative bg-white-500 rounded-lg shadow dark:bg-gray-700' : 'relative bg-white-500 rounded-lg shadow dark:bg-gray-700'}`)}>
             <button type="button" onClick={onDismiss} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
@@ -95,26 +111,28 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
             </button>
             <div className="px-6 py-6 lg:px-8 ">
                 <h3 className="mb-4 text-xl font-medium border-b border-stroke pb-3 text-gray-900 dark:text-white">Create event</h3>
-                           
+
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">               
+                    {/* <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">   */}
+                    <div className="flex flex-col">
 
                             <EventNameInputField
-                                register={register("eventName", {required: true})}
+                                register={register("eventName")}
                                 error={errors.eventName}
                             />
 
-                            <EventTypeInputField
-                                register={register("eventType", {required: true})}
+                            {/* <EventTypeInputField
+                                register={register("eventType")}
                                 error={errors.eventType}
-                            />
+                            /> */}
                     </div>
 
                         <div>
                             <EventDateInputField
                                 register={register("startDate")}
                                 label="Start Date"
+                                setGeneralDate={(date) => {setStartDate(date)}}
                                 error={errors.startDate}
                                 selectedDate={startDate}
                             />
@@ -122,9 +140,10 @@ export default function AddEventModal({onDismiss, onEventCreated, selectedDate, 
                             <EventDateInputField
                                 register={register("endDate")}
                                 label="End Date"
-                                error={errors.endDate}
+                                setGeneralDate={(date) => {setEndDate(date)}}
                                 selectedDate={endDate}
                             />
+
                         </div>
                             
                             <EventDetailsInputField
