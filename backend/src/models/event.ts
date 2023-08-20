@@ -2,6 +2,7 @@
 import { InferSchemaType, Schema, model } from "mongoose";
 import { number } from "yup";
 
+//
 export const eventScehma = new Schema({
     title: {
         type: String, 
