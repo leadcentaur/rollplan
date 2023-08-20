@@ -68,6 +68,10 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         setCalendarEvents(calendarEvents);
     }
 
+    function handleEventClick(event: EventClickArg) {
+        console.log(event.event.extendedProps);
+    }
+
     function handleEventContent(event: EventContentArg) {
         
         return (
@@ -96,8 +100,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         } as EventsApi.CreateEventProps
 
         const newEvent = await EventsApi.createEvent(eventObject);
-        alert("New event created: " + newEvent);
-        console.info(newEvent);
     }
 
     return  (
@@ -134,6 +136,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     }}
                     initialView='dayGridMonth'
                     editable={true}
+                    // eventDidMount={(event) => {console.log(event.event.extendedProps)}}
                     selectable={true}
                     selectMirror={true}
                     dayMaxEvents={true}
@@ -141,7 +144,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     weekends={true}
                     select={handleDateSelect}
                     eventContent={(event) => handleEventContent(event)} // custom render function
-                    // eventClick={this.handleEventClick}
+                    eventClick={handleEventClick}
                     //eventsSet={handleEvents} // called after events are initialized/added/changed/removed
                     datesSet={date => handleDatesSet(date)}
                     eventAdd={event => handleEventAdd(event)}
