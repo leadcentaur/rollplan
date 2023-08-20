@@ -63,15 +63,13 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     async function handleDatesSet(date: DatesSetArg) {
 
-        console.log("Dates set fired")
         const calendarEvents = await EventsApi.getAcademyEvents("64cb1f4652e0fd8ebe5c7c16", date.startStr, date.endStr);
+        console.log("Fetched calendar events: " + calendarEvents);
         setCalendarEvents(calendarEvents);
     }
 
     function handleEventContent(event: EventContentArg) {
-
-        event.event.setProp("eventType","")
-
+        
         return (
             <>
             <div className="flex flex-row w-full w-full border bg-red-500 text-white-500 border-red-200 rounded-md">
@@ -79,7 +77,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     <b className="px-2">{event.timeText}</b>
                     <i className="px-2">{event.event.title}</i>
                 </div>
-                <div className="m-auto ml-9">
+                <div className="m-auto ml-none">
                     <i>0/30</i><Icon className="px-1" icon={faUniformMartialArts}/>
                 </div>
             </div>
@@ -90,11 +88,11 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     async function handleEventAdd(event: EventAddArg) {
         
         const eventObject = {
-            eventName: event.event.title,
-            eventDescription: eventDescription,
-            startDate: event.event.startStr,
-            endDate: event.event.endStr,
-            academyReferenceId: "64cb1f4652e0fd8ebe5c7c16"
+            title: event.event.title,
+            description: eventDescription,
+            start: event.event.startStr,
+            end: event.event.endStr,
+            referenceId: "64cb1f4652e0fd8ebe5c7c16"
         } as EventsApi.CreateEventProps
 
         const newEvent = await EventsApi.createEvent(eventObject);
@@ -126,7 +124,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <div className=''>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    aspectRatio={2}
                     eventBackgroundColor="green"
                     themeSystem="bootstrap 4"
                     contentHeight={800}

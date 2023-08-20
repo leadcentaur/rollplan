@@ -9,7 +9,7 @@ export const eventScehma = new Schema({
         required: true,
         unique: true,
     },
-    eventDescription: {
+    description: {
         type: String,
     },
     eventType: {
@@ -26,7 +26,7 @@ export const eventScehma = new Schema({
         type: Date,
         required: true,
     },
-    academyReferenceId: { 
+    referenceId: { 
         type: Schema.Types.ObjectId,
         required: true,
         ref: "Academy",

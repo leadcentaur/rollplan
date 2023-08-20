@@ -5,10 +5,10 @@ import { EventInput } from "@fullcalendar/core";
 
 export interface CreateEventProps {
     title?: string,
-    eventDescription?: string,
+    description?: string,
     start?: string,
     end?: string,
-    academyReferenceId?: string,
+    referenceId?: string,
 }
 
 export async function createEvent(createEventObject: CreateEventProps) {
@@ -20,17 +20,16 @@ export async function createEvent(createEventObject: CreateEventProps) {
 }
 
 
-export async function getAcademyCalendarEvents(academyId: string, start: string, end: string) {
+// export async function getAcademyCalendarEvents(academyId: string, start: string, end: string) {
 
-    let eventsFormatted
+//     console.log("ZZZ!")
+//     const response = await api.get<EventInput[]>("/calendar/events/" + academyId + "?start=" + moment(start).toISOString() +"&end=" +
+//     moment(end).toISOString());
 
-    const response = await api.get<CalendarEvent[]>("/calendar/events/" + academyId + "?start=" + moment(start).toISOString() +"&end=" +
-    moment(end).toISOString());
+//     console.log("Calendar events: " + response.data);
 
-    console.log(response.data);
-
-    return response.data;
-}
+//     return response.data;
+// }
 
 export async function getAcademyEvents(academyId: string, start: string, end: string) {
 

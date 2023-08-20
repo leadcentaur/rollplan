@@ -9,6 +9,7 @@ export interface User {
     profilePicUrl?: string,
     belt?: string,
     numberOfStripes?: number
+    userType?: string,
     firstname?: string,
     lastname?: string,
     createdAt?: string,

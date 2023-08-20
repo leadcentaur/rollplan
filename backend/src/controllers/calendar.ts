@@ -11,10 +11,10 @@ import moment from "moment";
 
 export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
     try {
-        const { title, start, end, numberOfAtendees, eventType, eventDescription, academyReferenceId } = req.body;
+        const { title, start, end, description, referenceId } = req.body;
         
         const newEvent = await EventModel.create({
-            title, start, end, eventType, numberOfAtendees, eventDescription, academyReferenceId
+            title, start, end, description, referenceId
         });
 
         console.log("New academy created:" + newEvent);
@@ -27,7 +27,7 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
 
 export const getAcademyEventsById: RequestHandler = async (req, res, next) => {
     try {
-        const academy = await EventModel.find({academyReferenceId: req.params.id}).exec();
+        const academy = await EventModel.find({referenceId: req.params.id}).exec();
         if (!academy) { throw createHttpError(404, "Academy not found"); }
         res.status(200).json(academy);
     } catch (error) {
@@ -44,10 +44,10 @@ interface AcademyEventsQuery {
     end?: string,
 }
 
-export const getAcademyTempEvents: RequestHandler<AcademyEventsParams, unknown, CreateEventBody, AcademyEventsQuery> = async (req, res, next) => {
+export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, CreateEventBody, AcademyEventsQuery> = async (req, res, next) => {
     try {
 
-        const events = await TempEventModel.find({
+        const events = await EventModel.find({
             start: {$gte: moment(req.query.start).toDate()}, 
             end: {$lte: moment(req.query.end).toDate()},
         });
@@ -60,23 +60,23 @@ export const getAcademyTempEvents: RequestHandler<AcademyEventsParams, unknown, 
     }
 }
 
-export const createTempEvent: RequestHandler<unknown, unknown, CreateTempEventBody, unknown> = async (req, res, next) => {
-    try {
-        const { title, start, end } = req.body;
-        const newTempEvent = await TempEventModel.create({title, start, end});
+// export const createTempEvent: RequestHandler<unknown, unknown, CreateTempEventBody, unknown> = async (req, res, next) => {
+//     try {
+//         const { title, start, end } = req.body;
+//         const newTempEvent = await TempEventModel.create({title, start, end});
 
-        console.log("New temp event created:" + newTempEvent);
-        res.status(201).json(newTempEvent)
+//         console.log("New temp event created:" + newTempEvent);
+//         res.status(201).json(newTempEvent)
 
-    } catch (error) {
-        next(error)
-    }
-}
+//     } catch (error) {
+//         next(error)
+//     }
+// }
+
 
 // export const deleteCalendarEvent: RequestHandler<unknown, unknown, DeleteEventBody, unknown> = async (req, res, next) => {
 //     try {
         
 //     } catch (error) {
-        
 //     }
 // }

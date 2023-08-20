@@ -22,12 +22,10 @@ export const numberOfAtendeesSchema = yup.number()
 export const createCalendarEventSchema = yup.object({
     body: yup.object({
         title: eventTitleSchema,
-        eventDescription: eventDescriptionSchema,
-        eventType: eventTypeSchema,
-        numberOfAtendees: numberOfAtendeesSchema,
+        description: eventDescriptionSchema,
         start: startDateSchema,
         end: endDateSchema,
-        academyReferenceId: academyReferenceIdSchema,
+        referenceId: academyReferenceIdSchema,
     })
 })
 

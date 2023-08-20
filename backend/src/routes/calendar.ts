@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/create-event", validateRequestSchema(createCalendarEventSchema), CalendarController.createCalendarEvent);
 
-router.post("/create-temp-event", validateRequestSchema(createTempEventBodySchema), CalendarController.createTempEvent);
-router.get("/events/:id", CalendarController.getAcademyTempEvents); 
+// router.post("/create-temp-event", validateRequestSchema(createTempEventBodySchema), CalendarController.createTempEvent);
+router.get("/events/:id", CalendarController.getAcademyEvents); 
 
 export default router;

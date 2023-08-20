@@ -68,10 +68,11 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
 
     async function onSubmit(eventData: CreateEventData) {
 
-        const eventName = eventData.eventName;
-        const startDate = eventData.startDate;
-        const endDate = eventData.endDate;
+        const eventName = eventData.title;
+        const startDate = eventData.start;
+        const endDate = eventData.end;
         const eventDescription = eventData.eventDescription;
+        const referenceId = "64cb1f4652e0fd8ebe5c7c16"
 
         console.log("OnSubmit eventName " + eventName + "\n")
         console.log("OnSubmit startDate " + startDate + "\n")
@@ -85,12 +86,11 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
             id: createEventId(),
             title: eventName,
             start: startDate,
+            end: endDate,
             extendedProps: {
-                "eventDescription": eventDescription,
-                "eventType": eventType
+                "description": eventDescription,
+                "referenceId": referenceId
             }
-        })?.extendedProps({
-            "d":"d"
         })
     }
     
@@ -112,8 +112,8 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
                     <div className="flex flex-col">
 
                             <EventNameInputField
-                                register={register("eventName")}
-                                error={errors.eventName}
+                                register={register("title")}
+                                error={errors.title}
                             />
 
                             {/* <EventTypeInputField
@@ -124,15 +124,15 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
 
                         <div>
                             <EventDateInputField
-                                register={register("startDate")}
+                                register={register("start")}
                                 label="Start Date"
                                 setGeneralDate={(date) => {setStartDate(date)}}
-                                error={errors.startDate}
+                                error={errors.start}
                                 selectedDate={startDate}
                             />
                             
                             <EventDateInputField
-                                register={register("endDate")}
+                                register={register("end")}
                                 label="End Date"
                                 setGeneralDate={(date) => {setEndDate(date)}}
                                 selectedDate={endDate}
