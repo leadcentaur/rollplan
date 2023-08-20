@@ -1,8 +1,14 @@
 export interface CalendarEvent {
     _id?: string,
-    eventName?: string,
+    title?: string,
     eventDescription?: string,
-    startDate?: string,
-    endDate?: string,
+    start?: string,
+    end?: string,
     academyReferenceId?: string,
+}
+
+export interface TempEvent {
+    start?: string,
+    end?: string,
+    title?: string,
 }

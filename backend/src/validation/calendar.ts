@@ -27,6 +27,16 @@ export const createCalendarEventSchema = yup.object({
 
 export type CreateEventBody = yup.InferType<typeof createCalendarEventSchema>["body"];
 
+export const createTempEventBodySchema = yup.object({
+    body: yup.object({
+        title: yup.string(),
+        start: yup.string(),
+        end: yup.string(),
+    })
+})
+
+export type CreateTempEventBody = yup.InferType<typeof createTempEventBodySchema>["body"];
+
 
 
 

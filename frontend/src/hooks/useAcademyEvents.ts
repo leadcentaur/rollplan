@@ -1,5 +1,5 @@
 import * as UsersApi from "@/network/api/users";
-import * as AcademyApi from "@/network/api/academys";
+import * as EventsApi from "@/network/api/event";
 
 import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import useSWR from "swr";
@@ -13,7 +13,7 @@ export default function useAcademyEvents() {
                     //academy does not have valid reference Id;
                     return null;
                 }
-                return await AcademyApi.getAcademyByID(authenticatedUser.academyReferenceId!)
+                return await EventsApi.getAcademyEventsById(authenticatedUser.academyReferenceId!)
             } catch (error) {
                 
                 if(error instanceof NotFoundError){

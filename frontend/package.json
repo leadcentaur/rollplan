@@ -36,6 +36,7 @@
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
     "i": "^0.3.7",
+    "moment": "^2.29.4",
     "next": "13.4.4",
     "nextjs-progressbar": "^0.0.16",
     "npm": "^9.7.1",
