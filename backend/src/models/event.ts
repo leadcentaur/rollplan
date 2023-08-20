@@ -1,8 +1,9 @@
 
 import { InferSchemaType, Schema, model } from "mongoose";
+import { number } from "yup";
 
 export const eventScehma = new Schema({
-    eventName: {
+    title: {
         type: String, 
         required: true,
         unique: true,
@@ -10,11 +11,17 @@ export const eventScehma = new Schema({
     eventDescription: {
         type: String,
     },
-    startDate: {
+    eventType: {
+        type: String,
+    },
+    numberOfAttendees: {
+        type: String,
+    },
+    start: {
         type: Date,
         required: true,
     },
-    endDate: {
+    end: {
         type: Date,
         required: true,
     },
@@ -23,7 +30,8 @@ export const eventScehma = new Schema({
         required: true,
         ref: "Academy",
     }
-}, {timestamps: true})
+//possibly add back the props
+})
 
 type Event = InferSchemaType<typeof eventScehma>;
 export default model<Event>("Event", eventScehma);        

@@ -66,8 +66,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         console.log("Dates set fired")
         const calendarEvents = await EventsApi.getAcademyEvents("64cb1f4652e0fd8ebe5c7c16", date.startStr, date.endStr);
         setCalendarEvents(calendarEvents);
-        //2023-08-10T04:00:00.000+00:00
-        //2023-08-10T04:00:00.000+00:00
     }
 
     function handleEventContent(event: EventContentArg) {
@@ -90,7 +88,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     async function handleEventAdd(event: EventAddArg) {
-
+        
         const eventObject = {
             eventName: event.event.title,
             eventDescription: eventDescription,
@@ -100,6 +98,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         } as EventsApi.CreateEventProps
 
         const newEvent = await EventsApi.createEvent(eventObject);
+        alert("New event created: " + newEvent);
         console.info(newEvent);
     }
 

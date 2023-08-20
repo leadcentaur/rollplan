@@ -4,10 +4,10 @@ import moment from "moment";
 import { EventInput } from "@fullcalendar/core";
 
 export interface CreateEventProps {
-    eventName?: string,
+    title?: string,
     eventDescription?: string,
-    startDate?: string,
-    endDate?: string,
+    start?: string,
+    end?: string,
     academyReferenceId?: string,
 }
 

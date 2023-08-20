@@ -44,10 +44,10 @@ interface AddEventModalProps {
 }
 
 export const createEventSchema = yup.object().shape({
-    eventName: yup.string().required(),
+    title: yup.string().required(),
     eventDescription: yup.string().required(),
-    startDate: yup.string().required(),
-    endDate: yup.string().required(),
+    start: yup.string().required(),
+    end: yup.string().required(),
 })
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
@@ -85,7 +85,12 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
             id: createEventId(),
             title: eventName,
             start: startDate,
-            end: endDate,
+            extendedProps: {
+                "eventDescription": eventDescription,
+                "eventType": eventType
+            }
+        })?.extendedProps({
+            "d":"d"
         })
     }
     

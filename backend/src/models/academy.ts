@@ -1,6 +1,7 @@
 
 import { InferSchemaType, Schema, model } from "mongoose";
 import { userSchema } from "./user";
+import { number } from "yup";
 
 export const academyScehma = new Schema({
     academy_name: {
@@ -12,11 +13,11 @@ export const academyScehma = new Schema({
         type: String
     },
     academyPhone: { type: String}, 
+    memberCap: { type: Number},
     academyDescription: { type: String },
     academyLogoUrl: { type: String },
     subscriptionStatus: { type: Number },
     academyEmail: { type: String },
-    
     //any reference to the users should be made via objectid ref
     academy_owner: {type: Schema.Types.ObjectId, required: true},
     members: {type: [{type: Schema.Types.ObjectId}], required: false, unique: true }

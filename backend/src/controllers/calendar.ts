@@ -11,8 +11,11 @@ import moment from "moment";
 
 export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
     try {
-        const { eventName, startDate, endDate, eventDescription, academyReferenceId } = req.body;
-        const newEvent = await EventModel.create({eventName, eventDescription, startDate, endDate, academyReferenceId});
+        const { title, start, end, numberOfAtendees, eventType, eventDescription, academyReferenceId } = req.body;
+        
+        const newEvent = await EventModel.create({
+            title, start, end, eventType, numberOfAtendees, eventDescription, academyReferenceId
+        });
 
         console.log("New academy created:" + newEvent);
         res.status(201).json(newEvent)
