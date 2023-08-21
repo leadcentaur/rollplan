@@ -18,9 +18,9 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
 import Link from "next/link";
-import AddEventModal from "@/components/app/form/calendar/AddEventModal";
+import AddEventModal, { EventType } from "@/components/app/form/calendar/AddEventModal";
 import { useStyleRegistry } from "styled-jsx";
-import { CalendarEvent, TempEvent } from "@/models/event";
+import { CalendarEvent } from "@/models/event";
 import TestModal from "@/components/app/form/calendar/TestModal";
 import * as EventsApi from "@/network/api/event";
 import useAcademyEvents from "@/hooks/useAcademyEvents";
@@ -32,7 +32,11 @@ import { TemplateContext } from "next/dist/shared/lib/app-router-context";
 import { EventInput } from '@fullcalendar/core'
 import Icon from "@/components/site/ui/iconography/Icon";
 import { faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import clsx from "clsx";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
+import { ColorRing } from "react-loader-spinner";
+import * as icons from "@/assets/NoGiIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface CalendarState {
     weekendsVisible: boolean
@@ -43,46 +47,81 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     // const { academyEvents, academyEventsLoading, academyEventsLoadingError} = useAcademyEvents();
     const { user, userLoading, userLoadingError } = useAuthenticatedUser();
-    const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
-    const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
+    const { academyEvents, academyEventsLoading, academyEventsLoadingError} = useAcademyEvents();
 
-    const [eventTitle, setEventTitle] = useState<string|undefined>("")
-    const [eventDescription, setEventDescription] = useState<string|undefined>("");
+    const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
+    const [showEditEventModal, setShowEditEventModal] = useState<boolean>(false);
+    const [eventClickInfo, setEventClickInfo] = useState<EventClickArg>();
+
+    const [errorText, setErrorText] = useState<string|undefined>(undefined);
+    const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
+    const [eventTitle, setEventTitle] = useState<string|undefined>()
+    const [eventDescription, setEventDescription] = useState<string|undefined>();
+    const [eventType, setEventType] = useState<string|undefined>(undefined);
+
     const [calInfo, setCalInfo] = useState<CalendarApi|undefined>();
     const [startDate, setStartDate] = useState<Date>();
     const [calendarEvents, setCalendarEvents] = useState<EventInput[]>();
     const calendarRef = useRef("");
 
     async function handleDateSelect(selectinfo: DateSelectArg){
-    
-      let calendarApi = selectinfo.view.calendar;
-      setCalInfo(calendarApi);
-      setStartDate(selectinfo.start)
-      setShowAddEventModal(true);
+        if (!userLoading && user?.userType == "owner") {
+            let calendarApi = selectinfo.view.calendar;
+            setCalInfo(calendarApi);
+            setStartDate(selectinfo.start)
+            setShowAddEventModal(true);
+        } else {
+            return null;
+        }
     }
 
     async function handleDatesSet(date: DatesSetArg) {
+        try {
+            const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, date.startStr, date.endStr);
+            console.log("Fetched calendar events: " + calendarEvents);
+            setCalendarEvents(calendarEvents);   
+            setErrorText(undefined);
 
-        const calendarEvents = await EventsApi.getAcademyEvents("64cb1f4652e0fd8ebe5c7c16", date.startStr, date.endStr);
-        console.log("Fetched calendar events: " + calendarEvents);
-        setCalendarEvents(calendarEvents);
+        } catch (error) {
+            setErrorText("Failed to fetch academy events.")
+        }
     }
 
     function handleEventClick(event: EventClickArg) {
+        if (!userLoading && user?.userType=="Owner") {
+
+            setShowEditEventModal(true);
+        }
         console.log(event.event.extendedProps);
     }
 
     function handleEventContent(event: EventContentArg) {
         
+        const extendedProps = event.event.extendedProps;
+        const colourClassString = "bg-blue"
+
         return (
             <>
-            <div className="flex flex-row w-full w-full border bg-red-500 text-white-500 border-red-200 rounded-md">
+
+            <div className={"flex flex-row w-full w-full border text-white-500 border-red-200 rounded-md " + colourClassString}>
+                <p></p>
                 <div className="flex flex-col">
-                    <b className="px-2">{event.timeText}</b>
-                    <i className="px-2">{event.event.title}</i>
+                    <b className="px-2 text-sm text-ellipsis">{event.timeText}</b>
+                    <i className="px-2 text-sm text-ellipsis">{event.event.title}</i>
                 </div>
                 <div className="m-auto ml-none">
-                    <i>0/30</i><Icon className="px-1" icon={faUniformMartialArts}/>
+                    { colourClassString === "bg-blue" &&
+                        <div>
+                            <i>0/30</i>
+                        </div>
+    
+                    }
+                    { colourClassString != "bg-blue" &&
+                        <div>
+                            <i>0/30</i><Icon className="" icon={faUniformMartialArts}/>
+                        </div>
+                    }
+                    
                 </div>
             </div>
             </>
@@ -90,25 +129,34 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     async function handleEventAdd(event: EventAddArg) {
-        
-        const eventObject = {
-            title: event.event.title,
-            description: eventDescription,
-            start: event.event.startStr,
-            end: event.event.endStr,
-            referenceId: "64cb1f4652e0fd8ebe5c7c16"
-        } as EventsApi.CreateEventProps
+        try {
+            const eventObject = {
+                title: event.event.title,
+                description: event.event.extendedProps.description,
+                type: event.event.extendedProps.type,
+                start: event.event.startStr,
+                end: event.event.endStr,
+                referenceId: event.event.extendedProps.referenceId,
+            } as EventsApi.CreateEventProps
+    
+            const newEvent = await EventsApi.createEvent(eventObject);
+            setShowAddEventModal(false);
+            setErrorText(undefined);
 
-        const newEvent = await EventsApi.createEvent(eventObject);
+        } catch (error) {
+            setErrorText("Failed to create event.")
+        }
     }
 
-    return  (
+    return !userLoading ? (
         <DefaultLayout>
 
             { showAddEventModal &&
                 <AddEventModal 
                     isOpen={showAddEventModal}
-                    onEventTitle={(eventName) => {setEventTitle(eventName)}}
+                    onEventCreatedSuccessfully={() => {setShowAddEventModal(false)}}
+                    onEventTitle={(title) => {setEventTitle(title)}}
+                    onEventType={(type) => {setEventType(type)}}
                     onEventDescription={(eventDescription) => setEventDescription(eventDescription)}
                     calendarApi={calInfo!}  
                     selectedDate={startDate?.toISOString()!} 
@@ -120,8 +168,9 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
             <Breadcrumb pageName="Calendar" />
 
-
-
+            {errorText &&
+                 <ErrorAlert errorText={errorText} errorTextHeading="Error"/>            
+            }
             <div className='demo-app'>
                 <div className=''>
                 <FullCalendar
@@ -154,6 +203,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 </div>
             </div>
         </DefaultLayout>
-    );
+    ): <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>;
   }
   

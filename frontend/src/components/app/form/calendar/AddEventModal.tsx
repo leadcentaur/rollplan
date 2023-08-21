@@ -18,6 +18,7 @@ import EventDateInputField from "./DateInputField";
 import EventDetailsInputField from "./EventDetailsInputField";
 import { CalendarApi, DateSelectArg } from "@fullcalendar/core";
 import { createEventId } from "@/utils/event-utils";
+import ErrorAlert from "../../components/ErrorAlert";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -35,9 +36,8 @@ export type EventType =
 
 interface AddEventModalProps {
     onDismiss: () => void;
-    onEventTitle: (eventName: string) => void;
-    onEventDescription: (eventDescription: string) => void;
-    onEventCreatedSuccessfully: (status: boolean) => void,
+    onEventCreatedSuccessfully: () => void,
+    errorString?: string,
     calendarApi: CalendarApi,
     selectedDate: string,
     isOpen: boolean;
@@ -45,14 +45,15 @@ interface AddEventModalProps {
 
 export const createEventSchema = yup.object().shape({
     title: yup.string().required(),
-    eventDescription: yup.string().required(),
+    description: yup.string().required(),
+    type: yup.string().required(),
     start: yup.string().required(),
     end: yup.string().required(),
 })
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
-export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onEventDescription, selectedDate, isOpen}: AddEventModalProps) {
+export default function AddEventModal({onDismiss, calendarApi, selectedDate, isOpen}: AddEventModalProps) {
 
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
@@ -61,34 +62,35 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
 
     const selectedDateLo = toDateTimeLocal(selectedDate);
 
-    const [eventName, setEventName] = useState<string|undefined>();
+    const [title, setTitle] = useState<string|undefined>();
     const [startDate, setStartDate] = useState<string|undefined>(selectedDateLo);
     const [endDate, setEndDate] = useState<string|undefined>(selectedDateLo);
     
 
     async function onSubmit(eventData: CreateEventData) {
 
-        const eventName = eventData.title;
+        const title = eventData.title;
         const startDate = eventData.start;
         const endDate = eventData.end;
-        const eventDescription = eventData.eventDescription;
+        const description = eventData.description;
+        const type = eventData.type;
         const referenceId = "64cb1f4652e0fd8ebe5c7c16"
 
-        console.log("OnSubmit eventName " + eventName + "\n")
+        console.log("OnSubmit title " + title + "\n")
         console.log("OnSubmit startDate " + startDate + "\n")
+        console.log("OnSubmnit type " + type + "\n");
         console.log("OnSubmit endDate " + endDate + "\n")
-        console.log("OnSubmit eventDescription " + eventDescription + "\n")
+        console.log("OnSubmit description " + description + "\n")
         
-        onEventTitle(eventName);
-        onEventDescription(eventDescription);
 
         calendarApi.addEvent({
             id: createEventId(),
-            title: eventName,
+            title: title,
             start: startDate,
             end: endDate,
             extendedProps: {
-                "description": eventDescription,
+                "description": description,
+                "type": type,
                 "referenceId": referenceId
             }
         })
@@ -99,27 +101,33 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
         <div className='bg-black-200 text-sm bg-opacity-80 flex overflow-hidden justify-center items-start md:items-center m-auto lg:items-center xl:items-center w-screen h-screen fixed z-30 w-full p-4 md:inset-34 h-[calc(100%-1rem)]' data-aria-modal="hidden">
         <div className="w-full max-w-lg fixed z-10">
         <div className={clsx(`${isOpen ? 'animate-fade transform transition-all duration-500 delay-100 ease-in translate-y-10 relative bg-white-500 rounded-lg shadow dark:bg-gray-700' : 'relative bg-white-500 rounded-lg shadow dark:bg-gray-700'}`)}>
+
             <button type="button" onClick={onDismiss} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
                 <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 <span className="sr-only">Close modal</span>
             </button>
             <div className="px-6 py-6 lg:px-8 ">
+            
+                { errorText &&
+                    <ErrorAlert errorText={errorText} errorTextHeading="An error occurred"/>
+                }
+
                 <h3 className="mb-4 text-xl font-medium border-b border-stroke pb-3 text-gray-900 dark:text-white">Create event</h3>
 
 
                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     {/* <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">   */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-row gap-3">
 
                             <EventNameInputField
                                 register={register("title")}
                                 error={errors.title}
                             />
 
-                            {/* <EventTypeInputField
-                                register={register("eventType")}
-                                error={errors.eventType}
-                            /> */}
+                            <EventTypeInputField
+                                register={register("type")}
+                                error={errors.type}
+                            />
                     </div>
 
                         <div>
@@ -141,8 +149,8 @@ export default function AddEventModal({onDismiss, calendarApi, onEventTitle, onE
                         </div>
                             
                             <EventDetailsInputField
-                                register={register("eventDescription")}
-                                error={errors.eventDescription}
+                                register={register("description")}
+                                error={errors.description}
                             />
 
                     { errorText &&

@@ -4,17 +4,17 @@ import mongoose, { Mongoose, Schema, mongo, isValidObjectId } from "mongoose";
 import EventModel from "../models/event";
 import TempEventModel from "../models/temp-event";
 import assertIsDefined from "../utils/assertIsDefined";
-import { CreateEventBody, CreateTempEventBody } from "../validation/calendar";
+import { CreateEventBody} from "../validation/calendar";
 import sharp from "sharp";
 import env from "../env";
 import moment from "moment";
 
 export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
     try {
-        const { title, start, end, description, referenceId } = req.body;
+        const { title, start, end, type, description, referenceId } = req.body;
         
         const newEvent = await EventModel.create({
-            title, start, end, description, referenceId
+            title, start, end, description, referenceId, type
         });
 
         console.log("New academy created:" + newEvent);
@@ -48,8 +48,9 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
     try {
 
         const events = await EventModel.find({
-            start: {$gte: moment(req.query.start).toDate()}, 
-            end: {$lte: moment(req.query.end).toDate()},
+            referenceId: req.params.id,
+            // start: {$gte: moment(req.query.start).toDate()}, 
+            // end: {$lte: moment(req.query.end).toDate()},
         });
 
         console.log("Returned temp events: " + JSON.stringify(events));
@@ -59,20 +60,6 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
         next(error)
     }
 }
-
-// export const createTempEvent: RequestHandler<unknown, unknown, CreateTempEventBody, unknown> = async (req, res, next) => {
-//     try {
-//         const { title, start, end } = req.body;
-//         const newTempEvent = await TempEventModel.create({title, start, end});
-
-//         console.log("New temp event created:" + newTempEvent);
-//         res.status(201).json(newTempEvent)
-
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
 
 // export const deleteCalendarEvent: RequestHandler<unknown, unknown, DeleteEventBody, unknown> = async (req, res, next) => {
 //     try {

@@ -6,6 +6,7 @@ import { EventInput } from "@fullcalendar/core";
 export interface CreateEventProps {
     title?: string,
     description?: string,
+    type?: string,
     start?: string,
     end?: string,
     referenceId?: string,
@@ -19,17 +20,6 @@ export async function createEvent(createEventObject: CreateEventProps) {
     return response.data;
 }
 
-
-// export async function getAcademyCalendarEvents(academyId: string, start: string, end: string) {
-
-//     console.log("ZZZ!")
-//     const response = await api.get<EventInput[]>("/calendar/events/" + academyId + "?start=" + moment(start).toISOString() +"&end=" +
-//     moment(end).toISOString());
-
-//     console.log("Calendar events: " + response.data);
-
-//     return response.data;
-// }
 
 export async function getAcademyEvents(academyId: string, start: string, end: string) {
 

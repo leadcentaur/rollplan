@@ -6,13 +6,11 @@ import { createAcademyRateLimit } from "../middlewares/rate-limit";
 import requiresAuth from "../middlewares/requiresAuth";
 import requiresOwner from "../middlewares/requiresOwner";
 import { academyLogoUpload } from "../middlewares/image-upload";
-import { createCalendarEventSchema, createTempEventBodySchema } from "../validation/calendar";
+import { createCalendarEventSchema } from "../validation/calendar";
 
 const router = express.Router();
 
 router.post("/create-event", validateRequestSchema(createCalendarEventSchema), CalendarController.createCalendarEvent);
-
-// router.post("/create-temp-event", validateRequestSchema(createTempEventBodySchema), CalendarController.createTempEvent);
 router.get("/events/:id", CalendarController.getAcademyEvents); 
 
 export default router;

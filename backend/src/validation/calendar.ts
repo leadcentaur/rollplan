@@ -15,14 +15,14 @@ export const academyReferenceIdSchema = yup.string()
     .matches(/^[a-f\d]{24}$/i, "Academy reference field must be a valid user id")
     .max(24)
 
-export const eventTypeSchema = yup.string()
-
+export const eventTypeSchema = yup.string().required()
 export const numberOfAtendeesSchema = yup.number()
 
 export const createCalendarEventSchema = yup.object({
     body: yup.object({
         title: eventTitleSchema,
         description: eventDescriptionSchema,
+        type: eventTypeSchema,
         start: startDateSchema,
         end: endDateSchema,
         referenceId: academyReferenceIdSchema,
@@ -31,15 +31,6 @@ export const createCalendarEventSchema = yup.object({
 
 export type CreateEventBody = yup.InferType<typeof createCalendarEventSchema>["body"];
 
-export const createTempEventBodySchema = yup.object({
-    body: yup.object({
-        title: yup.string(),
-        start: yup.string(),
-        end: yup.string(),
-    })
-})
-
-export type CreateTempEventBody = yup.InferType<typeof createTempEventBodySchema>["body"];
 
 
 

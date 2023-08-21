@@ -12,8 +12,9 @@ export const eventScehma = new Schema({
     description: {
         type: String,
     },
-    eventType: {
+    type: {
         type: String,
+        required: true,
     },
     numberOfAttendees: {
         type: String,
