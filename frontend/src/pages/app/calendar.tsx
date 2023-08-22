@@ -37,6 +37,13 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { ColorRing } from "react-loader-spinner";
 import * as icons from "@/assets/NoGiIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "@emotion/styled"
+
+
+export const StyleWrapper = styled.div`
+ .fc-timeline-event {
+    overflow: hidden;
+}`
 
 interface CalendarState {
     weekendsVisible: boolean
@@ -97,32 +104,33 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     function handleEventContent(event: EventContentArg) {
         
-        const extendedProps = event.event.extendedProps;
-        const colourClassString = "bg-blue"
+        let colourClassString = ""
+        const eventType = event.event.extendedProps.type;
+        if (eventType.toLowerCase().includes("No-Gi".toLocaleLowerCase())) {
+            colourClassString = "bg-nogiclass"
+        } else if (eventType == "Seminar") {
+            colourClassString = "bg-seminar"
+        } else {
+            colourClassString = "bg-giclass"
+        }
+    
 
         return (
             <>
 
-            <div className={"flex flex-row w-full w-full border text-white-500 border-red-200 rounded-md " + colourClassString}>
+                <div className={"flex flex-row w-full w-full border text-white-500 border-red-200 rounded-md text-ellipsis " + colourClassString}>
                 <p></p>
-                <div className="flex flex-col">
+                <div className="absolute ml-2">                    
+                        <div className={colourClassString}>
+                            <i>0/30</i><Icon className="px-1" icon={faUniformMartialArts}/>
+                        </div>
+
+                </div>
+                <div className="flex flex-col text-red-400">
                     <b className="px-2 text-sm text-ellipsis">{event.timeText}</b>
                     <i className="px-2 text-sm text-ellipsis">{event.event.title}</i>
                 </div>
-                <div className="m-auto ml-none">
-                    { colourClassString === "bg-blue" &&
-                        <div>
-                            <i>0/30</i>
-                        </div>
-    
-                    }
-                    { colourClassString != "bg-blue" &&
-                        <div>
-                            <i>0/30</i><Icon className="" icon={faUniformMartialArts}/>
-                        </div>
-                    }
-                    
-                </div>
+
             </div>
             </>
         )
@@ -148,16 +156,14 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         }
     }
 
-    return !userLoading ? (
+    return !userLoading && user ? (
         <DefaultLayout>
 
-            { showAddEventModal &&
+            { showAddEventModal && user?.academyReferenceId &&
                 <AddEventModal 
                     isOpen={showAddEventModal}
                     onEventCreatedSuccessfully={() => {setShowAddEventModal(false)}}
-                    onEventTitle={(title) => {setEventTitle(title)}}
-                    onEventType={(type) => {setEventType(type)}}
-                    onEventDescription={(eventDescription) => setEventDescription(eventDescription)}
+                    referenceId={user.academyReferenceId}
                     calendarApi={calInfo!}  
                     selectedDate={startDate?.toISOString()!} 
                     onDismiss={() => {setShowAddEventModal(false); setCalInfo(undefined)}}
@@ -169,10 +175,12 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
             <Breadcrumb pageName="Calendar" />
 
             {errorText &&
-                 <ErrorAlert errorText={errorText} errorTextHeading="Error"/>            
+                 <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
             }
-            <div className='demo-app'>
-                <div className=''>
+
+            <div className='demo-app' >
+                <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
+                <StyleWrapper>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     eventBackgroundColor="green"
@@ -200,6 +208,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     eventChange={function(){}}
                     eventRemove={function(){}}
                 />
+                </StyleWrapper>
                 </div>
             </div>
         </DefaultLayout>

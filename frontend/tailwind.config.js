@@ -111,6 +111,9 @@ module.exports = {
         success: '#219653',
         danger: '#D34053',
         warning: '#FFA70B',
+        seminar: '#29AB87',
+        giclass: '#FF0800',
+        nogiclass: '#007FFF',
       },
       variants: {
         fill: ['hover', 'focus'], // this line does the trick

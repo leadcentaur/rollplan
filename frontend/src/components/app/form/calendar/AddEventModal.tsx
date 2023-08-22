@@ -38,6 +38,7 @@ interface AddEventModalProps {
     onDismiss: () => void;
     onEventCreatedSuccessfully: () => void,
     errorString?: string,
+    referenceId: string,
     calendarApi: CalendarApi,
     selectedDate: string,
     isOpen: boolean;
@@ -76,12 +77,15 @@ export default function AddEventModal({onDismiss, calendarApi, selectedDate, isO
         const type = eventData.type;
         const referenceId = "64cb1f4652e0fd8ebe5c7c16"
 
-        console.log("OnSubmit title " + title + "\n")
-        console.log("OnSubmit startDate " + startDate + "\n")
-        console.log("OnSubmnit type " + type + "\n");
-        console.log("OnSubmit endDate " + endDate + "\n")
-        console.log("OnSubmit description " + description + "\n")
-        
+        if (endDate < startDate) {
+            setErrorText("You cannot have a date end before it starts.");
+            return null;
+        }
+
+        if (endDate == startDate) {
+            setErrorText("An event cannot start the same time it ends.");
+            return null;
+        }
 
         calendarApi.addEvent({
             id: createEventId(),
