@@ -59,11 +59,12 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
     const start = editEventClickArg.event.startStr;
     const end = editEventClickArg.event.endStr;
 
-    async function handleEventDeletion(eventId: string) {
+    function handleEventDeletion(eventId: string) {
         try {
-          
+          const deletedEvent = EventApi.deleteEvent(eventId);
+          setSuccessText("Successfully deleted event.")
         } catch (error) {
-          
+          setErrorText("An Error has occured")
         }
     }
 
@@ -80,9 +81,9 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
     }
 
     return (
-        <div className="z-40 fixed top-0 left-0 w-full h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
+        <div className="z-40 fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
-        <div className="bg-white-500 max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
+        <div className="bg-white-500 rounded-md max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
           <div
             className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div className="flex flex-row opacity-60 flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
@@ -95,7 +96,7 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
 
                 </div>
                 <div>
-                <Icon onClick={onDismiss} className="text-red-200 text-2xl hover:text-red-400 transition ease-in-out delay-20 transition-duration-20" icon={faXmarkCircle}/>
+                  <Icon onClick={onDismiss} className="text-red-200 text-2xl hover:text-red-400 transition ease-in-out delay-20 transition-duration-20" icon={faXmarkCircle}/>
                 </div>
               
             </div>
@@ -141,6 +142,7 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
               <button type="button"
                 className="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
                 data-bs-dismiss="modal">
+
                 Delete <Icon className="text-red-200 ml-2" icon={faTrashCan}/>
               </button>
               <button type="submit"

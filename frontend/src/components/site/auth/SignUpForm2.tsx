@@ -222,12 +222,22 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                     error={errors.academy_name}
                     maxLength={72}
                   />
-          
+
+                  <AcademyLocationInputField
+                    register={register("academy_location", {required: "Required"})}
+                    error={errors.academy_location} 
+                    maxLength={100}
+                  />
+{/*           
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Academy Location 
                     </label>
                     <div className="relative">
+
+                  
+
+
                         <Controller
                             control={control}
                             name="academy_location"
@@ -246,7 +256,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                       </div>
                     </div>
 
-                    </div>
+                    </div> */}
 
 
 

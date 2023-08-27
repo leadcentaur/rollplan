@@ -54,18 +54,19 @@ export const createEventSchema = yup.object().shape({
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
-export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuccessfully, errorString, referenceId, calendarApi, isOpen}: AddEventModalProps) {
+export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuccessfully, errorString, referenceId,  calendarApi, isOpen}: AddEventModalProps) {
 
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
         resolver: yupResolver(createEventSchema),
     });
-
+    
     const selectedDateLo = toDateTimeLocal(selectedDate);
 
     const [title, setTitle] = useState<string|undefined>();
     const [startDate, setStartDate] = useState<string|undefined>(selectedDateLo);
     const [endDate, setEndDate] = useState<string|undefined>(selectedDateLo);
+    const [academyReferenceId, setAcademyReferenceId] = useState<string|null>(referenceId);
     
 
     async function onSubmit(eventData: CreateEventData) {
@@ -75,7 +76,9 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
         const endDate = eventData.end;
         const description = eventData.description;
         const type = eventData.type;
-        const referenceId = "64cb1f4652e0fd8ebe5c7c16"
+        const referenceId = academyReferenceId;
+
+        console.log(referenceId);
 
         if (endDate < startDate) {
             setErrorText("You cannot have a date end before it starts.");
@@ -100,9 +103,9 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
         })
     }
     return (
-        <div className="z-40 fixed top-0 left-0 w-full h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
+        <div className="z-40 fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
-        <div className="bg-white-500 max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
+        <div className="bg-white-500 rounded-md max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
           <div
             className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div

@@ -24,18 +24,13 @@ export default function AcademyLocationInputField({register, error, ...props}: F
           
         </label>
         <div className="relative">
-              <Controller
-                            control={control}
-                            name="academy_location"
-                            render={({ field: { onChange } }) => (
-                            <ReactGoogleAutoComplete
-                                apiKey="AIzaSyBg712qOpu_RSC-NFFZEyhMBdOkCNxx8U4"
-                                className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                onPlaceSelected={(place) => onChange(place.formatted_address)}
-                            /> 
-
-                            )}
-                        />
+            <input
+                type="academy_location"
+                {...register}
+                {...props}
+                placeholder="Academy location"
+                className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            />
           <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
             <Icon className="pl-2 text-red-500 opacity-20" icon={faLocationDot}/>
           </div>
