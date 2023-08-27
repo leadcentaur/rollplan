@@ -3,7 +3,7 @@ import Icon from "@/components/site/ui/iconography/Icon";
 import { Event } from "@/models/event";
 import { UnauthorizedError } from "@/network/http-errors";
 import { faEnvelopeOpenText } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarCheck, faCalendarStar, faHouse, faInfoCircle, faSign, faSignHanging, faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
+import { faCalendarCheck, faCalendarStar, faHouse, faInfoCircle, faSign, faSignHanging, faStar, faUniformMartialArts, faXmarkCircle } from "@fortawesome/pro-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
 import { useState } from "react";
@@ -54,7 +54,7 @@ export const createEventSchema = yup.object().shape({
 
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
-export default function AddEventModal({onDismiss, calendarApi, selectedDate, isOpen}: AddEventModalProps) {
+export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuccessfully, errorString, referenceId, calendarApi, isOpen}: AddEventModalProps) {
 
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
@@ -99,43 +99,45 @@ export default function AddEventModal({onDismiss, calendarApi, selectedDate, isO
             }
         })
     }
-    
-
     return (
-        <div className='bg-black-200 text-sm bg-opacity-80 flex overflow-hidden justify-center items-start md:items-center m-auto lg:items-center xl:items-center w-screen h-screen fixed z-30 w-full p-4 md:inset-34 h-[calc(100%-1rem)]' data-aria-modal="hidden">
-        <div className="w-full max-w-lg fixed z-10">
-        <div className={clsx(`${isOpen ? 'animate-fade transform transition-all duration-500 delay-100 ease-in translate-y-10 relative bg-white-500 rounded-lg shadow dark:bg-gray-700' : 'relative bg-white-500 rounded-lg shadow dark:bg-gray-700'}`)}>
+        <div className="z-40 fixed text-sm md:text-md lg:text-md xl:text-md top-0 left-0 w-full outline-none ove¢rflow-x-hidden overflow-y-auto"
+        id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+        <div className="sm:h-[calc(100%-4rem)] bg-white-500 rounded-lg max-w-lg  my-6 mx-auto relative w-auto pointer-events-none">
+          <div
+            className="max-h-full overflow-hidden border-none shadow-lg  relative mt-30 flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            <div
+              className="flex flex-row opacity-60 flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
+              <div>
+                <h5 className="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
+                  <Icon className="text-red-200 mr-2" icon={faCalendarStar}/> Create Event
+                </h5>
+              </div>
+              <div>
 
-            <button type="button" onClick={onDismiss} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
-                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span className="sr-only">Close modal</span>
-            </button>
-            <div className="px-6 py-6 lg:px-8 ">
-            
-                { errorText &&
-                    <ErrorAlert errorText={errorText} errorTextHeading="An error occurred"/>
-                }
+              </div>
+              <div>
+                <Icon onClick={onDismiss} className="text-red-200 text-2xl hover:text-red-400 transition ease-in-out delay-20 transition-duration-20" icon={faXmarkCircle}/>
+              </div>
+            </div>
+            <div className="flex-auto overflow-y-auto relative p-4">
+             <div className="flex-auto overflow-y-auto relative p-4">
+              <form className="space-y-5 " onSubmit={handleSubmit(onSubmit)}>
+                    <EventTypeInputField
+                        register={register("type")}
+                        error={errors.type}
+                    />
 
-                <h3 className="mb-4 text-xl font-medium border-b border-stroke pb-3 text-gray-900 dark:text-white">Create event</h3>
+                    <EventNameInputField
+                        register={register("title")}
+                        error={errors.title}
+                    />
 
-
-                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                    {/* <div className="flex flex-col sm:flex-row gap-1 pr-none md:pr-3 lg:pr-3 xl:pr-3 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">   */}
-                    <div className="flex flex-row gap-3">
-
-                            <EventNameInputField
-                                register={register("title")}
-                                error={errors.title}
-                            />
-
-                            <EventTypeInputField
-                                register={register("type")}
-                                error={errors.type}
-                            />
-                    </div>
-
-                        <div>
-                            <EventDateInputField
+                    <EventDetailsInputField
+                        register={register("description")}
+                        error={errors.description}
+                    />
+                <div className="flex flex-row gap-4 ">
+                        <EventDateInputField
                                 register={register("start")}
                                 label="Start Date"
                                 setGeneralDate={(date) => {setStartDate(date)}}
@@ -150,26 +152,20 @@ export default function AddEventModal({onDismiss, calendarApi, selectedDate, isO
                                 selectedDate={endDate}
                             />
 
-                        </div>
-                            
-                            <EventDetailsInputField
-                                register={register("description")}
-                                error={errors.description}
-                            />
-
-                    { errorText &&
-                        <div className="pt-5 m-1 text-red-400 text-ital">
-                            {errorText}
-                        </div>
-                    }
-
-                    {/* <SuccessAlert successText="Event has been created successfully" successTextHeading="Submission success"/> */}
-                    <button disabled={isSubmitting} type="submit" className="w-full text-white-500 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create event</button>
-                    
-                </form>
+                </div>
+                <div
+              className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 pr-3 border-gray-200 rounded-b-md">
+              <button type="submit"
+                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                Create event
+              </button>
             </div>
+                
+              </form>
+            </div>
+            </div>
+          </div>
         </div>
-    </div>
-    </div>
+      </div>
     );
 }

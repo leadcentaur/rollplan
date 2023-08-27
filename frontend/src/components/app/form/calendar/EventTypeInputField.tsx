@@ -6,11 +6,12 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 
 
 interface EventTypeInputFieldProps {
-    register: UseFormRegisterReturn,
+    register?: UseFormRegisterReturn,
     error?: FieldError,
+    editEventValue?: string,
 }
 
-export default function EventTypeInputField({register, error, placeholder, ...props}: EventTypeInputFieldProps & ComponentProps<"input">) {
+export default function EventTypeInputField({register, error, editEventValue, placeholder, ...props}: EventTypeInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="flex flex-col w-full ">
             <div>
@@ -18,7 +19,7 @@ export default function EventTypeInputField({register, error, placeholder, ...pr
                     Event type
                 </label>
                 <div className="relative">
-                <select {...register} className="rounded text-sm border border-stroke py-3 text-right outline-none">
+                <select {...register} defaultValue={editEventValue || ""} className="rounded text-sm border border-stroke py-3 text-right outline-none ">
                     <option value="BJJ Gi">BJJ Gi</option>
                     <option value="BJJ No-Gi">BJJ No-Gi</option>
                     <option value="BJJ Gi Fundamentals">BJJ Gi Fundamentals</option>
@@ -36,9 +37,6 @@ export default function EventTypeInputField({register, error, placeholder, ...pr
                     <option value="Open mat (Gi/No-Gi)">Open mat (Gi/No-Gi)</option>
                     <option value="Seminar">Seminar</option>
                   </select>
-                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faCalendarStar} />
-                    </div>
                 </div>
                 {error && 
                     <div>

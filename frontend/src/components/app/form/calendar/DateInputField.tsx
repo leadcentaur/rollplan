@@ -1,4 +1,5 @@
 import Icon from "@/components/site/ui/iconography/Icon";
+import { toDateTimeLocal } from "@/utils/utils";
 import { faCalendarCheck, faSignHanging } from "@fortawesome/pro-solid-svg-icons";
 import cx, { clsx } from "clsx";
 import { ComponentProps, useState } from "react";
@@ -10,10 +11,11 @@ interface AddEventDateInputFieldProps {
     selectedDate?: string,
     setGeneralDate: (dateStr: string) => void,
     error?: FieldError,
+    editEventValue?: string,
     label: string,
 }
 
-export default function EventDateInputField({register, error, placeholder, label, setGeneralDate, selectedDate, ...props}: AddEventDateInputFieldProps & ComponentProps<"input">) {
+export default function EventDateInputField({register, error, placeholder, editEventValue, label, setGeneralDate, selectedDate, ...props}: AddEventDateInputFieldProps & ComponentProps<"input">) {
 
 
     return (
@@ -24,7 +26,7 @@ export default function EventDateInputField({register, error, placeholder, label
         <div className="relative">
           <input
             type="datetime-local"
-            value={selectedDate}
+            defaultValue={selectedDate || toDateTimeLocal(editEventValue!)}
             {...register}
             {...props}
             onChange={(date) => setGeneralDate(date.target.value)}

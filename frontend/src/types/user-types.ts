@@ -18,3 +18,4 @@ export type eventType =
    | "Open mat No-Gi"
    | "Open mat (Gi/No-Gi)"
    | "Seminar"
+   | "Other"

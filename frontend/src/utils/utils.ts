@@ -20,6 +20,12 @@ export function capitalizeFirstLetter(string: string) {
         return "Undefined"; 
 }
 
+export function truncateString(string: string, thresh: number) {
+    if (string.length > thresh) {
+        return string.substring(0, thresh-3) + "...";
+    }
+}
+
 export function toDateTimeLocal(date: string) {
     const d = new Date(date);
     const dateTimeLocalValue = (new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString()).slice(0, -1);

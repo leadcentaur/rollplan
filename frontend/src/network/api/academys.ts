@@ -13,6 +13,7 @@ export async function createAcademy(acdemycredentials: CreateAcademyProps) {
     return response.data;
 }
 
+
 export async function getAcademyMembers(academyId: string) {
     const response = await api.get("/academy/" + academyId + "/members");
     console.log("Data fromn abckend " + JSON.stringify(response.data));

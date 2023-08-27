@@ -51,7 +51,7 @@ export default function Settings() {
             <Spinner/>
         }
     </DefaultLayout>
-    ) : <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
+    ) : <Spinner/>
   }
 
 const validationSchema = yup.object({

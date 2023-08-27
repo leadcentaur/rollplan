@@ -41,6 +41,7 @@ import { useRouter } from "next/router";
 import NotFoundPage from "@/pages/404";
 import NavBar from "@/components/site/NavBar";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
+import Spinner from "@/components/site/ui/typography/Spinner";
 
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
@@ -181,7 +182,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
         
       </div>
     </DefaultLayout>
-    ) : <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
+    ) : <Spinner/>
 }
 
 const validationSchema = yup.object({

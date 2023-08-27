@@ -20,6 +20,25 @@ export async function createEvent(createEventObject: CreateEventProps) {
     return response.data;
 }
 
+export async function deleteEvent(eventId: string) {
+    const response = await api.post("/calendar/delete-event/" + eventId);
+    return response.data;
+}
+
+
+export interface UpdateEventValues {
+    title?: string,
+    description?: string,
+    type?: string,
+    start?: string,
+    end?: string,
+    referenceId?: string,
+}
+
+export async function updateCalendarEvent(eventUpdateObject: UpdateEventValues, id: string) {
+    const response = await api.patch("/calendar/update-event/" + id, eventUpdateObject);
+    return response.data;
+}
 
 export async function getAcademyEvents(academyId: string, start: string, end: string) {
 
@@ -33,3 +52,4 @@ export async function getAcademyEvents(academyId: string, start: string, end: st
 
     return response.data;
 }
+

@@ -55,6 +55,7 @@ export const beltSchema = yup.mixed<beltType>().oneOf([
     'white','blue','brown','purple','black'
 ])
 
+
 export const eventTypeSchema = yup.mixed<eventType>().oneOf([
     "BJJ Gi",
     "BJJ No-Gi",

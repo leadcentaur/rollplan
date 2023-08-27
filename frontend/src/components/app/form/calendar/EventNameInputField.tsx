@@ -6,11 +6,12 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 
 
 interface AddEventNameInputFieldProps {
-    register: UseFormRegisterReturn,
+    register?: UseFormRegisterReturn,
+    editEventValue?: string,
     error?: FieldError,
 }
 
-export default function EventNameInputField({register, error, placeholder, ...props}: AddEventNameInputFieldProps & ComponentProps<"input">) {
+export default function EventNameInputField({register, error, editEventValue, placeholder, ...props}: AddEventNameInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="flex flex-col   ">
             <div>
@@ -20,13 +21,11 @@ export default function EventNameInputField({register, error, placeholder, ...pr
                 <div className="relative text-sm">
                     <input
                         type="text"
+                        defaultValue={editEventValue || ""}
                         {...register}
                         {...props}
-                        className="w-full pl-12 rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-                    <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                        <Icon className="pl-2 text-red-500 text-lg opacity-20" icon={faSignHanging} />
-                    </div>
                 </div>
                 {error && 
                     <div>

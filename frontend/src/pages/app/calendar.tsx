@@ -18,7 +18,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils'
 import Link from "next/link";
-import AddEventModal, { EventType } from "@/components/app/form/calendar/AddEventModal";
+import CreateEventModal, { EventType } from "@/components/app/form/calendar/CreateEventModal";
 import { useStyleRegistry } from "styled-jsx";
 import { CalendarEvent } from "@/models/event";
 import TestModal from "@/components/app/form/calendar/TestModal";
@@ -38,6 +38,11 @@ import { ColorRing } from "react-loader-spinner";
 import * as icons from "@/assets/NoGiIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "@emotion/styled"
+import NoGiIcon from "../../assets/images/NoGi.svg";
+import { faGraduationCap } from "@fortawesome/pro-solid-svg-icons";
+import ExampleModal from "@/components/app/form/calendar/CreateEventModal";
+import { truncateString } from "@/utils/utils";
+import EditEventModal from "@/components/app/form/calendar/EditEventModal";
 
 
 export const StyleWrapper = styled.div`
@@ -58,7 +63,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [showEditEventModal, setShowEditEventModal] = useState<boolean>(false);
-    const [eventClickInfo, setEventClickInfo] = useState<EventClickArg>();
+    const [eventClickInfo, setEventClickInfo] = useState<EventClickArg|undefined>();
 
     const [errorText, setErrorText] = useState<string|undefined>(undefined);
     const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
@@ -95,17 +100,23 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     function handleEventClick(event: EventClickArg) {
-        if (!userLoading && user?.userType=="Owner") {
 
+
+            setEventClickInfo(event);
             setShowEditEventModal(true);
-        }
-        console.log(event.event.extendedProps);
+            console.log(event.event.extendedProps);        
+        
     }
 
     function handleEventContent(event: EventContentArg) {
         
         let colourClassString = ""
+        let newTitleStr: string | undefined = undefined
         const eventType = event.event.extendedProps.type;
+        if (event.event.title.length > 12) {
+            newTitleStr = truncateString(event.event.title, 19)!;
+        }
+
         if (eventType.toLowerCase().includes("No-Gi".toLocaleLowerCase())) {
             colourClassString = "bg-nogiclass"
         } else if (eventType == "Seminar") {
@@ -117,18 +128,27 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
         return (
             <>
+                <div className={"flex flex-row w-full px-1  border text-white-500 border-red-200 rounded-md text-ellipsis " + colourClassString}>
 
-                <div className={"flex flex-row w-full w-full border text-white-500 border-red-200 rounded-md text-ellipsis " + colourClassString}>
-                <p></p>
-                <div className="absolute ml-2">                    
+                <div className="absolute ">                    
                         <div className={colourClassString}>
-                            <i>0/30</i><Icon className="px-1" icon={faUniformMartialArts}/>
+                            <i className="">0/30</i>
+                            { colourClassString == "bg-nogiclass" &&
+                            <span className="inline-block ml-2 pt-1"><NoGiIcon/></span>
+                                
+                            }
+                            { colourClassString == "bg-giclass" &&
+                                <Icon className="ml-1" icon={faUniformMartialArts}/>
+                            }
+                            { colourClassString == "bg-seminar" &&  
+                                <Icon className="ml-1" icon={faGraduationCap}/>
+                            }
                         </div>
-
+    
                 </div>
-                <div className="flex flex-col text-red-400">
-                    <b className="px-2 text-sm text-ellipsis">{event.timeText}</b>
-                    <i className="px-2 text-sm text-ellipsis">{event.event.title}</i>
+                <div className="flex flex-col text-white-500">
+                    <b className=" text-sm">{event.timeText}</b>
+                    <i className=" text-sm text-ellipsis">{newTitleStr||event.event.title}</i>
                 </div>
 
             </div>
@@ -160,13 +180,21 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         <DefaultLayout>
 
             { showAddEventModal && user?.academyReferenceId &&
-                <AddEventModal 
+                <CreateEventModal
                     isOpen={showAddEventModal}
                     onEventCreatedSuccessfully={() => {setShowAddEventModal(false)}}
                     referenceId={user.academyReferenceId}
                     calendarApi={calInfo!}  
                     selectedDate={startDate?.toISOString()!} 
                     onDismiss={() => {setShowAddEventModal(false); setCalInfo(undefined)}}
+                />
+            }
+
+            { showEditEventModal && user.academyReferenceId && 
+                <EditEventModal
+                    editEventClickArg={eventClickInfo!}
+                    onDismiss={() => {setShowEditEventModal(false)}}
+                    isOpen={showEditEventModal}
                 />
             }
 
@@ -185,7 +213,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                     eventBackgroundColor="green"
                     themeSystem="bootstrap 4"
-                    contentHeight={800}
+                    aspectRatio={1.4}
+
                     headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
@@ -212,6 +241,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 </div>
             </div>
         </DefaultLayout>
-    ): <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>;
+    ): <Spinner/>
   }
   

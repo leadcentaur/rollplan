@@ -8,12 +8,13 @@ import DashboardMember from "@/components/app/pages/Dashboard/DashBoardMember";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useRouter } from "next/router";
+import Spinner from "@/components/site/ui/typography/Spinner";
 
 export default function Dashboard() {
 
   const router = useRouter();
   const { user, userLoading } = useAuthenticatedUser();
-  if (userLoading) return <ColorRing wrapperClass="h-screen m-auto" colors={['#e15b64','#e15b64','#e15b64','#e15b64','#e15b64']}/>
+  if (userLoading) return <Spinner/>
   if (!user) {
     router.push("/login");
   }

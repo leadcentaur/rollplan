@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faBagsShopping, faCalendarArrowDown, faCalendarUsers, faCog, faDashboard, faDoorOpen, faGridHorizontal, faLandmark, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp, faBagsShopping, faBarChart, faCalendarArrowDown, faCalendarUsers, faChartMixed, faCog, faDashboard, faDoorOpen, faGridHorizontal, faLandmark, faListUl, faMoneyCheckDollarPen, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "../components/../../site/ui/iconography/Icon";
 import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
@@ -153,7 +153,21 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                               href="/app/members"
                               className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
                             >
-                              Members list  
+                              Members
+                            </Link>
+                          </li>
+                          <li>
+                            <Icon
+                              icon={faChartMixed}
+                              style={{ maxWidth: 54 }}
+                              className="mr-1 pr-2  text-bodydark2"
+                            />
+                            
+                            <Link
+                              href="/app/members"
+                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
+                            >
+                              Stats
                             </Link>
                           </li>
                           <li>
