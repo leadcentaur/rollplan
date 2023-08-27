@@ -43,6 +43,7 @@ import { faGraduationCap } from "@fortawesome/pro-solid-svg-icons";
 import ExampleModal from "@/components/app/form/calendar/CreateEventModal";
 import { truncateString } from "@/utils/utils";
 import EditEventModal from "@/components/app/form/calendar/EditEventModal";
+import SuccessAlert from "@/components/app/components/SuccessAlert";
 
 
 export const StyleWrapper = styled.div`
@@ -64,6 +65,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [showEditEventModal, setShowEditEventModal] = useState<boolean>(false);
     const [eventClickInfo, setEventClickInfo] = useState<EventClickArg|undefined>();
+    const [eventUpdatedText, setEventUpdatedText] = useState<string|undefined>();
 
     const [errorText, setErrorText] = useState<string|undefined>(undefined);
     const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
@@ -192,6 +194,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
             { showEditEventModal && user.academyReferenceId && 
                 <EditEventModal
+                    onEventUpdated={(text) => {setEventUpdatedText(text)}}
                     editEventClickArg={eventClickInfo!}
                     onDismiss={() => {setShowEditEventModal(false)}}
                     isOpen={showEditEventModal}
@@ -204,6 +207,10 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
             {errorText &&
                  <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
+            }
+
+            { eventUpdatedText &&
+                <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
             }
 
             <div className='demo-app' >

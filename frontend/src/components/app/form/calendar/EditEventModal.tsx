@@ -25,7 +25,7 @@ import { eventType } from "@/types/user-types";
 interface EditEventModalProps {
     onDismiss?: () => void;
     editEventClickArg: EventClickArg,
-    onEventUpdated: string,
+    onEventUpdated: (text: string) => void;
     isOpen: boolean,
 }
 
@@ -39,7 +39,7 @@ export const editEventSchema = yup.object().shape({
 
 type UpdateEventData = yup.InferType<typeof editEventSchema>;
 
-export default function EditEventModal({ onDismiss, editEventClickArg }: EditEventModalProps) {
+export default function EditEventModal({ onDismiss, editEventClickArg, onEventUpdated }: EditEventModalProps) {
 
     
     const [startDate, setStartDate] = useState<string|undefined>(editEventClickArg.event.startStr);
@@ -59,11 +59,19 @@ export default function EditEventModal({ onDismiss, editEventClickArg }: EditEve
     const start = editEventClickArg.event.startStr;
     const end = editEventClickArg.event.endStr;
 
+    async function handleEventDeletion(eventId: string) {
+        try {
+          
+        } catch (error) {
+          
+        }
+    }
+
     async function onSubmit({title, description, type, start, end}: UpdateEventData) {
         if (!title && !description && !type && !start && !end) return;
         try {
           const updatedEvent = await EventApi.updateCalendarEvent({title, description, type, start, end}, eventId)
-          setSuccessText("Academy event has been updated successfully.")
+          onEventUpdated("The event has been updated sucessfully, Members have been notified");
         } catch (error) {
           if (error instanceof BadRequestError) {
             setErrorText("An Error has occured")
