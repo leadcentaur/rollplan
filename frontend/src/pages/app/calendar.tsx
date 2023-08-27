@@ -37,7 +37,6 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { ColorRing } from "react-loader-spinner";
 import * as icons from "@/assets/NoGiIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "@emotion/styled"
 import NoGiIcon from "../../assets/images/NoGi.svg";
 import { faGraduationCap } from "@fortawesome/pro-solid-svg-icons";
 import ExampleModal from "@/components/app/form/calendar/CreateEventModal";
@@ -46,10 +45,6 @@ import EditEventModal from "@/components/app/form/calendar/EditEventModal";
 import SuccessAlert from "@/components/app/components/SuccessAlert";
 
 
-export const StyleWrapper = styled.div`
- .fc-timeline-event {
-    overflow: hidden;
-}`
 
 interface CalendarState {
     weekendsVisible: boolean
@@ -213,12 +208,11 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
             }
 
-            <div className='demo-app' >
+            <div className='demo-app ' >
                 <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
-                <StyleWrapper>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    eventBackgroundColor="green"
+    
                     themeSystem="bootstrap 4"
                     aspectRatio={1.4}
 
@@ -230,7 +224,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     initialView='dayGridMonth'
                     editable={true}
                     // eventDidMount={(event) => {console.log(event.event.extendedProps)}}
-                    selectable={true}
+                selectable={true}
                     selectMirror={true}
                     dayMaxEvents={true}
                     events={calendarEvents}
@@ -244,7 +238,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     eventChange={function(){}}
                     eventRemove={function(){}}
                 />
-                </StyleWrapper>
                 </div>
             </div>
         </DefaultLayout>

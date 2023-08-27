@@ -100,11 +100,11 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
         })
     }
     return (
-        <div className="z-40 fixed text-sm md:text-md lg:text-md xl:text-md top-0 left-0 w-full outline-none ove¢rflow-x-hidden overflow-y-auto"
+        <div className="z-40 fixed top-0 left-0 w-full h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
-        <div className="sm:h-[calc(100%-4rem)] bg-white-500 rounded-lg max-w-lg  my-6 mx-auto relative w-auto pointer-events-none">
+        <div className="bg-white-500 max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
           <div
-            className="max-h-full overflow-hidden border-none shadow-lg  relative mt-30 flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+            className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
               className="flex flex-row opacity-60 flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
               <div>
@@ -120,7 +120,7 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
               </div>
             </div>
             <div className="flex-auto overflow-y-auto relative p-4">
-             <div className="flex-auto overflow-y-auto relative p-4">
+             <div className="flex-auto ooverflow-y-auto relative p-4">
               <form className="space-y-5 " onSubmit={handleSubmit(onSubmit)}>
                     <EventTypeInputField
                         register={register("type")}
@@ -136,7 +136,7 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
                         register={register("description")}
                         error={errors.description}
                     />
-                <div className="flex flex-row gap-4 ">
+                
                         <EventDateInputField
                                 register={register("start")}
                                 label="Start Date"
@@ -152,7 +152,6 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
                                 selectedDate={endDate}
                             />
 
-                </div>
                 <div
               className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 pr-3 border-gray-200 rounded-b-md">
               <button type="submit"

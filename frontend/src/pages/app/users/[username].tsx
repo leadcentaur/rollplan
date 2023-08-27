@@ -224,7 +224,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
   }
 
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default w-3/4 m-auto dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-sm border border-stroke bg-white shadow-default w-3/4 sm:w-3/4 xs:w-full m-auto dark:border-strokedark dark:bg-boxdark">
     <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
       <h3 className="font-medium text-black dark:text-white">
         Personal Information

@@ -54,7 +54,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:card" content="summary_large_image"/>
       </Head>
 
-        <div className={jakarta.className + ' '}>
+        <div className={jakarta.className + ''}>
           <NextNprogress color='#AA4A44' height={5}/>
           <NavBar/>
 
