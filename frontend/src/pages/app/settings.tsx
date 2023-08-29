@@ -136,6 +136,7 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
                           <SettingsAcademyPhoneNumberInputField register={register("academyPhone")} academyPhone={userAcademy?.academyPhone}/>
                       </div>
                         <SettingsAcademyLocationInputField register={register("academy_location")} academy_location={userAcademy?.academy_location}/>
+                        <SettingsAcademyOnboardingURLInputField academyId={academyId!}/>
                         <SettingsAcademyEmailInputField register={register("academyEmail")} academyEmail={userAcademy?.academyEmail}/>
                         <SettingsAcademyDescriptionInputField register={register("academyDescription")} academy_description={userAcademy?.academyDescription}/>
 

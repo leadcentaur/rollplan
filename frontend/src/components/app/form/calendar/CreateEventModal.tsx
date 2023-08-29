@@ -103,13 +103,13 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
         })
     }
     return (
-        <div className="z-40 fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
+        <div className="z-40 text-sm fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
         <div className="bg-white-500 rounded-md max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
           <div
             className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
             <div
-              className="flex flex-row opacity-60 flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
+              className="flex flex-row flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
               <div>
                 <h5 className="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
                   <Icon className="text-red-200 mr-2" icon={faCalendarStar}/> Create Event
@@ -124,7 +124,7 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
             </div>
             <div className="flex-auto overflow-y-auto relative p-4">
              <div className="flex-auto ooverflow-y-auto relative p-4">
-              <form className="space-y-5 " onSubmit={handleSubmit(onSubmit)}>
+              <form className="s`pace-y-2 md:space-y-2 lg:space-y-2 xl:space-y-2 2xl:space-y-5" onSubmit={handleSubmit(onSubmit)}>
                     <EventTypeInputField
                         register={register("type")}
                         error={errors.type}

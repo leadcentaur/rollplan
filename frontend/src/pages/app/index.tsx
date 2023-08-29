@@ -9,6 +9,10 @@ import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useRouter } from "next/router";
 import Spinner from "@/components/site/ui/typography/Spinner";
+import CardOne from "@/components/app/components/DashBoardCardOne";
+import CardTwo from "@/components/app/components/DashBoardCardTwo";
+import CardThree from "@/components/app/components/DashboardCardThree";
+import CardFour from "@/components/app/components/DashboardCardFour";
 
 export default function Dashboard() {
 
@@ -21,9 +25,18 @@ export default function Dashboard() {
 
   return (
     <DefaultLayout>
-      <div className="">
-       
-      </div>
+       <>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <CardOne />
+      <CardTwo />
+      <CardThree />
+      <CardFour />
+    </div>
+
+    <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+  
+    </div>
+  </>
     </DefaultLayout>
   );
 }

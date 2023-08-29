@@ -69,6 +69,7 @@ export default function MemberList() {
               key={index}
               memebrsLen={members.length}
               firstname={user.firstname}
+              index={index}
               lastname={user.lastname}
               belt={user.belt as beltType}
               numberOfStripes={user.numberOfStripes}

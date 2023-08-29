@@ -14,6 +14,8 @@ interface MemberListItemProps {
     lastname?: string,
     belt?: beltType,
     numberOfStripes?: number,
+    index?: number,
+    listSize?: number,
     email?: string,
     profilePicUrl?: string,
     joinDate?: string,
@@ -30,9 +32,9 @@ const beltStylingMap: Record<beltType, string> = {
 
 }
 
-export default function MemberListEntry({firstname, lastname, belt, numberOfStripes, email, joinDate, profilePicUrl}: MemberListItemProps) {
+export default function MemberListEntry({firstname, lastname, belt, numberOfStripes, memebrsLen, index, email, joinDate, profilePicUrl}: MemberListItemProps) {
     return (
-      <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
+      <div className={clsx(index != memebrsLen!-1 ? " border-b grid grid-cols-3 border-stroke dark:border-strokedark sm:grid-cols-5" : "grid grid-cols-3 border-stroke dark:border-strokedark sm:grid-cols-5")}>
         <div className="flex items-center gap-3 p-2.5 xl:p-5">
           <div className="flex-shrink-0">
             <Image alt="user profile pic" src={profilePicUrl || profilePicPlaceholder} height={50} width={50} className="rounded-full"/>

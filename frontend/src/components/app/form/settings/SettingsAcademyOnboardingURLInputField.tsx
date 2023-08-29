@@ -8,11 +8,11 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 
 
 interface SettingsAcademyOnboardingURLInputFieldProps {
-    userAcademy?: Academy,
+    academyId?: string,
     error?: FieldError,
 }
 
-export default function SettingsAcademyOnboardingURLInputField({error, placeholder, userAcademy,  ...props}: SettingsAcademyOnboardingURLInputFieldProps & ComponentProps<"input">) {
+export default function SettingsAcademyOnboardingURLInputField({error, placeholder, academyId,  ...props}: SettingsAcademyOnboardingURLInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="mb-5.5">
             <label
@@ -33,7 +33,7 @@ export default function SettingsAcademyOnboardingURLInputField({error, placehold
                 name="onboarding"
                 id="onboarding"
                 placeholder="devidjhon24"
-                defaultValue={"http://localhost:3000/member/signup?aid=" + userAcademy?._id}
+                defaultValue={"http://localhost:3000/member/signup?aid=" + academyId}
             />
             </div>
         </div>

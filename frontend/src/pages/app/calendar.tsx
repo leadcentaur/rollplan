@@ -212,8 +212,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-    
-                    themeSystem="bootstrap 4"
+
                     aspectRatio={1.4}
 
                     headerToolbar={{
