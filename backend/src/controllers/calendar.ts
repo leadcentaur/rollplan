@@ -2,9 +2,8 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import mongoose, { Mongoose, Schema, mongo, isValidObjectId } from "mongoose";
 import EventModel from "../models/event";
-import TempEventModel from "../models/temp-event";
 import assertIsDefined from "../utils/assertIsDefined";
-import { CreateEventBody, DeleteEventParams, UpdateCalendarEventBody, UpdateCalendarEventParams} from "../validation/calendar";
+import { CreateEventBody, DeleteEventParams, RegisterToCalendarEventParams, UpdateCalendarEventBody, UpdateCalendarEventParams} from "../validation/calendar";
 import sharp from "sharp";
 import env from "../env";
 import moment from "moment";
@@ -87,6 +86,33 @@ interface AcademyEventsParams {
 interface AcademyEventsQuery {
     start: string,
     end: string,
+}
+
+export const registerToEvent: RequestHandler<RegisterToCalendarEventParams, unknown, unknown, unknown> = async (req, res, next) => {
+    const { eventId, userId } = req.params;
+    
+
+    try {
+        
+        const event = await EventModel.findByIdAndUpdate(eventId, {
+            $addToSet: {registeredMembers: userId}
+        }).exec();
+        
+        if (!event) {
+            throw createHttpError(404, "There was an error registering for event.");
+        }
+
+        event.registeredMembers.forEach(function (value) {
+            if (value.toString() == userId) {
+                throw createHttpError(404, "User already registered for this event.");
+            }
+        })
+
+        res.status(200).json(event);   
+
+    } catch (error) {
+        next(error);
+    }
 }
 
 //neeed to add better validation herese

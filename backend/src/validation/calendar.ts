@@ -80,6 +80,13 @@ export const updateCalendarEventBodySchema = yup.object({
 })
 export type UpdateCalendarEventBody = yup.InferType<typeof updateCalendarEventBodySchema>["body"];
 
+export const registerToCalendarEventSchema = yup.object({
+    params: yup.object({
+        eventId: mongooseObjectIdSchema.required(),
+        userId: mongooseObjectIdSchema.required(),
+    })
+})
+export type RegisterToCalendarEventParams = yup.InferType<typeof registerToCalendarEventSchema>["params"];
 
 
 

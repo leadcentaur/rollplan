@@ -6,11 +6,12 @@ import { createAcademyRateLimit } from "../middlewares/rate-limit";
 import requiresAuth from "../middlewares/requiresAuth";
 import requiresOwner from "../middlewares/requiresOwner";
 import { academyLogoUpload } from "../middlewares/image-upload";
-import { createCalendarEventSchema, deleteCalendarEventSchema, updateCalendarEventBodySchema } from "../validation/calendar";
+import { createCalendarEventSchema, deleteCalendarEventSchema, registerToCalendarEventSchema, updateCalendarEventBodySchema } from "../validation/calendar";
 
 const router = express.Router();
 
 router.post("/create-event", validateRequestSchema(createCalendarEventSchema), CalendarController.createCalendarEvent);
+router.post("/register/:eventId/:userId", validateRequestSchema(registerToCalendarEventSchema), CalendarController.registerToEvent);
 router.post("/delete-event/:id", validateRequestSchema(deleteCalendarEventSchema), CalendarController.deleteCalendarEvent);
 router.patch("/update-event/:id", validateRequestSchema(updateCalendarEventBodySchema), CalendarController.updateCalendarEvent);
 router.get("/events/:id", CalendarController.getAcademyEvents); 
