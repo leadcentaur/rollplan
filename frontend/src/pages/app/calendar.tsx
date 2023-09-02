@@ -11,6 +11,7 @@ import {
   EventAddArg,
   DatesSetArg,
   EventSourceInput,
+  EventRemoveArg,
 } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -34,7 +35,6 @@ import Icon from "@/components/site/ui/iconography/Icon";
 import { faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 import clsx from "clsx";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
-import { ColorRing } from "react-loader-spinner";
 import * as icons from "@/assets/NoGiIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NoGiIcon from "../../assets/images/NoGi.svg";
@@ -43,6 +43,7 @@ import ExampleModal from "@/components/app/form/calendar/CreateEventModal";
 import { truncateString } from "@/utils/utils";
 import EditEventModal from "@/components/app/form/calendar/EditEventModal";
 import SuccessAlert from "@/components/app/components/SuccessAlert";
+import MemberEventModal from "@/components/app/form/calendar/MemberEventModal";
 
 
 
@@ -59,10 +60,15 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [showEditEventModal, setShowEditEventModal] = useState<boolean>(false);
+    const [showMemberEventModal, setShowMemberEventModal] = useState<boolean>(false);
+
     const [eventClickInfo, setEventClickInfo] = useState<EventClickArg|undefined>();
     const [eventUpdatedText, setEventUpdatedText] = useState<string|undefined>();
+    const [monthDateInfo, setMonthDateInfo] = useState<DatesSetArg|undefined>();
 
     const [errorText, setErrorText] = useState<string|undefined>(undefined);
+    const [onEventCreatedSuccessfullyText, setOnEventCreatedSuccessfullyText] = useState<string|undefined>(undefined);
+
     const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
     const [eventTitle, setEventTitle] = useState<string|undefined>()
     const [eventDescription, setEventDescription] = useState<string|undefined>();
@@ -86,8 +92,9 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     async function handleDatesSet(date: DatesSetArg) {
         try {
+            setMonthDateInfo(date);
             const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, date.startStr, date.endStr);
-            console.log("Fetched calendar events: " + calendarEvents);
+            console.log("Fetched calendar events for: " + date.startStr + " to: " + date.endStr);
             setCalendarEvents(calendarEvents);   
             setErrorText(undefined);
 
@@ -98,12 +105,36 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     function handleEventClick(event: EventClickArg) {
 
+            if (user?.userType == "owner") {
+                setEventClickInfo(event);
+                setShowEditEventModal(true);
+            } else if (user?.userType == "member") {
+                setEventClickInfo(event);
+                setShowMemberEventModal(true);
+            } else {
+                return null;
+            }
+    
+    }
 
-            setEventClickInfo(event);
-            setShowEditEventModal(true);
-            console.log(event.event.extendedProps);        
+    async function handleEventRemoval(eventToRemove: EventRemoveArg) {
+
+        if (monthDateInfo?.startStr && monthDateInfo?.endStr) {
+
+            const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, monthDateInfo.startStr, monthDateInfo.endStr);
+            console.log("Fetched calendar events for: " + monthDateInfo.startStr + " to: " + monthDateInfo.endStr);
+            setCalendarEvents(calendarEvents);   
+
+            console.log("Removed event: " + eventToRemove.event.title);
+            setErrorText(undefined);
+
+        } else {
+            setErrorText("Unable to remove event.")
+        }
         
     }
+
+
 
     function handleEventContent(event: EventContentArg) {
         
@@ -145,7 +176,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 </div>
                 <div className="flex flex-col text-white-500">
                     <b className=" text-sm">{event.timeText}</b>
-                    <i className=" text-sm text-ellipsis">{newTitleStr||event.event.title}</i>
+                    <i className=" text-sm ">{newTitleStr||event.event.title}</i>
                 </div>
 
             </div>
@@ -165,7 +196,11 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
             } as EventsApi.CreateEventProps
     
             const newEvent = await EventsApi.createEvent(eventObject);
+            const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, monthDateInfo?.startStr!, monthDateInfo?.endStr!);
+            setCalendarEvents(calendarEvents);
+            
             setShowAddEventModal(false);
+            setOnEventCreatedSuccessfullyText("Event created succesfully")
             setErrorText(undefined);
 
         } catch (error) {
@@ -189,6 +224,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
             { showEditEventModal && user.academyReferenceId && 
                 <EditEventModal
+                    onEventDeleted={() => {setEventUpdatedText("Event had been deleted successfully"); setShowEditEventModal(false)}}
                     onEventUpdated={(text) => {setEventUpdatedText(text)}}
                     editEventClickArg={eventClickInfo!}
                     onDismiss={() => {setShowEditEventModal(false)}}
@@ -196,17 +232,30 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 />
             }
 
+            { showMemberEventModal && user.academyReferenceId &&
+                <MemberEventModal
+                    isOpen={showMemberEventModal}
+                    editEventClickArg={eventClickInfo!}
+                    onDismiss={() => setShowMemberEventModal(false)}
+                />
+                
+            }
+
 
 
             <Breadcrumb pageName="Calendar" />
 
-            {errorText &&
-                 <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
-            }
+                {errorText &&
+                    <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
+                }
 
-            { eventUpdatedText &&
-                <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
-            }
+                { eventUpdatedText &&
+                    <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
+                }
+
+                { onEventCreatedSuccessfullyText &&
+                    <SuccessAlert successText={onEventCreatedSuccessfullyText} successTextHeading="Event created "/>
+                }
 
             <div className='demo-app ' >
                 <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
@@ -234,8 +283,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     //eventsSet={handleEvents} // called after events are initialized/added/changed/removed
                     datesSet={date => handleDatesSet(date)}
                     eventAdd={event => handleEventAdd(event)}
-                    eventChange={function(){}}
-                    eventRemove={function(){}}
+                    eventRemove={event => {handleEventRemoval(event)}}
                 />
                 </div>
             </div>

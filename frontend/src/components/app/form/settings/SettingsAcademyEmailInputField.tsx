@@ -30,7 +30,7 @@ export default function SettingsAcademyEmailInputField({register, error, placeho
             {...register}
             {...props}
             id="emailAddress"
-            defaultValue={academyEmail || "Academy email not set."}
+            defaultValue={academyEmail || ""}
           />
         </div>
       </div>

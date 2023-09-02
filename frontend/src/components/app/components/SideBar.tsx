@@ -65,7 +65,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 													style={{ maxWidth: 54 }}
 												/>
                         <span className="m-0">
-                          Dashboard
+                          Home
                         </span>
               </Link>
 

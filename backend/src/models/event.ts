@@ -7,7 +7,6 @@ export const eventScehma = new Schema({
     title: {
         type: String, 
         required: true,
-        unique: true,
     },
     description: {
         type: String,
@@ -18,6 +17,11 @@ export const eventScehma = new Schema({
     },
     numberOfAttendees: {
         type: String,
+    },
+    registeredMembers: {
+        type: [{type: Schema.Types.ObjectId}], 
+        required: false, 
+        sparse: true 
     },
     start: {
         type: Date,
@@ -32,7 +36,6 @@ export const eventScehma = new Schema({
         required: true,
         ref: "Academy",
     }
-//possibly add back the props
 })
 
 type Event = InferSchemaType<typeof eventScehma>;

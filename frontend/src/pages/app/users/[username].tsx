@@ -31,7 +31,9 @@ import { Reem_Kufi } from "next/font/google";
 import Icon from "@/components/site/ui/iconography/Icon";
 import { faCalendarCircleExclamation, faCalendarClock, faStar, faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/pro-solid-svg-icons";
-import NoGiIcon from "../../../assets/images/NoGi.svg";
+import NoGiDarkIcon from "../../../assets/images/NoGiDark.svg"
+import GiIcon from "../../../assets/images/Gi.svg";
+import CalendarClock from "../../../assets/images/CalendarClock.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/pro-solid-svg-icons";
 import next from "next/types";
@@ -131,31 +133,29 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     
             <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                <span className="font-semibold text-black dark:text-white">
+                <span className="font-semibold dark:text-white">
                   259
                 </span>
+
                 <span className="text-sm">Gi classes</span>
-                <span>
-                    <Icon icon={faUniformMartialArts}/>
-                </span>
+                <span className="inline-block ml-2 pt-1 p-1 rounded-md "><GiIcon/></span>
+
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
-                <span className="font-semibold text-black dark:text-white">
+                <span className="font-semibold  text-black dark:text-white">
                   129K
                 </span>
+
                 <span className="text-sm">No-gi classes</span>
-                <span>
-                  <NoGiIcon/>
-                </span>
+                <span className="inline-block ml-2 pt-1 p-1 rounded-md "><NoGiDarkIcon/></span>
+           
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
                   July 2023
                 </span>
                 <span className="text-sm">Joined</span>
-                <span>
-                  <Icon icon={faCalendarClock}/>  
-                </span>
+                <span className="inline-block ml-2 pt-1 p-1 rounded-md "><CalendarClock/></span>
               </div>
             </div>
               

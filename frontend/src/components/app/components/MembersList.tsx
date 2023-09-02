@@ -9,7 +9,6 @@ import { GetServerSideProps } from "next";
 import { User } from "@/models/user";
 import { Members } from "@/models/members-list";
 import useAcademyMembers from "@/hooks/useAcademyMembers";
-import { ColorRing } from "react-loader-spinner";
 import MemberListEntry from "./MemberListEntry";
 import { beltType } from "@/types/user-types";
 import ErrorAlert from "./ErrorAlert";

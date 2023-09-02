@@ -29,7 +29,7 @@ export default function SettingsAcademyPhoneNumberInputField({register, error, p
           type="text"
           {...register}
           {...props}
-          defaultValue={academyPhone || "Academy number not set."}
+          defaultValue={academyPhone || ""}
         />
       </div>
       </div>

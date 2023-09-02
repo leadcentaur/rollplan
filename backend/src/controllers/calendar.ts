@@ -18,15 +18,24 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
         const startDate = new Date(start);
         const endDate = new Date(end);
 
+        const differenceInTime = endDate.getTime() - startDate.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+        
+        if (differenceInDays > 7) {
+            throw createHttpError(400, "An event cannot last longer than 7 days.")
+        }
+
         if (endDate < startDate) {
             throw createHttpError(400, "An event cannot end before it begins");
         } 
 
         // Look at maybe adding one second to the
-        // event duration as from a users perspective this might. interesting. 
+        // event duration as from a users perspective this might. interesting.
+
         if (start == end) {
-            throw createHttpError(400, "Event must have a duration. Ensure the event has a start and end date that differ.");
-        }
+
+                throw createHttpError(400, "Event must have a duration. Ensure the event has a start and end date that differ.");
+        } 
         
         const newEvent = await EventModel.create({
             title, start, end, description, referenceId, type
@@ -34,7 +43,7 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
 
         console.log("New academy created:" + newEvent);
         res.status(201).json(newEvent)
-
+        
     } catch (error) {
         next(error)
     }
@@ -86,11 +95,9 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
 
         const events = await EventModel.find({
             referenceId: req.params.id,
-            // start: {$gte: moment(req.query.start).toDate()}, 
-            // end: {$lte: moment(req.query.end).toDate()},
+            start: {$gte: moment(req.query.start).toDate()}, 
+            end: {$lte: moment(req.query.end).toDate()},
         });
-
-        console.log("Returned temp events: " + JSON.stringify(events));
 
         res.status(200).json(events);   
     } catch (error) {
@@ -133,7 +140,7 @@ export const updateCalendarEvent: RequestHandler<UpdateCalendarEventParams, unkn
                 throw createHttpError(400, "An event cannot end before it has started.please try again")
             }
             if (end == start) {
-
+                throw createHttpError(400, "An event cannot end before it has started.please try again")
             }
         }
 

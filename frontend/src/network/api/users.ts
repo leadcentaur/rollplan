@@ -45,7 +45,6 @@ export interface SignUpValues {
 }
 
 export async function signUp(credentials: SignUpValues) {
-    credentials.userType = "owner";
     const response = await api.post<User>("/users/signup", credentials);
     return response.data;
 }

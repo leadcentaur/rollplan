@@ -21,7 +21,6 @@ import SettingsAcademyOnboardingURLInputField from "@/components/app/form/settin
 import SettingsAcademyDescriptionInputField from "@/components/app/form/settings/SettingsAcademyDescriptionInputField";
 import SettingsAcademyLogoInputField from "@/components/app/form/settings/SettingsAcademyLogoInputField";
 import Spinner from "@/components/site/ui/typography/Spinner";
-import { ColorRing } from "react-loader-spinner";
 import SuccessAlert from "@/components/app/components/SuccessAlert";
 
 

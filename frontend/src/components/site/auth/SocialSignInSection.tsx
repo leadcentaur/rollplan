@@ -3,7 +3,7 @@ import GoogleSignButton from "./GoogleSignInButton";
 
 export default function SocialSignInSection() {
     return (
-        <div>
+        <div className="pt-2">
             <GoogleSignButton/>
             {/* <FacebookSignButton/> */}
         </div>

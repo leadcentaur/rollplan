@@ -19,6 +19,7 @@ import EventDetailsInputField from "./EventDetailsInputField";
 import { CalendarApi, DateSelectArg } from "@fullcalendar/core";
 import { createEventId } from "@/utils/event-utils";
 import ErrorAlert from "../../components/ErrorAlert";
+import { C } from "@fullcalendar/core/internal-common";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -80,6 +81,18 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
 
         console.log(referenceId);
 
+        const sd = new Date(startDate);
+        const ed = new Date(endDate);
+
+        const differenceInTime = ed.getTime() - sd.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+        if (differenceInDays > 7) {
+            console.log("An event cannot last longer than 7 days.")
+            setErrorText("An event cannot last longer than 7 days. ");
+            return null;
+        }
+
         if (endDate < startDate) {
             setErrorText("You cannot have a date end before it starts.");
             return null;
@@ -123,6 +136,9 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
               </div>
             </div>
             <div className="flex-auto overflow-y-auto relative p-4">
+            { errorText &&
+                  <ErrorAlert errorText={errorText} errorTextHeading="An error occured"/>
+              }
              <div className="flex-auto ooverflow-y-auto relative p-4">
               <form className="s`pace-y-2 md:space-y-2 lg:space-y-2 xl:space-y-2 2xl:space-y-5" onSubmit={handleSubmit(onSubmit)}>
                     <EventTypeInputField
