@@ -11,6 +11,12 @@ export const eventScehma = new Schema({
     description: {
         type: String,
     },
+    location: {
+        type: String,
+    },
+    isRecurring: {
+        type: Boolean,
+    },
     type: {
         type: String,
         required: true,

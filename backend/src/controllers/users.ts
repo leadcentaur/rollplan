@@ -201,7 +201,7 @@ export const resetPassword: RequestHandler<unknown, unknown, ResetPasswordBody, 
 
 
 export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknown> = async (req, res, next) => {
-    const { username, about, firstname, lastname } = req.body;
+    const { username, about, firstname, lastname, belt } = req.body;
     const profilePic = req.file;
     const authenticatedUser = req.user;
 
@@ -234,6 +234,7 @@ export const updateUser: RequestHandler<unknown, unknown, UpdateUserBody, unknow
             $set: {
                 ...(username && {username}),
                 ...(firstname && {firstname}),
+                ...(belt && {belt}),
                 ...(lastname && {lastname}),
                 ...(about && { about }),
                 ...(profilePic && { profilePicUrl: env.SERVER_URL + profilePicDestinationPath + "?lastupdated=" + Date.now() }),

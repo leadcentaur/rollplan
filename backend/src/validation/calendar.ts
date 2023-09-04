@@ -41,11 +41,14 @@ export const eventTypeSchema = yup.mixed<eventType>().oneOf([
 
 export const numberOfAtendeesSchema = yup.number()
 
+export const locationSchema = yup.string()
+
 export const createCalendarEventSchema = yup.object({
     body: yup.object({
         title: eventTitleSchema.required(),
-        description: eventDescriptionSchema.required(),
+        description: eventDescriptionSchema,
         type: eventTypeSchema.required(),
+        location: yup.string().required(),
         start: startDateSchema.required(),
         end: endDateSchema.required(),
         referenceId: academyReferenceIdSchema.required()
@@ -73,6 +76,7 @@ export const updateCalendarEventBodySchema = yup.object({
     body: yup.object({
        title: eventTitleSchema,
        description: eventDescriptionSchema,
+       location: locationSchema,
        type: eventTypeSchema,
        start: startDateSchema,
        end: endDateSchema,

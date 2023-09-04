@@ -1,11 +1,12 @@
 import api from "@/network/axiosInstance";
-import { CalendarEvent, TempEvent } from "@/models/event";
+import { CalendarEvent } from "@/models/event";
 import moment from "moment";
 import { EventInput } from "@fullcalendar/core";
 
 export interface CreateEventProps {
     title?: string,
     description?: string,
+    location?: string,
     type?: string,
     start?: string,
     end?: string,
@@ -29,6 +30,7 @@ export async function deleteEvent(eventId: string) {
 export interface UpdateEventValues {
     title?: string,
     description?: string,
+    location?: string,
     type?: string,
     start?: string,
     end?: string,

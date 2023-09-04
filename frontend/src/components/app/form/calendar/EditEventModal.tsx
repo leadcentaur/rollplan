@@ -23,6 +23,7 @@ import { faTrashCan } from "@fortawesome/sharp-regular-svg-icons";
 import { eventType } from "@/types/user-types";
 import Spinner from "@/components/site/ui/typography/Spinner";
 import { ColorRing } from "react-loader-spinner";
+import EventLocationField from "./EventLocationInputField";
 
 interface EditEventModalProps {
     onDismiss?: () => void;
@@ -35,6 +36,7 @@ interface EditEventModalProps {
 export const editEventSchema = yup.object().shape({
     title: yup.string(),
     description: yup.string(),
+    location: yup.string(),
     type: yup.mixed<eventType>(),
     start: yup.string(),
     end: yup.string(),
@@ -61,6 +63,7 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
     const eventId = eventExtendedProps._id;
 
     const description = eventExtendedProps.description;
+    const location = eventExtendedProps.location;
     const start = editEventClickArg.event.startStr;
     const end = editEventClickArg.event.endStr;
 
@@ -78,10 +81,10 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
         }
     }
 
-    async function onSubmit({title, description, type, start, end}: UpdateEventData) {
-        if (!title && !description && !type && !start && !end) return;
+    async function onSubmit({title, description, location, type, start, end}: UpdateEventData) {
+        if (!title && !description && !location && !type && !start && !end) return;
         try {
-          const updatedEvent = await EventApi.updateCalendarEvent({title, description, type, start, end}, eventId)
+          const updatedEvent = await EventApi.updateCalendarEvent({title, description, location, type, start, end}, eventId)
           onEventUpdated("The event has been updated sucessfully, Members have been notified");
         } catch (error) {
           if (error instanceof BadRequestError) {
@@ -122,6 +125,12 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
                         register={register("title")}
                         error={errors.title}
                         editEventValue={title}
+                    />
+
+                    <EventLocationField
+                        register={register("location")}
+                        error={errors.title}
+                        editEventValue={location}
                     />
 
                     <EventDetailsInputField

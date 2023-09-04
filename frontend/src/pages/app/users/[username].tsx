@@ -44,6 +44,7 @@ import NotFoundPage from "@/pages/404";
 import NavBar from "@/components/site/NavBar";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
 import Spinner from "@/components/site/ui/typography/Spinner";
+import BeltInputField from "@/components/app/form/profile/ProfilePageBeltInputField";
 
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
@@ -95,7 +96,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
         <DefaultLayout>
       <Breadcrumb pageName="Profile" />
 
-      <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="overflow-hidden rounded-sm border border-stroke bg-white-500 shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="relative z-20 h-35 md:h-65">
           <Image
             src={CoverOne}
@@ -174,7 +175,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
             </div>
 
            <div className="mt-6.5">
-              <UpdateUserProfileSection onUserUpdated={handleUserUpdated}/>
+              <UpdateUserProfileSection profileUser={loggedInUser!} onUserUpdated={handleUserUpdated}/>
            </div>
           </div>
           
@@ -197,9 +198,10 @@ type UpdateUserProfileFormData = yup.InferType<typeof validationSchema>;
 
 interface UpdateUserProfileSectionProps {
     onUserUpdated: (updatedUser: User) => void,
+    profileUser: User,
 }
 
-function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps) {
+function UpdateUserProfileSection({onUserUpdated, profileUser}: UpdateUserProfileSectionProps) {
 
   const [errorText, setErrorText] = useState("");
   const { register, handleSubmit, formState : { isSubmitting, errors } } = useForm<UpdateUserProfileFormData>();
@@ -235,6 +237,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
         <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
           <FormInputField
             wrapperStyle="w-full sm:w-1/2"
+            defaultValue={profileUser.firstname}
             register={register("firstname")}
             label="First name"
             placeholder="John"
@@ -248,6 +251,7 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
 
           <FormInputField
             wrapperStyle="w-full sm:w-1/2"
+            defaultValue={profileUser.lastname}
             register={register("lastname")}
             label="Last name"
             placeholder="Doe"
@@ -258,9 +262,11 @@ function UpdateUserProfileSection({onUserUpdated}: UpdateUserProfileSectionProps
         </div>
 
 
-        <EmailInputField
+        <BeltInputField
           register={register("belt")}
+          htmlFor="text"
           error={errors.belt}
+          beltValue={profileUser.belt!}
           disabled
           label="Belt"
         />

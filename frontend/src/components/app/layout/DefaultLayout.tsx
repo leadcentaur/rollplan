@@ -10,7 +10,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="dark:bg-boxdark-2 dark:text-bodydark overflow-auto">
+    <div className="dark:bg-boxdark-2 bg-whiten dark:text-bodydark overflow-auto">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden overflow-auto">
         {/* <!-- ===== Sidebar Start ===== --> */}

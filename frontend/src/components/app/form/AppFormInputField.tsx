@@ -6,13 +6,14 @@ import { FieldError,UseFormRegisterReturn } from "react-hook-form";
 interface FormInputFieldProps {
     register: UseFormRegisterReturn,
     wrapperStyle: string,
+    defaultValue?: string,
     placeholder: string,
     label: string,
     error?: FieldError,
     htmlFor: string,
 }
 
-export default function FormInputField({register, label, error, wrapperStyle, placeholder, htmlFor, ...props}: FormInputFieldProps & ComponentProps<"input">) {
+export default function FormInputField({register, label, error, wrapperStyle, defaultValue, placeholder, htmlFor, ...props}: FormInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="w-full sm:w-1/2">
             <label
@@ -24,6 +25,7 @@ export default function FormInputField({register, label, error, wrapperStyle, pl
               <input
                 className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                 {...register}
+                defaultValue={defaultValue}
                 {...props}
                 placeholder={placeholder}
               />

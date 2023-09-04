@@ -104,12 +104,12 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
 
   return (
    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mx-auto max-w-270">
+      <div className="mx-auto max-w-270 ">
         <Breadcrumb pageName="Settings" />
 
         <div className="grid grid-cols-5 gap-8">
           <div className="col-span-5 xl:col-span-3">
-            <div className="rounded-sm border border-stroke bg-white shadow-xl dark:border-strokedark dark:bg-boxdark">
+            <div className="rounded-sm border border-stroke bg-white-500 shadow-xl dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Academy Settings
@@ -129,8 +129,8 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
 
                 </h3>
               </div>
-              <div className="p-7">
-                      <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+              <div className="p-7 bg-white-500">
+                      <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row bg-white-500">
                           <SettingsAcademyNameInputField register={register("academy_name")} academy_name={userAcademy?.academy_name}/>
                           <SettingsAcademyPhoneNumberInputField register={register("academyPhone")} academyPhone={userAcademy?.academyPhone}/>
                       </div>

@@ -67,7 +67,7 @@ export const updateUserSchema = yup.object({
         firstname: yup.string().max(100),
         lastname: yup.string().max(100),
         about: yup.string().max(320),
-        belt: yup.string().max(33),
+        belt: beltSchema,
         numberOfStripes: numberofStripesSchema.max(1),
     }),
     file: imageFileSchema

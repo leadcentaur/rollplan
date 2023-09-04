@@ -125,6 +125,9 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
               { registeredMembers.includes(loggedInUser?._id) &&
                   <h3><Icon className="text-red-500 opacity-30 mr-1" icon={faInfoCircle}/> You are registered for this event.</h3>
               }
+              { !registeredMembers.includes(loggedInUser?._id) &&
+                  <h3><Icon className="text-red-500 opacity-30 mr-1" icon={faInfoCircle}/> You are not yet registered.</h3>
+              }
       <div className="mt-4 flex items-end justify-between mb-4">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white pb-2">
@@ -135,6 +138,12 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
             <span><p className="text-semibold inline mr-6">End:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p> {displayEnd} </span>
           </div>
           <span>Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grapple lab</span>
+          <div className="mt-5">
+            {description}
+          </div>
+          <div className="mt-5">
+            <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> {eventExtendedProps.registerCount || 0}/30
+          </div>
         </div>
        
         
@@ -142,12 +151,6 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
       </div>
     </div>
 
-
-                    <EventDetailsInputField
-                        register={register("description")}
-                        error={errors.description}
-                        editEventValue={description}
-                    /> 
 
                     
 
@@ -186,10 +189,9 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
               </form>
               
               { registeredMembers.includes(loggedInUser?._id) &&
-                    <button onClick={handleUnRegister}>
-                          <span className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
+                    <button onClick={handleUnRegister} className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">
                             Un-register <Icon className="text-red-200 ml-2" icon={faRemove}/>
-                            </span>
+                            
                     </button>
                       
                   }

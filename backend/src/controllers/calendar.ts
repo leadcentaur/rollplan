@@ -12,7 +12,7 @@ import event from "../models/event";
 
 export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
     try {
-        const { title, start, end, type, description, referenceId } = req.body;
+        const { title, start, end, type, description, location, referenceId } = req.body;
 
         const startDate = new Date(start);
         const endDate = new Date(end);
@@ -37,7 +37,7 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
         } 
         
         const newEvent = await EventModel.create({
-            title, start, end, description, referenceId, type
+            title, start, end, description, location, referenceId, type
         });
 
         console.log("New academy created:" + newEvent);

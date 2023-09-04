@@ -85,6 +85,7 @@ export async function logout() {
 interface UpdateUserValues {
     username?: string,
     firstname?: string,
+    belt?: string,
     displayName?: string,
     lastname?: string,
     about?: string,

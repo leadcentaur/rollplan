@@ -35,9 +35,9 @@ import Icon from "@/components/site/ui/iconography/Icon";
 import { faUniformMartialArts } from "@fortawesome/pro-solid-svg-icons";
 import clsx from "clsx";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
-import * as icons from "@/assets/NoGiIcon";
+import * as icons from "../../../assets/images/NoGi.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NoGiIcon from "../../assets/images/NoGi.svg";
+import NoGiIcon from "../../../assets/images/NoGi.svg"
 import { faGraduationCap } from "@fortawesome/pro-solid-svg-icons";
 import ExampleModal from "@/components/app/form/calendar/CreateEventModal";
 import { truncateString } from "@/utils/utils";
@@ -56,11 +56,12 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     // const { academyEvents, academyEventsLoading, academyEventsLoadingError} = useAcademyEvents();
     const { user, userLoading, userLoadingError } = useAuthenticatedUser();
-    const { academyEvents, academyEventsLoading, academyEventsLoadingError} = useAcademyEvents();
 
     const [showAddEventModal, setShowAddEventModal] = useState<boolean>(false);
     const [showEditEventModal, setShowEditEventModal] = useState<boolean>(false);
     const [showMemberEventModal, setShowMemberEventModal] = useState<boolean>(false);
+    const [academyEventsLoadingError, SetAcademyEventsLoadingError] = useState<boolean>(false);
+    const [eventsLoading, setEventsLoading] = useState<boolean>(false);
 
     const [eventClickInfo, setEventClickInfo] = useState<EventClickArg|undefined>();
     const [eventUpdatedText, setEventUpdatedText] = useState<string|undefined>();
@@ -68,7 +69,6 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     const [errorText, setErrorText] = useState<string|undefined>(undefined);
     const [onEventCreatedSuccessfullyText, setOnEventCreatedSuccessfullyText] = useState<string|undefined>(undefined);
-    const [onEventRegisteredSuccess, setOnEventRegisteredSuccess] = useState<string|undefined>(undefined);
 
     const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
     const [eventTitle, setEventTitle] = useState<string|undefined>()
@@ -94,19 +94,21 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     async function handleDatesSet(date: DatesSetArg) {
         try {
             setMonthDateInfo(date);
+
             const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, date.startStr, date.endStr);
             console.log("Fetched calendar events for: " + date.startStr + " to: " + date.endStr);
-            setCalendarEvents(calendarEvents);   
+            
+            setCalendarEvents(calendarEvents);
+            SetAcademyEventsLoadingError(false);
             setErrorText(undefined);
 
         } catch (error) {
             setErrorText("Failed to fetch academy events.")
+            SetAcademyEventsLoadingError(true);
         }
     }
 
     function handleEventClick(event: EventClickArg) {
-
-            console.log("Extended props: " + JSON.stringify(event.event.extendedProps));
 
             if (user?.userType == "owner") {
                 setEventClickInfo(event);
@@ -163,7 +165,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
                 <div className="absolute ">                    
                         <div className={colourClassString}>
-                            <i className="">{event.event.extendedProps.registerCount||0}/30</i>
+                            <i className="">0/30</i>
                             { colourClassString == "bg-nogiclass" &&
                             <span className="inline-block ml-2 pt-1"><NoGiIcon/></span>
                                 
@@ -178,8 +180,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     
                 </div>
                 <div className="flex flex-col text-white-500">
-                    <b className="">{event.timeText}</b>
-                    <i className=" text-sm ">{event.timeText} {"→"} {newTitleStr||event.event.title}</i>
+                    <b className=" text-sm">{event.timeText}</b>
+                    <i className=" text-sm ">{newTitleStr||event.event.title}</i>
                 </div>
 
             </div>
@@ -193,11 +195,9 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 title: event.event.title,
                 description: event.event.extendedProps.description,
                 type: event.event.extendedProps.type,
-                location: event.event.extendedProps.location,
                 start: event.event.startStr,
                 end: event.event.endStr,
                 referenceId: event.event.extendedProps.referenceId,
-                registerCount: event.event.extendedProps.registerCount,
             } as EventsApi.CreateEventProps
     
             const newEvent = await EventsApi.createEvent(eventObject);
@@ -213,9 +213,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         }
     }
 
-    return !userLoading && user ? (
-        <DefaultLayout>
-
+    return user && (
+        <div>
             { showAddEventModal && user?.academyReferenceId &&
                 <CreateEventModal
                     isOpen={showAddEventModal}
@@ -241,62 +240,63 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <MemberEventModal
                     isOpen={showMemberEventModal}
                     editEventClickArg={eventClickInfo!}
-                    onDismiss={() => {setShowMemberEventModal(false); setOnEventRegisteredSuccess("Successfully registered for event")}}
+                    onDismiss={() => setShowMemberEventModal(false)}
                 />
                 
             }
 
 
+            {errorText &&
+                <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
+            }
 
-            <Breadcrumb pageName="Calendar" />
+            { eventUpdatedText &&
+                <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
+            }
 
-                {errorText &&
-                    <ErrorAlert errorText={errorText} errorTextHeading="Error"/>           
-                }
+            { onEventCreatedSuccessfullyText &&
+                <SuccessAlert successText={onEventCreatedSuccessfullyText} successTextHeading="Event created "/>
+            }
 
-                { eventUpdatedText &&
-                    <SuccessAlert successText={eventUpdatedText} successTextHeading="Event updated"/>
-                }
-
-                { onEventCreatedSuccessfullyText &&
-                    <SuccessAlert successText={onEventCreatedSuccessfullyText} successTextHeading="Event created "/>
-                }
-
-                { onEventRegisteredSuccess &&
-                    <SuccessAlert successText={onEventRegisteredSuccess} successTextHeading="Success"/>
-                }
-
-            <div className='demo-app bg-white-500 p-5 rounded-xl' >
+            <div className='demo-app ' >
                 <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
-                <FullCalendar
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 
-                    aspectRatio={1.4}
+                { eventsLoading &&
+                    <Spinner/>
+                }
 
-                    headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    }}
-                    initialView='dayGridMonth'
-                    editable={true}
-                    // eventDidMount={(event) => {console.log(event.event.extendedProps)}}
-                selectable={true}
-                    selectMirror={true}
-                    dayMaxEvents={true}
-                    events={calendarEvents}
-                    weekends={true}
-                    select={handleDateSelect}
-                    eventContent={(event) => handleEventContent(event)} // custom render function
-                    eventClick={handleEventClick}
-                    //eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-                    datesSet={date => handleDatesSet(date)}
-                    eventAdd={event => handleEventAdd(event)}
-                    eventRemove={event => {handleEventRemoval(event)}}
-                />
+                { !eventsLoading && !academyEventsLoadingError &&
+
+                        <FullCalendar
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        aspectRatio={1.4}
+                        headerToolbar={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        }}
+                        initialView='dayGridMonth'
+                        editable={true}
+                        // eventDidMount={(event) => {console.log(event.event.extendedProps)}}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={true}
+                        events={calendarEvents}
+                        weekends={true}
+                        select={handleDateSelect}
+                        eventContent={(event) => handleEventContent(event)} // custom render function
+                        eventClick={handleEventClick}
+                        //eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+                        datesSet={date => handleDatesSet(date)}
+                        eventAdd={event => handleEventAdd(event)}
+                        eventRemove={event => {handleEventRemoval(event)}}
+                        />
+
+                }
+
                 </div>
             </div>
-        </DefaultLayout>
-    ): <Spinner/>
-  }
+        </div>
+    )
+}
   

@@ -20,6 +20,7 @@ import { CalendarApi, DateSelectArg } from "@fullcalendar/core";
 import { createEventId } from "@/utils/event-utils";
 import ErrorAlert from "../../components/ErrorAlert";
 import { C } from "@fullcalendar/core/internal-common";
+import EventLocationField from "./EventLocationInputField";
 
 export type EventType = 
    | "BJJ Gi (Adult)"
@@ -48,6 +49,7 @@ interface AddEventModalProps {
 export const createEventSchema = yup.object().shape({
     title: yup.string().required(),
     description: yup.string().required(),
+    location: yup.string().required(),
     type: yup.string().required(),
     start: yup.string().required(),
     end: yup.string().required(),
@@ -76,6 +78,7 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
         const startDate = eventData.start;
         const endDate = eventData.end;
         const description = eventData.description;
+        const location = eventData.location;
         const type = eventData.type;
         const referenceId = academyReferenceId;
 
@@ -110,6 +113,7 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
             end: endDate,
             extendedProps: {
                 "description": description,
+                "location": location,
                 "type": type,
                 "referenceId": referenceId,
                 "registerCount": 0
@@ -150,6 +154,11 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
                     <EventNameInputField
                         register={register("title")}
                         error={errors.title}
+                    />
+
+                    <EventLocationField
+                      register={register("location")}
+                      error={errors.location}
                     />
 
                     <EventDetailsInputField
