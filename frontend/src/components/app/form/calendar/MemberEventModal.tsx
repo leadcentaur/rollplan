@@ -122,7 +122,9 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
               <form className="space-y-2 md:space-y-2 lg:space-y-2 xl:space-y-2 2xl:space-y-5 " onSubmit={handleSubmit(onSubmit)}>
 
               <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-    
+              { registeredMembers.includes(loggedInUser?._id) &&
+                  <h3><Icon className="text-red-500 opacity-30 mr-1" icon={faInfoCircle}/> You are registered for this event.</h3>
+              }
       <div className="mt-4 flex items-end justify-between mb-4">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white pb-2">
