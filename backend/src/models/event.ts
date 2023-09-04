@@ -23,6 +23,9 @@ export const eventScehma = new Schema({
         required: false, 
         sparse: true 
     },
+    registerCount :{
+        type: Number,
+    },
     start: {
         type: Date,
         required: true,

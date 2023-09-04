@@ -24,7 +24,7 @@ export default function ErrorAlert({errorText, errorTextHeading}: ErrorAlertProp
             </div>
             <div className="w-full">
             <h5 className="mb-3 font-semibold text-[#B45454]">
-                {errorTextHeading || "There were 1 errors with your submission"}
+                {errorTextHeading || "Error"}
             </h5>
             <ul>
                 <li className="leading-relaxed text-[#CD5D5D]">

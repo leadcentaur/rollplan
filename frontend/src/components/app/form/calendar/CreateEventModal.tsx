@@ -111,7 +111,8 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
             extendedProps: {
                 "description": description,
                 "type": type,
-                "referenceId": referenceId
+                "referenceId": referenceId,
+                "registerCount": 0
             }
         })
     }

@@ -68,6 +68,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
     const [errorText, setErrorText] = useState<string|undefined>(undefined);
     const [onEventCreatedSuccessfullyText, setOnEventCreatedSuccessfullyText] = useState<string|undefined>(undefined);
+    const [onEventRegisteredSuccess, setOnEventRegisteredSuccess] = useState<string|undefined>(undefined);
 
     const [eventCreationSuccess, setEventCreationSuccess] = useState<boolean|undefined>(undefined);
     const [eventTitle, setEventTitle] = useState<string|undefined>()
@@ -104,6 +105,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     function handleEventClick(event: EventClickArg) {
+
+            console.log("Extended props: " + JSON.stringify(event.event.extendedProps));
 
             if (user?.userType == "owner") {
                 setEventClickInfo(event);
@@ -160,7 +163,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
                 <div className="absolute ">                    
                         <div className={colourClassString}>
-                            <i className="">0/30</i>
+                            <i className="">{event.event.extendedProps.registerCount||0}/30</i>
                             { colourClassString == "bg-nogiclass" &&
                             <span className="inline-block ml-2 pt-1"><NoGiIcon/></span>
                                 
@@ -175,8 +178,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     
                 </div>
                 <div className="flex flex-col text-white-500">
-                    <b className=" text-sm">{event.timeText}</b>
-                    <i className=" text-sm ">{newTitleStr||event.event.title}</i>
+                    <b className="">{event.timeText}</b>
+                    <i className=" text-sm ">{event.timeText} {"→"} {newTitleStr||event.event.title}</i>
                 </div>
 
             </div>
@@ -193,6 +196,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 start: event.event.startStr,
                 end: event.event.endStr,
                 referenceId: event.event.extendedProps.referenceId,
+                registerCount: event.event.extendedProps.registerCount,
             } as EventsApi.CreateEventProps
     
             const newEvent = await EventsApi.createEvent(eventObject);
@@ -236,7 +240,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <MemberEventModal
                     isOpen={showMemberEventModal}
                     editEventClickArg={eventClickInfo!}
-                    onDismiss={() => setShowMemberEventModal(false)}
+                    onDismiss={() => {setShowMemberEventModal(false); setOnEventRegisteredSuccess("Successfully registered for event")}}
                 />
                 
             }
@@ -255,6 +259,10 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
                 { onEventCreatedSuccessfullyText &&
                     <SuccessAlert successText={onEventCreatedSuccessfullyText} successTextHeading="Event created "/>
+                }
+
+                { onEventRegisteredSuccess &&
+                    <SuccessAlert successText={onEventRegisteredSuccess} successTextHeading="Success"/>
                 }
 
             <div className='demo-app ' >

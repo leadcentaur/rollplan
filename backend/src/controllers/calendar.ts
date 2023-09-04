@@ -88,14 +88,12 @@ interface AcademyEventsQuery {
     end: string,
 }
 
-export const registerToEvent: RequestHandler<RegisterToCalendarEventParams, unknown, unknown, unknown> = async (req, res, next) => {
+export const registerToCalendarEvent: RequestHandler<RegisterToCalendarEventParams, unknown, unknown, unknown> = async (req, res, next) => {
     const { eventId, userId } = req.params;
-    
-
     try {
         
         const event = await EventModel.findByIdAndUpdate(eventId, {
-            $addToSet: {registeredMembers: userId}
+            $addToSet: {registeredMembers: userId},
         }).exec();
         
         if (!event) {
@@ -108,10 +106,59 @@ export const registerToEvent: RequestHandler<RegisterToCalendarEventParams, unkn
             }
         })
 
+        const incRegisterCount = EventModel.findByIdAndUpdate(eventId, {
+            $inc: {registerCount:  1}
+        }).exec();
+        
+        if (!incRegisterCount) {
+            console.error("Failed to increment the register account on event: " + eventId);
+        }
+
         res.status(200).json(event);   
 
     } catch (error) {
         next(error);
+    }
+}
+
+export const unregisterFromCalendarEvent: RequestHandler<RegisterToCalendarEventParams, unknown, unknown, unknown> = async (req, res, next) => {
+    
+    let existingUser = false;
+    const { eventId, userId } = req.params;
+
+
+    try {
+        const event = await EventModel.findByIdAndUpdate(eventId, {
+            $pull: {registeredMembers: userId},
+        }).exec();
+
+         
+        if (!event) {
+            throw createHttpError(404, "There was an error un-registering from the event.");
+        }
+
+        event.registeredMembers.forEach(function (value) {
+            if (value.toString() == userId) {
+                existingUser = true;
+            }
+        })
+
+        if (!existingUser) {
+            throw createHttpError(400, "Error user not registered for this event");
+        }
+
+        const incRegisterCount = EventModel.findByIdAndUpdate(eventId, {
+            $inc: {registerCount:  -1}
+        }).exec();
+        
+        if (!incRegisterCount) {
+            console.error("Failed to decrement the register account on event: " + eventId);
+        }
+
+        res.status(200).json(event);  
+
+    } catch (error) {
+        next(error)
     }
 }
 

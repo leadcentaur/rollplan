@@ -53,3 +53,24 @@ export async function getAcademyEvents(academyId: string, start: string, end: st
     return response.data;
 }
 
+export interface RegisterToEventValues {
+    eventId?: string,
+    userId?: string,
+}
+
+export async function registerToEvent(eventvalues: RegisterToEventValues) {
+    const response = await api.post("/calendar/register/"+ eventvalues.eventId + "/" + eventvalues.userId);
+    console.log(response.data);
+    return response.data;
+}
+
+export interface UnRegisterFromEventValues {
+    eventId?: string,
+    userId?: string,
+}
+
+
+export async function UnregisterFromEvent(eventvalues: UnRegisterFromEventValues) {
+    const response = await api.post("/calendar/un-register/"+ eventvalues.eventId + "/" + eventvalues.userId);
+    return response.data;
+}

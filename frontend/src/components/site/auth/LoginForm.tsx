@@ -57,7 +57,6 @@ const router = useRouter();
           setErrorText("You're trying too often");
         } else {
           console.error(error);
-          alert(error);  
         }
     }
   }

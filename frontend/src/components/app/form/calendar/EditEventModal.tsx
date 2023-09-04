@@ -45,6 +45,7 @@ type UpdateEventData = yup.InferType<typeof editEventSchema>;
 export default function EditEventModal({ onDismiss, editEventClickArg, onEventUpdated, onEventDeleted }: EditEventModalProps) {
 
     
+  
     const [startDate, setStartDate] = useState<string|undefined>(editEventClickArg.event.startStr);
     const [endDate, setEndDate] = useState<string|undefined>(editEventClickArg.event.endStr);
     const [errorText, setErrorText] = useState<string|null>();
