@@ -45,6 +45,9 @@ import NavBar from "@/components/site/NavBar";
 import ErrorAlert from "@/components/app/components/ErrorAlert";
 import Spinner from "@/components/site/ui/typography/Spinner";
 import BeltInputField from "@/components/app/form/profile/ProfilePageBeltInputField";
+import CardOne from "@/components/app/components/DashboardCardOne";
+import CardTwo from "@/components/app/components/DashboardCardTwo";
+import CardThree from "@/components/app/components/DashboardCardThree";
 
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
@@ -170,8 +173,10 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
               </p>
             </div>
 
-            <div className="mx-auto max-w-180 mt-5">
-                          
+            <div className="mx-auto max-w-180 items-center justify-between flex flex-row mt-5">
+                <CardOne/>
+                <CardTwo/>     
+                <CardThree/>
             </div>
 
            <div className="mt-6.5">
