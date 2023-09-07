@@ -106,15 +106,15 @@ export const registerToCalendarEvent: RequestHandler<RegisterToCalendarEventPara
             }
         })
 
-        const incRegisterCount = EventModel.findByIdAndUpdate(eventId, {
+        const incRegisterCount = await EventModel.findByIdAndUpdate(eventId, {
             $inc: {registerCount:  1}
-        }).exec();
+        }, {new: true}).exec();
         
         if (!incRegisterCount) {
             console.error("Failed to increment the register account on event: " + eventId);
         }
 
-        res.status(200).json(event);   
+        res.status(200).json(incRegisterCount);   
 
     } catch (error) {
         next(error);

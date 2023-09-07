@@ -44,6 +44,7 @@ import { truncateString } from "@/utils/utils";
 import EditEventModal from "@/components/app/form/calendar/EditEventModal";
 import SuccessAlert from "@/components/app/components/SuccessAlert";
 import MemberEventModal from "@/components/app/form/calendar/MemberEventModal";
+import { ref } from "yup";
 
 
 
@@ -74,16 +75,19 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     const [eventTitle, setEventTitle] = useState<string|undefined>()
     const [eventDescription, setEventDescription] = useState<string|undefined>();
     const [eventType, setEventType] = useState<string|undefined>(undefined);
+   
 
     const [calInfo, setCalInfo] = useState<CalendarApi|undefined>();
     const [startDate, setStartDate] = useState<Date>();
     const [calendarEvents, setCalendarEvents] = useState<EventInput[]>();
-    const calendarRef = useRef("");
+
+    const fullCalendar: React.LegacyRef<FullCalendar> = React.createRef()
 
     async function handleDateSelect(selectinfo: DateSelectArg){
         if (!userLoading && user?.userType == "owner") {
             let calendarApi = selectinfo.view.calendar;
             setCalInfo(calendarApi);
+            selectinfo.view.calendar.refetchEvents();
             setStartDate(selectinfo.start)
             setShowAddEventModal(true);
         } else {
@@ -92,8 +96,11 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     async function handleDatesSet(date: DatesSetArg) {
-        try {
+        try {   
+            
             setMonthDateInfo(date);
+            setCalendarEvents(undefined);
+
             const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, date.startStr, date.endStr);
             console.log("Fetched calendar events for: " + date.startStr + " to: " + date.endStr);
             setCalendarEvents(calendarEvents);   
@@ -137,10 +144,18 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
         
     }
 
+    async function handleEventSet(events: EventApi[]) {
+        console.log("Events from Event set: " + events) 
+    }
+
+    async function handleEventChange() {
+
+    }
+
 
 
     function handleEventContent(event: EventContentArg) {
-        
+
         let colourClassString = ""
         let newTitleStr: string | undefined = undefined
         const eventType = event.event.extendedProps.type;
@@ -223,29 +238,30 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     referenceId={user.academyReferenceId}
                     calendarApi={calInfo!}  
                     selectedDate={startDate?.toISOString()!} 
-                    onDismiss={() => {setShowAddEventModal(false); setCalInfo(undefined)}}
+                    onDismiss={() => {setShowAddEventModal(false); setCalInfo(undefined);}}
                 />
             }
 
             { showEditEventModal && user.academyReferenceId && 
                 <EditEventModal
-                    onEventDeleted={() => {setEventUpdatedText("Event had been deleted successfully"); setShowEditEventModal(false)}}
+                    onEventDeleted={() => {setEventUpdatedText("Event had been deleted successfully"); setShowEditEventModal(false); calInfo?.refetchEvents();}}
                     onEventUpdated={(text) => {setEventUpdatedText(text)}}
                     editEventClickArg={eventClickInfo!}
-                    onDismiss={() => {setShowEditEventModal(false)}}
+                    onDismiss={() => {setShowEditEventModal(false);}}
                     isOpen={showEditEventModal}
                 />
             }
 
             { showMemberEventModal && user.academyReferenceId &&
                 <MemberEventModal
+                    onEventRegister={() => {}}
                     isOpen={showMemberEventModal}
+                    calendar={calInfo!}
                     editEventClickArg={eventClickInfo!}
-                    onDismiss={() => {setShowMemberEventModal(false); setOnEventRegisteredSuccess("Successfully registered for event")}}
+                    onDismiss={() => {setShowMemberEventModal(false); setOnEventRegisteredSuccess("Successfully registered for event");}}
                 />
                 
             }
-
 
 
             <Breadcrumb pageName="Calendar" />
@@ -270,9 +286,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                 <div className='overflow-hidden .fc-timeline-event overflow-hidden'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-
                     aspectRatio={1.4}
-
+                    ref={fullCalendar}
                     headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',
@@ -289,7 +304,8 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     select={handleDateSelect}
                     eventContent={(event) => handleEventContent(event)} // custom render function
                     eventClick={handleEventClick}
-                    //eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+                    eventChange={handleEventChange}
+                    eventsSet={(events) => handleEventSet(events)} // called after events are initialized/added/changed/removed
                     datesSet={date => handleDatesSet(date)}
                     eventAdd={event => handleEventAdd(event)}
                     eventRemove={event => {handleEventRemoval(event)}}

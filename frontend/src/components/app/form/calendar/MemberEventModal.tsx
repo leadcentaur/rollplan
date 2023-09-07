@@ -26,9 +26,15 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import next from "next/types";
 import moment from "moment";
 
+import {
+  CalendarApi,
+} from '@fullcalendar/core'
+
 interface MemberEventModalProps {
     onDismiss: () => void;
+    onEventRegister: () => void;
     editEventClickArg: EventClickArg,
+    calendar: CalendarApi,
     isOpen: boolean,
 }
 
@@ -42,7 +48,7 @@ export const viewEventSchema = yup.object().shape({
 
 type EventData = yup.InferType<typeof viewEventSchema>;
 
-export default function MemberEventModal({ onDismiss, editEventClickArg }: MemberEventModalProps) {
+export default function MemberEventModal({ onDismiss, editEventClickArg, onEventRegister, calendar }: MemberEventModalProps) {
 
     const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();  
     
@@ -59,6 +65,7 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
     const type = eventExtendedProps.type;
     const eventId = eventExtendedProps._id;
     const registeredMembers = eventExtendedProps.registeredMembers;
+    const registerCount = eventExtendedProps.registerCount;
 
     const description = eventExtendedProps.description;
     const start = editEventClickArg.event.startStr;
@@ -71,10 +78,14 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
     async function onSubmit({title, description, type, start, end}: EventData) {
         if (!title && !description && !type && !start && !end && !eventId && !loggedInUser) return;
         try {
-          const registerRespone = EventApi.registerToEvent({eventId: eventId, userId: loggedInUser?._id});
-          onDismiss();
 
-          console.log(registerRespone);
+          const registerRespone = await EventApi.registerToEvent({eventId: eventId, userId: loggedInUser?._id});
+          editEventClickArg.event.extendedProps.registeredMembers.push(loggedInUser?._id);
+          editEventClickArg.event.extendedProps.registerCount += 1;
+
+          editEventClickArg.view.calendar.refetchEvents();
+
+          console.log(" registerRespone: " +  JSON.stringify(registerRespone));
         } catch (error) {
           setErrorText("An error occured when registering for this event")
         }
@@ -82,14 +93,12 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
 
     async function handleUnRegister() {
       try {
-        alert("xxx");
         const unregister = await EventApi.UnregisterFromEvent({
           eventId: eventId,
           userId: loggedInUser?._id,
         });
 
-    
-
+        
       } catch (error) {
         if (error instanceof NotFoundError) {
           setErrorText("An error occured when un-registering from")
@@ -142,7 +151,20 @@ export default function MemberEventModal({ onDismiss, editEventClickArg }: Membe
             {description}
           </div>
           <div className="mt-5">
-            <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> {eventExtendedProps.registerCount || 0}/30
+            { registerCount != 0 &&
+             <div>
+              <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> 
+                  {editEventClickArg.event.extendedProps.registerCount.toString() + "/" + "30"}
+              </div>
+            }
+
+          { registerCount == 0 &&
+             <div>
+              <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> 
+                  {0/30}
+
+              </div>
+            }
           </div>
         </div>
        
