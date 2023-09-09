@@ -16,6 +16,7 @@ import ProductSection from "@/components/site/home/ProductSection";
 import { faArrowUp, faChartSimple } from "@fortawesome/free-solid-svg-icons";
 import Pricing from "@/components/site/home/Pricing";
 import Image from "next/image";
+import BillingItemCard from "@/components/app/components/BillingItemCard";
 
 const flowFeatures: Feature[] = [
 	{
@@ -67,7 +68,7 @@ export default function Home() {
 					color=""
 					suptitle="A system for a solid foundation"
 					title="Supercharge your gym"
-          logo={<Image src="https://i.imgur.com/9r0Ebbx.png" height={40} width={120} className="block" alt="The rollplan logo"/>}
+          			logo={<Image src="https://i.imgur.com/9r0Ebbx.png" height={40} width={120} className="block" alt="The rollplan logo"/>}
 					description={
 						<>
 							Rollplan streamlines BJJ gym management, from class scheduling and belt tracking to student management and revenue reporting, so you can focus on what matters most to your students.
@@ -167,6 +168,26 @@ export default function Home() {
 						},
 					]}
 				/>
+
+		<div id="pricing" className="relative py-7 sm:py-5 lg:py-6 bg-white-500 mt-8 text-charchoal-500">
+			<div className="mx-auto max-w-md px-2 sm:max-w-3xl sm:px-3 lg:max-w-7xl lg:px-4">
+				<div className="text-center mb-4 ">
+				
+
+					<p className="mt-5">
+						Use Rollplan for gyms of anysize, anywhere.
+					</p>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div>
+					
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
 				
 	
 

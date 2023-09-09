@@ -62,7 +62,7 @@ export interface RegisterToEventValues {
 
 export async function registerToEvent(eventvalues: RegisterToEventValues) {
     const response = await api.post("/calendar/register/"+ eventvalues.eventId + "/" + eventvalues.userId);
-    console.log(response.data);
+    console.log("Register API Response: " + JSON.stringify(response.data));
     return response.data;
 }
 
@@ -74,5 +74,6 @@ export interface UnRegisterFromEventValues {
 
 export async function UnregisterFromEvent(eventvalues: UnRegisterFromEventValues) {
     const response = await api.post("/calendar/un-register/"+ eventvalues.eventId + "/" + eventvalues.userId);
+    console.log("Un-register API Response: " + JSON.stringify(response.data));
     return response.data;
 }

@@ -54,8 +54,8 @@ export default function ProductSection({
 								{suptitle}
 							</Heading>
 
-							<div className="flex items-center sm:items-end gap-2 mt-1">
-								<div>{logo}</div>
+							<div className="flex items-center sm:items-end ">
+								<div></div>
 
 								<div className="self-center">
 									<Heading level={2} className="mt-1 text-slate-900">

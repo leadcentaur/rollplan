@@ -147,15 +147,15 @@ export const unregisterFromCalendarEvent: RequestHandler<RegisterToCalendarEvent
             throw createHttpError(400, "Error user not registered for this event");
         }
 
-        const incRegisterCount = EventModel.findByIdAndUpdate(eventId, {
-            $inc: {registerCount:  -1}
-        }).exec();
+        const incRegisterCount = await EventModel.findByIdAndUpdate(eventId, {
+            $inc: {registerCount: -1}
+        },{new: true}).exec();
         
         if (!incRegisterCount) {
             console.error("Failed to decrement the register account on event: " + eventId);
         }
 
-        res.status(200).json(event);  
+        res.status(200).json(incRegisterCount);  
 
     } catch (error) {
         next(error)
@@ -179,7 +179,7 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
 }
 
 export const updateCalendarEvent: RequestHandler<UpdateCalendarEventParams, unknown,UpdateCalendarEventBody, unknown> = async (req, res, next) => {
-    const { title, type, description, start, end } = req.body
+    const { title, type, description, location, start, end } = req.body
     const id = req.params.id;
 
     try {
@@ -204,7 +204,7 @@ export const updateCalendarEvent: RequestHandler<UpdateCalendarEventParams, unkn
 
         if (end && !start) {
             if (new Date(end) < prevStart || new Date(end) == prevStart) {
-                throw createHttpError(400, "An event cannot end before it has started.please try again")
+                throw createHttpError(400, "An event cannot end before it has started. please try again")
             }
         }
 
@@ -221,6 +221,7 @@ export const updateCalendarEvent: RequestHandler<UpdateCalendarEventParams, unkn
             $set: {
                 ...(title && {title}),
                 ...(type && {type}),
+                ...(location && {location}),
                 ...(description && {description}),
                 ...(start && {start}),
                 ...(end && {end}),

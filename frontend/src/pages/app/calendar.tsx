@@ -12,6 +12,7 @@ import {
   DatesSetArg,
   EventSourceInput,
   EventRemoveArg,
+  EventDropArg,
 } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -84,11 +85,13 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     const fullCalendar: React.LegacyRef<FullCalendar> = React.createRef()
 
     async function handleDateSelect(selectinfo: DateSelectArg){
-        if (!userLoading && user?.userType == "owner") {
-            let calendarApi = selectinfo.view.calendar;
+        
+        let calendarApi = selectinfo.view.calendar;
             setCalInfo(calendarApi);
             selectinfo.view.calendar.refetchEvents();
             setStartDate(selectinfo.start)
+
+        if (!userLoading && user?.userType == "owner") {
             setShowAddEventModal(true);
         } else {
             return null;
@@ -100,6 +103,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
             
             setMonthDateInfo(date);
             setCalendarEvents(undefined);
+            date.view.calendar.refetchEvents();
 
             const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, date.startStr, date.endStr);
             console.log("Fetched calendar events for: " + date.startStr + " to: " + date.endStr);
@@ -128,28 +132,43 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
     }
 
     async function handleEventRemoval(eventToRemove: EventRemoveArg) {
-
-        if (monthDateInfo?.startStr && monthDateInfo?.endStr) {
-
-            const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, monthDateInfo.startStr, monthDateInfo.endStr);
-            console.log("Fetched calendar events for: " + monthDateInfo.startStr + " to: " + monthDateInfo.endStr);
-            setCalendarEvents(calendarEvents);   
-
-            console.log("Removed event: " + eventToRemove.event.title);
-            setErrorText(undefined);
-
-        } else {
-            setErrorText("Unable to remove event.")
+        try {
+            if (monthDateInfo?.startStr && monthDateInfo?.endStr) {
+                const calendarEvents = await EventsApi.getAcademyEvents(user?.academyReferenceId!, monthDateInfo.startStr, monthDateInfo.endStr);
+                console.log("Fetched calendar events for: " + monthDateInfo.startStr + " to: " + monthDateInfo.endStr);
+                setCalendarEvents(calendarEvents);   
+    
+                console.log("Removed event: " + eventToRemove.event.title);
+                setErrorText(undefined);
+    
+            } else {
+                setErrorText("There was an error removing the event. Please try again later")
+            }    
+        } catch (error) {
+             setErrorText("There was an error removing the event. Please try again later")
         }
         
     }
 
     async function handleEventSet(events: EventApi[]) {
-        console.log("Events from Event set: " + events) 
+        console.log("Events from Event set: " + JSON.stringify(events))
     }
 
     async function handleEventChange() {
 
+    }
+
+    async function handleEventDrop(event: EventDropArg) {
+        try {
+            const backendEventId = event.event.extendedProps._id;
+            if (!backendEventId) {
+                return null;
+            } 
+            const updateDropedEvent = await EventsApi.updateCalendarEvent({start: event.event.startStr, end: event.event.endStr}, backendEventId);
+            event.event.remove();   
+        } catch (error) {
+            setErrorText("Unable to update event. Please try again")
+        }
     }
 
 
@@ -295,6 +314,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     }}
                     initialView='dayGridMonth'
                     editable={true}
+                    eventDrop={(event) => handleEventDrop(event)}
                     // eventDidMount={(event) => {console.log(event.event.extendedProps)}}
                 selectable={true}
                     selectMirror={true}

@@ -8,12 +8,17 @@ export default function Billing() {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Billing" />
+            <>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <BillingItemCard featuredHeading="10 Class pass" featuredText="The 10 month class pass includes 10 access to Gi and No-Gi Classes." featureImageUrl="https://i.ytimg.com/vi/cEKNf0lw5l0/maxresdefault.jpg"/>
+        <BillingItemCard featureImageUrl="https://i.ytimg.com/vi/2GUFbs4mrhQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBiaIQV_z5JSDEe9O3KdB32ud5AxQ"/>
+        <BillingItemCard featureImageUrl="https://i.ytimg.com/vi/Lr9ai33er8M/hqdefault.jpg"/>
+    </div>
 
-            <div className="mx-auto items-center gap-4 justify-between flex flex-row mt-5">
-                <BillingItemCard featureImageUrl="https://www.rollingstone.com/wp-content/uploads/2018/06/rs-brazilian-jiu-jitsu-21abb64f-ddd9-4ce1-9e37-cfebc277285a.jpg?w=1500&h=1054&crop=1"/>
-                <BillingItemCard featureImageUrl="https://d2779tscntxxsw.cloudfront.net/5b9d93f524069.png?width=650&quality=80"/>
-                <BillingItemCard featureImageUrl="https://d2779tscntxxsw.cloudfront.net/5b9d93f524069.png?width=650&quality=80"/>
-            </div>
+    <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+  
+    </div>
+  </>
         </DefaultLayout>    
     );
   }

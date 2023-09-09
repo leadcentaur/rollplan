@@ -85,6 +85,8 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
         if (!title && !description && !location && !type && !start && !end) return;
         try {
           const updatedEvent = await EventApi.updateCalendarEvent({title, description, location, type, start, end}, eventId)
+          editEventClickArg.event.remove();
+          
           onEventUpdated("The event has been updated sucessfully, Members have been notified");
         } catch (error) {
           if (error instanceof BadRequestError) {

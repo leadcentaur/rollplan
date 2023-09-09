@@ -57,6 +57,7 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
 
     const [errorText, setErrorText] = useState<string|null>();
     const [successText, setSuccessText] = useState<string|null>();
+    const [localRegisterCount, setLocalRegisterCount] = useState<number|null>();
 
     const eventExtendedProps = editEventClickArg.event.extendedProps;
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<EventData>();
@@ -64,6 +65,7 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
     const title = editEventClickArg.event.title;
     const type = eventExtendedProps.type;
     const eventId = eventExtendedProps._id;
+
     const registeredMembers = eventExtendedProps.registeredMembers;
     const registerCount = eventExtendedProps.registerCount;
 
@@ -80,10 +82,11 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
         try {
 
           const registerRespone = await EventApi.registerToEvent({eventId: eventId, userId: loggedInUser?._id});
-          editEventClickArg.event.extendedProps.registeredMembers.push(loggedInUser?._id);
-          editEventClickArg.event.extendedProps.registerCount += 1;
-
-          editEventClickArg.view.calendar.refetchEvents();
+          // editEventClickArg.event.extendedProps.registeredMembers.push(loggedInUser?._id!);
+          // editEventClickArg.event.extendedProps.registerCount = registerRespone.registerCount;
+          editEventClickArg.event.remove();
+          onDismiss(); 
+          // editEventClickArg.view.calendar.refetchEvents();
 
           console.log(" registerRespone: " +  JSON.stringify(registerRespone));
         } catch (error) {
@@ -93,12 +96,19 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
 
     async function handleUnRegister() {
       try {
-        const unregister = await EventApi.UnregisterFromEvent({
+        const unregisterResponse = await EventApi.UnregisterFromEvent({
           eventId: eventId,
           userId: loggedInUser?._id,
         });
+        editEventClickArg.event.extendedProps.registeredMembers.forEach((value: any, index: number )=> {
+            if (loggedInUser?._id == value) {
+              editEventClickArg.event.extendedProps.registeredMembers.pop(index);
+            }
+        });
+        editEventClickArg.event.remove();
+        onDismiss();
+        // editEventClickArg.view.calendar.refetchEvents();
 
-        
       } catch (error) {
         if (error instanceof NotFoundError) {
           setErrorText("An error occured when un-registering from")
@@ -151,17 +161,17 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
             {description}
           </div>
           <div className="mt-5">
-            { registerCount != 0 &&
+            { localRegisterCount != 0 &&
              <div>
               <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> 
                   {editEventClickArg.event.extendedProps.registerCount.toString() + "/" + "30"}
               </div>
             }
 
-          { registerCount == 0 &&
+          { localRegisterCount == 0 &&
              <div>
               <Icon className="text-red-500 opacity-30 mr-1" icon={faUniformMartialArts}/> 
-                  {0/30}
+                  {"0" + "/" + "30"}
 
               </div>
             }

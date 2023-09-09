@@ -28,7 +28,17 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'rollingstone.com',
+        hostname: 'www.rollingstone.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'd2779tscntxxsw.cloudfront.net',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
         port: '',
       }
     ]
