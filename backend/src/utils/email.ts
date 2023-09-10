@@ -1,5 +1,6 @@
 import { createTransport } from "nodemailer";
 import env from "../env";
+import createHttpError from "http-errors";
 
 const transporter = createTransport({
     host: 'smtp-relay.brevo.com',
@@ -17,6 +18,19 @@ export async function sendVerificationCode(toEmail: string, verificationCode: st
         subject: "Your verification code",
         html: `<p>This is your verification code. It will expire in 10 minutes. </p><strong>${verificationCode}</strong>`        
     })
+}
+
+export async function notifyMembersOnEventUpdate(toEmail: string, eventName: string, academyName: string, changetType: string) {
+
+            console.log("To: " +  toEmail);
+            await transporter.sendMail({
+                from: "noreply@rollplanbjj.com",
+                to: toEmail,
+                subject: changetType + " - " + eventName + "",
+                html: `<h1><strong>${changetType} ${eventName}</strong></h1>
+                    <p>A change to this event has occured.</p>
+                `
+            })
 }
 
 export async function sendPasswordResetCode(toEmail: string, verificationCode: string) {

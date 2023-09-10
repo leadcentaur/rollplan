@@ -8,6 +8,7 @@ import sharp from "sharp";
 import env from "../env";
 import moment from "moment";
 import event from "../models/event";
+import UsersModel from "../models/user";
 import * as Email from "../utils/email"
 
 
@@ -101,7 +102,7 @@ export const registerToCalendarEvent: RequestHandler<RegisterToCalendarEventPara
             throw createHttpError(404, "There was an error registering for event.");
         }
 
-        event.registeredMembers.forEach(function (value) {
+        event.registeredMembers!.forEach(function (value) {
             if (value.toString() == userId) {
                 throw createHttpError(404, "User already registered for this event.");
             }
@@ -188,10 +189,23 @@ export const notifyMembersOnEventUpdate:  RequestHandler = async (req, res, next
         if (!event) {
             throw createHttpError(404, "Could not find event");
         }
-        event.registeredMembers.forEach(function (value) {
-            Email.
+
+        event.registeredMembers?.forEach(async function (value) {
+
+            console.log("ID: " + value.toString());
+            
+            const member = await UsersModel.findById(value.toString()).exec();
+
+            const memebrEmail = member?.email;
+
+            if (memebrEmail) {
+            await Email.notifyMembersOnEventUpdate(memebrEmail, event.title, "", "Event Schedule Change");
+            }
         });
-        res.status(200).json({"ok":"ok"})
+
+        res.status(200).json({
+            "Notificaiton: ": "success"
+        })
 
     } catch (error) {
         next(error);

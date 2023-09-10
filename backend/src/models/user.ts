@@ -15,7 +15,7 @@ export const userSchema = new Schema({
     email: { 
         type: String, 
         unique: true, 
-        select: false,
+        select: true,
     },
     firstname: { type: String },
     lastname: { type: String },
