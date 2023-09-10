@@ -123,17 +123,19 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
                         editEventValue={type}
                     />
 
-                    <EventNameInputField
-                        register={register("title")}
-                        error={errors.title}
-                        editEventValue={title}
-                    />
+                    <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
+                      <EventNameInputField
+                          register={register("title")}
+                          error={errors.title}
+                          editEventValue={title}
+                      />
 
-                    <EventLocationField
-                        register={register("location")}
-                        error={errors.title}
-                        editEventValue={location}
-                    />
+                      <EventLocationField
+                          register={register("location")}
+                          error={errors.title}
+                          editEventValue={location}
+                      />
+                    </div>
 
                     <EventDetailsInputField
                         register={register("description")}

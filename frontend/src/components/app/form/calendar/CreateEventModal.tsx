@@ -151,15 +151,18 @@ export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuc
                         error={errors.type}
                     />
 
-                    <EventNameInputField
-                        register={register("title")}
-                        error={errors.title}
-                    />
+                    <div className="flex flex-col sm:flex-row gap-1 md:gap-3 lg:gap-3 xl:gap-3 flex-shrink-0 ">  
+                      <EventNameInputField
+                          register={register("title")}
+                          error={errors.title}
+                      />
 
-                    <EventLocationField
-                      register={register("location")}
-                      error={errors.location}
-                    />
+                      <EventLocationField
+                        register={register("location")}
+                        error={errors.location}
+                      />
+                    </div>
+
 
                     <EventDetailsInputField
                         register={register("description")}

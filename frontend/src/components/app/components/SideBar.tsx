@@ -170,6 +170,20 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                           </li>
                           <li>
                             <Icon
+                              icon={faUserPlus}
+                              style={{ maxWidth: 54 }}
+                              className="mr-1 pr-1  text-bodydark2"
+                            />
+                            
+                            <Link
+                              href="/app/members"
+                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
+                            >
+                              Add Member
+                            </Link>
+                          </li>
+                          <li>
+                            <Icon
                               icon={faChartMixed}
                               style={{ maxWidth: 54 }}
                               className="mr-1 pr-2  text-bodydark2"
