@@ -8,6 +8,7 @@ import sharp from "sharp";
 import env from "../env";
 import moment from "moment";
 import event from "../models/event";
+import * as Email from "../utils/email"
 
 
 export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBody, unknown> = async (req, res, next) => {
@@ -175,6 +176,25 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
         res.status(200).json(events);   
     } catch (error) {
         next(error)
+    }
+}
+
+export const notifyMembersOnEventUpdate:  RequestHandler = async (req, res, next) => {
+
+    const eventId = req.params.id
+
+    try {
+        const event = await EventModel.findById(eventId).exec();
+        if (!event) {
+            throw createHttpError(404, "Could not find event");
+        }
+        event.registeredMembers.forEach(function (value) {
+            Email.
+        });
+        res.status(200).json({"ok":"ok"})
+
+    } catch (error) {
+        next(error);
     }
 }
 

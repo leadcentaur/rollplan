@@ -11,10 +11,11 @@ import { createCalendarEventSchema, deleteCalendarEventSchema, registerToCalenda
 const router = express.Router();
 
 router.post("/create-event", validateRequestSchema(createCalendarEventSchema), CalendarController.createCalendarEvent);
+router.post("/events/notify-members/:id", CalendarController.notifyMembersOnEventUpdate);
 router.post("/register/:eventId/:userId", validateRequestSchema(registerToCalendarEventSchema), CalendarController.registerToCalendarEvent);
 router.post("/un-register/:eventId/:userId", validateRequestSchema(registerToCalendarEventSchema), CalendarController.unregisterFromCalendarEvent);
 router.post("/delete-event/:id", validateRequestSchema(deleteCalendarEventSchema), CalendarController.deleteCalendarEvent);
 router.patch("/update-event/:id", validateRequestSchema(updateCalendarEventBodySchema), CalendarController.updateCalendarEvent);
-router.get("/events/:id", CalendarController.getAcademyEvents); 
+router.get("/events/:id", CalendarController.getAcademyEvents);
 
 export default router;

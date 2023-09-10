@@ -24,6 +24,7 @@ import { eventType } from "@/types/user-types";
 import Spinner from "@/components/site/ui/typography/Spinner";
 import { ColorRing } from "react-loader-spinner";
 import EventLocationField from "./EventLocationInputField";
+import CheckboxOne from "../../components/CheckBox";
 
 interface EditEventModalProps {
     onDismiss?: () => void;
@@ -157,6 +158,8 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
                                 setGeneralDate={(date) => {setEndDate(date)}}
                                 editEventValue={end}
                             />
+
+<CheckboxOne/>
 
                           <div
                             className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 pr-3 border-gray-200 rounded-b-md">
