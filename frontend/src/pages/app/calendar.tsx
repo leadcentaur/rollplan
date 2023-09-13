@@ -277,7 +277,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
                     isOpen={showMemberEventModal}
                     calendar={calInfo!}
                     editEventClickArg={eventClickInfo!}
-                    onDismiss={() => {setShowMemberEventModal(false); setOnEventRegisteredSuccess("Successfully registered for event");}}
+                    onDismiss={() => {setShowMemberEventModal(false);}}
                 />
                 
             }

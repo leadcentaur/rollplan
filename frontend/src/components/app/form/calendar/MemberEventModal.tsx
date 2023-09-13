@@ -118,12 +118,11 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
     }
 
     return (
-        <div className="z-40 text-sm md:text-sm lg:text-sm fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
-        id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
-        <div className="bg-white-500 rounded-md max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
-          <div
-            className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
-            <div className="flex flex-row flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
+      <div className="z-9 text-sm ml-none md:ml-72 lg:ml-72 xl:ml-72 md:text-sm lg:text-sm fixed top-0 left-0 w-full bg-black-200 bg-opacity-30 h-none xs:h-full sm:h-none mt-18 xs:pb-10 outline-none overflow-x-hidden overflow-y-auto"
+      id="exampleModalScrollable" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+      <div className="bg-white-500 ml-none md:ml-70 xl:ml-70 lg:ml-70 rounded-md max-w-lg my-6 mx-auto relative w-auto pointer-events-none">
+        <div className="max-h-full overflow-hidden border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-clip-padding rounded-md outline-none text-current">
+          <div className="flex flex-row flex-shrink-0 items-center justify-between border-stroke rounded border-b p-4 ">
                 <div>
                   <h5 className="text-xl font-medium leading-normal text-gray-800" id="exampleModalScrollableLabel">
                     <Icon className="text-red-200 mr-2" icon={faCalendarStar}/> {title}
