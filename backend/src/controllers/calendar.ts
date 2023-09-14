@@ -102,21 +102,27 @@ export const registerToCalendarEvent: RequestHandler<RegisterToCalendarEventPara
             throw createHttpError(404, "There was an error registering for event.");
         }
 
-        event.registeredMembers!.forEach(function (value) {
-            if (value.toString() == userId) {
-                throw createHttpError(404, "User already registered for this event.");
+        if (event.registeredMembers) {
+
+            event.registeredMembers.forEach(function (value) {
+                if (value.toString() == userId) {
+                    throw createHttpError(404, "User already registered for this event.");
+                }
+            })
+    
+            const incRegisterCount = await EventModel.findByIdAndUpdate(eventId, {
+                $inc: {registerCount:  1}
+            }, {new: true}).exec();
+            
+            if (!incRegisterCount) {
+                console.error("Failed to increment the register account on event: " + eventId);
             }
-        })
+    
+            res.status(200).json(incRegisterCount);
 
-        const incRegisterCount = await EventModel.findByIdAndUpdate(eventId, {
-            $inc: {registerCount:  1}
-        }, {new: true}).exec();
-        
-        if (!incRegisterCount) {
-            console.error("Failed to increment the register account on event: " + eventId);
+        } else{
+            createHttpError(400, "There was an error registering for this event");
         }
-
-        res.status(200).json(incRegisterCount);   
 
     } catch (error) {
         next(error);
@@ -139,6 +145,7 @@ export const unregisterFromCalendarEvent: RequestHandler<RegisterToCalendarEvent
             throw createHttpError(404, "There was an error un-registering from the event.");
         }
 
+        //check if the user is registered for the eveent
         event.registeredMembers.forEach(function (value) {
             if (value.toString() == userId) {
                 existingUser = true;
@@ -149,6 +156,7 @@ export const unregisterFromCalendarEvent: RequestHandler<RegisterToCalendarEvent
             throw createHttpError(400, "Error user not registered for this event");
         }
 
+        //decrement the count
         const incRegisterCount = await EventModel.findByIdAndUpdate(eventId, {
             $inc: {registerCount: -1}
         },{new: true}).exec();

@@ -1,6 +1,11 @@
 import { useState } from 'react';
 
-const CheckboxOne = () => {
+interface NotifyMembersCheckBoxProps {
+  notifyMembers: (flag: boolean) => void;
+}
+
+const NotifyMembersCheckBox = ({notifyMembers}: NotifyMembersCheckBoxProps) => {
+
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   return (
@@ -16,6 +21,7 @@ const CheckboxOne = () => {
             className="sr-only"
             onChange={() => {
               setIsChecked(!isChecked);
+              notifyMembers(isChecked);
             }}
           />
           <div
@@ -34,4 +40,4 @@ const CheckboxOne = () => {
   );
 };
 
-export default CheckboxOne;
+export default NotifyMembersCheckBox;

@@ -24,10 +24,10 @@ import { eventType } from "@/types/user-types";
 import Spinner from "@/components/site/ui/typography/Spinner";
 import { ColorRing } from "react-loader-spinner";
 import EventLocationField from "./EventLocationInputField";
-import CheckboxOne from "../../components/CheckBox";
+import NotifyMembersCheckBox from "../../components/NotifyMembersCheckBox";
 
 interface EditEventModalProps {
-    onDismiss?: () => void;
+    onDismiss: () => void;
     editEventClickArg: EventClickArg,
     onEventUpdated: (text: string) => void;
     onEventDeleted: () => void;
@@ -54,6 +54,7 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
     const [errorText, setErrorText] = useState<string|null>();
     const [successText, setSuccessText] = useState<string|null>();
     const [isLoading, setIsLoading] = useState<boolean|undefined>();
+    const [notifyEventMembers, SetNotifyEventMembers] = useState<boolean>(false);
 
     const eventExtendedProps = editEventClickArg.event.extendedProps;
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<UpdateEventData>();
@@ -86,9 +87,15 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
         if (!title && !description && !location && !type && !start && !end) return;
         try {
           const updatedEvent = await EventApi.updateCalendarEvent({title, description, location, type, start, end}, eventId)
-          editEventClickArg.event.remove();
+
+          if (notifyEventMembers) {
+            const notifyResp = await EventApi.notifyMembersOnEventUpdate(eventId);
+          } 
           
+          editEventClickArg.event.remove();
           onEventUpdated("The event has been updated sucessfully, Members have been notified");
+          onDismiss();
+
         } catch (error) {
           if (error instanceof BadRequestError) {
             setErrorText("An Error has occured")
@@ -158,7 +165,7 @@ export default function EditEventModal({ onDismiss, editEventClickArg, onEventUp
                                 editEventValue={end}
                             />
 
-<CheckboxOne/>
+                            <NotifyMembersCheckBox notifyMembers={(result: boolean) => {SetNotifyEventMembers(!result)}}/>
 
                           <div
                             className="flex flex-shrink-0 flex-wrap items-center justify-end p-4 pr-3 border-gray-200 rounded-b-md">

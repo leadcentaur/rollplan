@@ -77,3 +77,9 @@ export async function UnregisterFromEvent(eventvalues: UnRegisterFromEventValues
     console.log("Un-register API Response: " + JSON.stringify(response.data));
     return response.data;
 }
+
+export async function notifyMembersOnEventUpdate(eventId: string) {
+    const response = await api.post("/calendar/events/notify-members/" + eventId);
+    console.log("Notify members Api response");
+    return response.data;
+}

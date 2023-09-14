@@ -58,6 +58,7 @@ export const createEventSchema = yup.object().shape({
 type CreateEventData = yup.InferType<typeof createEventSchema>;
 
 export default function ExampleModal({selectedDate, onDismiss, onEventCreatedSuccessfully, errorString, referenceId,  calendarApi, isOpen}: AddEventModalProps) {
+    
 
     const [errorText, setErrorText] = useState<string|null>();
     const { register, handleSubmit, formState: {errors, isSubmitting} } = useForm<CreateEventData>({
