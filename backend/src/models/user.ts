@@ -42,7 +42,7 @@ export const userSchema = new Schema({
     },
     dateOfLastPromotion: {type: String},
     dateOfLastAttendance: {type: String},
-    classAttended: {type: Number},
+    classesAttendedCount: {type: Number},
     academyReferenceId: { 
         type: Schema.Types.ObjectId, 
         ref: "Academy",
