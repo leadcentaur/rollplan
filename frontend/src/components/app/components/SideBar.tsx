@@ -154,6 +154,20 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                         }`}
                       >
                         <ul className="mt-4 flex  flex-col gap-2.5 pl-6">
+                        <li>
+                            <Icon
+                              icon={faUserPlus}
+                              style={{ maxWidth: 54 }}
+                              className="ml-1 pr-3  text-bodydark2"
+                            />
+                            
+                            <Link
+                              href="/app/members"
+                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
+                            >
+                              Add Member
+                            </Link>
+                          </li>
                           <li>
                             <Icon
                               icon={faListUl}
@@ -166,20 +180,6 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                               className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
                             >
                               Members
-                            </Link>
-                          </li>
-                          <li>
-                            <Icon
-                              icon={faUserPlus}
-                              style={{ maxWidth: 54 }}
-                              className="mr-1 pr-1  text-bodydark2"
-                            />
-                            
-                            <Link
-                              href="/app/members"
-                              className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
-                            >
-                              Add Member
                             </Link>
                           </li>
                           <li>

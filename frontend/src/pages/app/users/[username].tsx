@@ -173,11 +173,6 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
               </p>
             </div>
 
-            <div className="mx-auto max-w-180 items-center justify-between flex flex-row mt-5">
-                <CardOne/>
-                <CardTwo/>     
-                <CardThree/>
-            </div>
 
            <div className="mt-6.5">
               <UpdateUserProfileSection profileUser={loggedInUser!} onUserUpdated={handleUserUpdated}/>

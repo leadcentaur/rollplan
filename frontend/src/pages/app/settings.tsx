@@ -97,6 +97,7 @@ function UpdateAcademyInfoSection({onAcademyUpdated, userAcademy}: UpdateAcademy
         setErrorText(error.message);
       }
       else {
+        alert(error);
         setErrorText("An submission error has occurred. Please ensure your grips are tighther and you're uploading .PNG or JPEG files.")
       }
     }

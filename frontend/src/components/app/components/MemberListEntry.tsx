@@ -64,7 +64,7 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
             </div>
 
             <div className="hidden flex items-center justify-center p-2.5 xl:p-5 sm:flex">
-              {/* <p className="text-meta-3">$5,768</p> */}
+              <p className="text-meta-3 text-right">{email!}</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
