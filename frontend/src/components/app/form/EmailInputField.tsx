@@ -12,7 +12,7 @@ interface EmailInputFieldProps {
     htmlFor: string,
 }
 
-export default function EmailInputField({register, label, error, wrapperStyle, placeholder, htmlFor, ...props}: FormInputFieldProps & ComponentProps<"input">) {
+export default function EmailInputField({register, label, error, wrapperStyle, placeholder, htmlFor, ...props}: EmailInputFieldProps & ComponentProps<"input">) {
     return (
         <div className="mb-5.5">
         <label
@@ -25,7 +25,6 @@ export default function EmailInputField({register, label, error, wrapperStyle, p
           <input
             className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
             type="email"
-            name="emailAddress"
             id="emailAddress"
             placeholder="devidjond45@gmail.com"
             {...register}

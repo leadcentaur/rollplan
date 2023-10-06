@@ -169,25 +169,7 @@ export default function Home() {
 					]}
 				/>
 
-		<div id="pricing" className="relative py-7 sm:py-5 lg:py-6 bg-white-500 mt-8 text-charchoal-500">
-			<div className="mx-auto max-w-md px-2 sm:max-w-3xl sm:px-3 lg:max-w-7xl lg:px-4">
-				<div className="text-center mb-4 ">
-				
-
-					<p className="mt-5">
-						Use Rollplan for gyms of anysize, anywhere.
-					</p>
-				</div>
-
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<div>
-					
-					</div>
-				</div>
-
-				
-			</div>
-		</div>
+	
 				
 	
 
