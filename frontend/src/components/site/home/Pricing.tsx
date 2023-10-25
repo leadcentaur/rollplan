@@ -78,8 +78,8 @@ export default function Pricing() {
 						>
 							<div className="flex flex-col justify-center gap-2">
 								<div>
-									<Heading level={2}>$167</Heading>
-									<p className="text-xs pl-2">Per month*</p>
+									<Heading level={2}>Free!</Heading>
+									<p className="text-xs pl-2"></p>
 								</div>
 							</div>
 							
@@ -107,8 +107,8 @@ export default function Pricing() {
 						>
 							<div className="flex flex-col justify-center gap-2">
 								<div>
-									<Heading level={2}>$219</Heading>
-									<p className="text-xs pl-2">Per month*</p>
+									<Heading level={2}>Free!</Heading>
+									<p className="text-xs pl-2"></p>
 								</div>
 								
 							</div>
@@ -148,8 +148,8 @@ export default function Pricing() {
 							</div> */}
 							<div className="flex flex-col justify-center gap-2">
 								<div>
-									<Heading level={2}>$299</Heading>
-									<p className="text-xs pl-2">Per month*</p>
+									<Heading level={2}>Free!</Heading>
+									<p className="text-xs pl-2"></p>
 								</div>
 							</div>
 						</Tier>
