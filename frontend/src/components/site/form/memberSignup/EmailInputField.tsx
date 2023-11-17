@@ -22,7 +22,7 @@ export default function EmailInputField({register, error, label, placeholder, ..
         <div className="relative">
           <input
             type="email"
-            {...register}™
+            {...register}
             {...props}
             placeholder={placeholder || "Enter your academy email"}
             className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-12 outline-none focus:border-primary focus-visible:shadow dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

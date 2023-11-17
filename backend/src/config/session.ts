@@ -1,7 +1,18 @@
-import MongoStore from "connect-mongo";
+import RedisStore from "connect-redis";
 import { SessionOptions } from "express-session";
 import env from "../env";
 import crypto from "crypto"
+import redisClient from "./redisClient";
+import MongoStore from "connect-mongo";
+
+// const store = env.NODE_ENV === "production" ?
+//  new RedisStore({
+//     client: redisClient,
+//  })
+//  :
+//  MongoStore.create({
+//     mongoUrl: env.MONGO_CONNECTION_STRING
+//  });
 
 const sessionConfig: SessionOptions = {
     secret: env.SESSION_SECRET,
@@ -11,8 +22,8 @@ const sessionConfig: SessionOptions = {
         maxAge: 7 * 24 * 60 * 60 * 1000,
     },
     rolling: true,
-    store: MongoStore.create({
-        mongoUrl: env.MONGO_CONNECTION_STRING
+    store: new RedisStore({
+        client: redisClient,
     }),
     genid(req) {
         const userId = req.user?._id;
