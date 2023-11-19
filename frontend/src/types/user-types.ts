@@ -1,6 +1,8 @@
 
 export type userType = 'member' | 'owner';
 export type beltType = 'white' | 'blue' | 'purple' | 'brown' | 'black'
+export type academyEvent = 'userAdded' | 'userRemoved' | 'subscriptionNew' | '' 
+
 export type eventType = 
    | "BJJ Gi"
    | "BJJ No-Gi"
