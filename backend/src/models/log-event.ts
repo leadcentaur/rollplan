@@ -2,12 +2,6 @@
 import { InferSchemaType, Schema, model } from "mongoose";
 import { number } from "yup";
 
-// eventType: yup.string().required(),
-// eventTimeStamp: yup.string().required(),
-// eventTitle: yup.string().required(),
-// eventSubtitle: yup.string().required(),
-// eventMetadata: yup.string().required(),
-
 export const logEventSchema = new Schema({
     eventType: {
         type: String, 
@@ -24,6 +18,11 @@ export const logEventSchema = new Schema({
     eventMetadata: {
         type: String, 
         required: true,
+    },
+    academyReferenceId: { 
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Academy",
     }
 })
 

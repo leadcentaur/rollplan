@@ -1,6 +1,12 @@
 
 export type userType = 'member' | 'owner';
 export type beltType = 'white' | 'blue' | 'purple' | 'brown' | 'black'
+export type eventLogType = 'userAdded' 
+   | 'userRemoved' 
+   | 'calendarEventUpdate'
+   | 'calendarEventNew'
+   | 'calendarEventDelete'
+   | 'beltPromotion'
 export type eventType = 
    | "BJJ Gi"
    | "BJJ No-Gi"
@@ -19,3 +25,5 @@ export type eventType =
    | "Open mat (Gi/No-Gi)"
    | "Seminar"
    | "Other"
+
+

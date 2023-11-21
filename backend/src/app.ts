@@ -5,6 +5,7 @@ import usersRoutes from "./routes/users";
 import academyRoutes from "./routes/academy";
 import onboardingRoutes from "./routes/onboardings";
 import calendarRoutes from "./routes/calendar";
+import logeventRoutes from "./routes/log-event";
 
 import cors from "cors"
 import env from "./env";
@@ -36,6 +37,7 @@ app.use("/app", requiresAuth);
 app.use("/academy", academyRoutes);
 app.use("/calendar", calendarRoutes)
 app.use("/onboarding", onboardingRoutes);
+app.use("/logevent", logeventRoutes);
 
 app.use((req, res, next) => next(createHttpError(404, "Endpoint not found")));
 

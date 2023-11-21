@@ -19,7 +19,7 @@ export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknow
     console.log("Name: " + name + " Location: " + location + " Owner id: " + owner_id);
 
     try {
-     
+``
         if(!name || !location || !owner_id) {
             throw createHttpError(400, "Parameters missing.");
         }

@@ -1,14 +1,8 @@
 import * as yup from "yup";
-import { academyLocationSchema, academyNameSchema } from "./academys";
+import { academyIdSchema, academyLocationSchema, academyNameSchema } from "./academys";
 import { usernameSchema } from "./users";
+import { eventLogType } from "../../@types/user-types";
 
-
-export type eventLogType = 'userAdded' 
-   | 'userRemoved' 
-   | 'calendarEventUpdate'
-   | 'calendarEventNew'
-   | 'calendarEventDelete'
-   | 'beltPromotion'
 
 export const eventTypeSchema = yup.mixed<eventLogType>().oneOf([
     "userAdded",
@@ -20,14 +14,15 @@ export const eventTypeSchema = yup.mixed<eventLogType>().oneOf([
 ], "Invalid type");
 
 
-export const eventLogSchema = yup.object({
+export const logEventSchema = yup.object({
     body: yup.object({
         eventType: yup.string().required(),
         eventTimeStamp: yup.string().required(),
         eventTitle: yup.string().required(),
         eventSubtitle: yup.string().required(),
         eventMetadata: yup.string().required(),
+        academyReferenceId: academyIdSchema.required(),
     })
 })
 
-export type CollectorEventBody = yup.InferType<typeof eventLogSchema>["body"];
+export type logEventBody = yup.InferType<typeof logEventSchema>["body"];
