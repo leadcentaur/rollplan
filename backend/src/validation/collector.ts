@@ -20,7 +20,7 @@ export const eventTypeSchema = yup.mixed<eventLogType>().oneOf([
 ], "Invalid type");
 
 
-export const collectorEventLogSchema = yup.object({
+export const eventLogSchema = yup.object({
     body: yup.object({
         eventType: yup.string().required(),
         eventTimeStamp: yup.string().required(),
@@ -30,4 +30,4 @@ export const collectorEventLogSchema = yup.object({
     })
 })
 
-export type CollectorEventBody = yup.InferType<typeof collectorEventLogSchema>["body"];
+export type CollectorEventBody = yup.InferType<typeof eventLogSchema>["body"];
