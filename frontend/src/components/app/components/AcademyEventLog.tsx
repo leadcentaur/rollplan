@@ -10,11 +10,8 @@ Four-eleven Event Log
 
 */
 
-interface AcademyEventQueueProps {
-    eventType: string,
-}
 
-export default function AcademyEventQueue({eventType}: AcademyEventQueueProps) {
+export default function AcademyEventQueue() {
     return (
         <div>
             <ol className="relative border-s border-gray-200 dark:border-gray-700">                  

@@ -11,7 +11,7 @@ import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import React, { useState } from "react";
 import { BadRequestError, ConflictError, TooManyRequestsError } from "@/network/http-errors";
 import * as yup from "yup";
-import { academyLocationSchema, academyNameSchema, academyOwnerSchema, emailSchema, firstNameSchema, lastnameNameSchema, passwordSchema, requiredStringSchema, usernameSchema } from "@/utils/validation";
+import { academyLocationSchema, academyNameSchema, academyOwnerSchema, beltSchema, emailSchema, firstNameSchema, lastnameNameSchema, numberofStripesSchema, passwordSchema, requiredStringSchema, usernameSchema, usertypeSchema } from "@/utils/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Academy } from "@/models/academy";
 
@@ -110,13 +110,20 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
                 const password = credentials.password;
                 const firstname = credentials.firstname;
                 const lastname = credentials.lastname;
+                const verificationCode = credentials.verificationCode;
 
-                const numberOfStripes = "1"
-                const userType = "owner";
-                const belt = "black";
-           
 
-                const newUser = await UsersApi.signUp(credentials);
+                const newUser = await UsersApi.signUp(
+                  { username, 
+                    email, 
+                    password, 
+                    firstname, 
+                    lastname, 
+                    numberOfStripes: "1",
+                    userType: "owner", 
+                    belt: "black", 
+                    verificationCode
+                });
                 
                 if (!newUser) {
                   console.log("Failed to create user.")
@@ -183,7 +190,7 @@ export default function SignUpForm({onDismiss, onLoginInsteadClicked}: SignUphtm
       try {
         await UsersApi.requestEmailVerificationCode(emailInput);
         setShowVerificationCodeSentText(true);
-        startVerificationCodeCooldown(60);
+        startVerificationCodeCooldown(360);
 
       } catch (error) {
         if (error instanceof ConflictError) {

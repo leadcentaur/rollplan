@@ -5,13 +5,9 @@ import { academyEvent } from "@/types/user-types";
 import { faInfoCircle, faUserPlus } from "@fortawesome/pro-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface EventProps {
-    eventType: academyEvent;
-    titleText: string;
-    subTitleText: string;
-}
 
-export default function Eventlog({eventType, titleText, subTitleText}: EventProps) {
+
+export default function Eventlog() {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Event log"/>

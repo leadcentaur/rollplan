@@ -48,7 +48,7 @@ export const lastnameNameSchema =  yup.string()
     .max(100)
     .matches(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/, "Last name must not be blank or contain special characters.")
 
-    export const numberofStripesSchema = yup.number()
+    export const numberofStripesSchema = yup.string()
     .max(1)
 
 export const beltSchema = yup.mixed<beltType>().oneOf([
