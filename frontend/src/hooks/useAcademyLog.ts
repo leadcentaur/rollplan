@@ -1,11 +1,11 @@
 
 import { NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import * as UsersApi from "../network/api/users";
-import * as EventLogApi from "../network/api/event-log";
+import * as EventLogApi from "../network/api/log-event";
 import useSWR from "swr";
 
-export default function useEventLog() {
-    const { data, isLoading, error, mutate } = useSWR("logevents",
+export default function useAcademyLog() {
+    const { data, isLoading, error, mutate } = useSWR("log",
     async () => {
         try {
             const authenticatedUser = await UsersApi.getAuthenticatedUser()
@@ -13,7 +13,7 @@ export default function useEventLog() {
                 //academy does not have valid reference Id;
                 return null;
             }
-            return await EventsApi.getAcademyEventsById(authenticatedUser.academyReferenceId!)
+            return await EventLogApi.getLogEvents(authenticatedUser.academyReferenceId);
         } catch (error) {
             
             if(error instanceof NotFoundError){
@@ -25,5 +25,11 @@ export default function useEventLog() {
                 throw error;
             }
         }
+    })
+    return {
+        academyLog: data,
+        academyLogLoading: isLoading,
+        academyLogLoadingError: error,
+        mutateLogEvents: mutate,
     }
 }

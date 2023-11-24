@@ -1,4 +1,4 @@
-export interface LogEvent {
+export default interface LogEvent {
     _id?: string,
     eventType?: string,
     eventTimeStamp?: string,

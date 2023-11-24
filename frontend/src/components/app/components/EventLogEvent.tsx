@@ -17,7 +17,7 @@ interface EventLogEventProps {
     eventLogEventType: eventLogType;
     eventLogTitleText?: string;
     eventLogSubtitleText?: string;
-    logIndex?: string;
+    logIndex?: number;
 }
 
 
@@ -37,10 +37,7 @@ export default function EventlogEvent({ eventLogEventType, eventLogSubtitleText,
                 </div>
             </div>
             <div>
-                {/* <FontAwesomeIcon icon={faInfoCircle} className="text-xl"/> */}
-
                 <FontAwesomeIcon className="text-lg text-center" icon={faInfoCircle} />
-
             </div>
         </div>
     );

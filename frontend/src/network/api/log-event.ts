@@ -1,4 +1,5 @@
 
+import { LogEvent } from "@/models/log-event";
 import api from "@/network/axiosInstance";
 
 
@@ -14,6 +15,9 @@ export interface CreateLogEventProps {
     eventMetadata?: string,
 }
 
-export async function createLogEvent() {
-    
+export async function createLogEvent(createLogEventObject: CreateLogEventProps) {
+
+    console.log(createLogEventObject);
+    const response = await api.post<LogEvent>("/logevent/create", createLogEvent);
+    return response.data;
 }
