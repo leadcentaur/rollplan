@@ -24,7 +24,7 @@ export const logEventSchema = new Schema({
         required: true,
         ref: "Academy",
     }
-})
+}, { timestamps: true })
 
 type logEvent = InferSchemaType<typeof logEventSchema>;
 export default model<logEvent>("logEvent", logEventSchema);        

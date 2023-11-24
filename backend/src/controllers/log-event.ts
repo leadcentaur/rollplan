@@ -41,8 +41,8 @@ export const createLogEvent: RequestHandler<unknown, unknown, logEventBody, unkn
 
 export const getLogEvents: RequestHandler = async (req, res, next) => {
     try {
-        const academyRef = new mongoose.Types.ObjectId(req.params.academyReferenceId);
-            const log_events = await logEventModel.find({academyReferenceId: academyRef}).exec();
+        const academyReferenceId = new mongoose.Types.ObjectId(req.params.academyReferenceId);
+            const log_events = await logEventModel.find({academyReferenceId: academyReferenceId}).exec();
             if (!log_events) {
                 throw createHttpError(404, "Failed to fetch log events")
             }
