@@ -9,7 +9,7 @@ export const eventTypeSchema = yup.mixed<eventLogType>().oneOf([
     "userRemoved",
     "calendarEventUpdate",
     "calendarEventNew",
-    "calendarEventDelete",
+    "calendarEventDelete",  
     "beltPromotion"
 ], "Invalid type");
 

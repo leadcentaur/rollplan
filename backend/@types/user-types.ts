@@ -7,7 +7,7 @@ export type eventLogType = 'userAdded'
    | 'calendarEventNew'
    | 'calendarEventDelete'
    | 'beltPromotion'
-
+   
 export type eventType = 
    | "BJJ Gi"
    | "BJJ No-Gi"

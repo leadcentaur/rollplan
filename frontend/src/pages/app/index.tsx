@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ColorRing } from "react-loader-spinner";
 
-import DashboardAdmin from "@/components/app/pages/Dashboard/DashBoardAdmin";
-import DashboardMember from "@/components/app/pages/Dashboard/DashBoardMember";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import { useRouter } from "next/router";
@@ -17,6 +15,11 @@ import ChartTwo from "@/components/app/components/AttendanceChart";
 import AcademyEventQueue from "@/components/app/components/AcademyEventLog";
 import Eventlog from "./log";
 import EventlogEvent from "@/components/app/components/EventLogEvent";
+import EventLogList from "@/components/app/components/EventLogList";
+import MemberList from "@/components/app/components/MembersList";
+import TableOne from "@/components/app/components/TableOne";
+import ChatCard from "@/components/app/components/ChatCard";
+
 
 export default function Dashboard() {
 
@@ -37,11 +40,11 @@ export default function Dashboard() {
       <CardFour />
     </div>
 
-    <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.">
-    {(typeof window !== 'undefined') &&
-        <ChartTwo/>
-    }
- 
+    <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+    <div className="col-span-12 xl:col-span-8">
+          <EventLogList/>
+        </div>
+        <ChatCard/>  
     </div>
   </>
     </DefaultLayout>

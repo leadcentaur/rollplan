@@ -17,7 +17,7 @@ interface EventLogEventProps {
     eventLogEventType: eventLogType;
     eventLogTitleText?: string;
     eventLogSubtitleText?: string;
-    logIndex?: number;
+    logIndex?: number
 }
 
 
