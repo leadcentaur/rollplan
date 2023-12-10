@@ -23,7 +23,7 @@ interface EventLogEventProps {
 
 export default function EventlogEvent({ eventLogEventType, eventLogSubtitleText, eventLogTitleText, logIndex }: EventLogEventProps) {
     return (
-        <div className="flex flex-row items-center justify-between gap-4 p-4">
+        <div className="flex flex-row items-center justify-between gap-4 p-3">
 
             <div className="flex flex-row items-center justift-content gap-4 p-1">
                 <div className="h-14 w-14 rounded-full border border-stroke pl-1 flex items-center justify-center ">

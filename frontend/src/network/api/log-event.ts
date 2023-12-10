@@ -3,8 +3,8 @@ import { LogEvent } from "@/models/log-event";
 import api from "@/network/axiosInstance";
 
 
-export async function getLogEvents(academyId: string) {
-    const response = await api.get("/logevent/" + academyId);
+export async function getLogEvents(academyId: string, page: number = 1) {
+    const response = await api.get("/logevent/" + academyId + "?page=" + page);
     return response.data;
 }
 

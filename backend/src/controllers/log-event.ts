@@ -1,8 +1,9 @@
 import { RequestHandler } from "express";
-import { logEventBody } from "../validation/log-event";
+import { logEventBody,  GetLogEventQuery } from "../validation/log-event";
 import logEventModel from "../models/log-event";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
+
 
 // eventType: yup.string().required(),
 // eventTimeStamp: yup.string().required(),
@@ -39,17 +40,29 @@ export const createLogEvent: RequestHandler<unknown, unknown, logEventBody, unkn
     }
 }
 
-export const getLogEvents: RequestHandler = async (req, res, next) => {
+export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEventQuery> = async (req, res, next) => {
+    const academyId = req.query.academyId;
+    const page = parseInt(req.query.page || "1");
+    const pageSize = 6;
+
     try {
-        const academyReferenceId = new mongoose.Types.ObjectId(req.params.academyReferenceId);
-            const log_events = await logEventModel.find({academyReferenceId: academyReferenceId}).exec();
-            if (!log_events) {
-                throw createHttpError(404, "Failed to fetch log events")
-            }
-            console.log("log events: " + log_events);
-            
-            res.status(200).json(log_events);
-    } catch (error) {
-        next(error)
+        const getLogEventsQuery = logEventModel.find({academyReferenceId: academyId})
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .exec();
+        
+        const countDocumentsQuery = logEventModel.countDocuments({academyReferenceId: academyId});
+
+        const [logEvents, totalResults] = await Promise.all([getLogEventsQuery, countDocumentsQuery]);
+        const totalPages = Math.ceil(totalResults / pageSize);
+        
+        res.json(200).json({
+            logEvents,
+            page,
+            totalPages
+        })
+    }catch (error) {
+        next(error);
     }
+
 }
