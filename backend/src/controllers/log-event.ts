@@ -3,6 +3,7 @@ import { logEventBody,  GetLogEventQuery } from "../validation/log-event";
 import logEventModel from "../models/log-event";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
+import logEvent from "../models/log-event";
 
 
 // eventType: yup.string().required(),
@@ -43,6 +44,10 @@ export const createLogEvent: RequestHandler<unknown, unknown, logEventBody, unkn
 export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEventQuery> = async (req, res, next) => {
     const academyId = req.query.academyId;
     const page = parseInt(req.query.page || "1");
+
+    console.log("Academy Id: " + academyId);
+    console.log("Page #: " + page);
+
     const pageSize = 6;
 
     try {
@@ -55,12 +60,15 @@ export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEvent
 
         const [logEvents, totalResults] = await Promise.all([getLogEventsQuery, countDocumentsQuery]);
         const totalPages = Math.ceil(totalResults / pageSize);
+
+        console.log("Log events JSON" + logEvents);
         
-        res.json(200).json({
+        res.status(200).json({
             logEvents,
-            page,
-            totalPages
-        })
+            totalPages,
+            pageSize
+        });
+
     }catch (error) {
         next(error);
     }

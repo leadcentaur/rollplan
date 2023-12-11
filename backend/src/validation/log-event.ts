@@ -27,11 +27,11 @@ export const logEventSchema = yup.object({
 
 export type logEventBody = yup.InferType<typeof logEventSchema>["body"];
 
-export const getLogEventSchema = yup.object({
+export const getLogEventsSchema = yup.object({
     query: yup.object({
         academyId: academyIdSchema.required(),
         page: yup.string(),
     })
 })
 
-export type GetLogEventQuery = yup.InferType<typeof getLogEventSchema>["query"];
+export type GetLogEventQuery = yup.InferType<typeof getLogEventsSchema>["query"];

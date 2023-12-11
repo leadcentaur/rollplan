@@ -3,8 +3,9 @@ import { LogEvent } from "@/models/log-event";
 import api from "@/network/axiosInstance";
 
 
+//http://localhost:5000/logevent?academyId=655e67180a77ae5bd08923c7&page=3
 export async function getLogEvents(academyId: string, page: number = 1) {
-    const response = await api.get("/logevent/" + academyId + "?page=" + page);
+    const response = await api.get("/logevent?=academyId" + academyId + "&page=" + page);
     return response.data;
 }
 
