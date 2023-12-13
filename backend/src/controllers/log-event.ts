@@ -60,8 +60,6 @@ export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEvent
 
         const [logEvents, totalResults] = await Promise.all([getLogEventsQuery, countDocumentsQuery]);
         const totalPages = Math.ceil(totalResults / pageSize);
-
-        console.log("Log events JSON" + logEvents);
         
         res.status(200).json({
             logEvents,

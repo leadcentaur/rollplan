@@ -8,3 +8,11 @@ export default interface LogEvent {
     updatedAt?: string,
     eventMetadata?: string,
 }
+
+export interface LogEventPage {
+    logEvents: [
+        event: LogEvent
+    ],
+    totalPages: number,
+    pageSize: number,
+}
