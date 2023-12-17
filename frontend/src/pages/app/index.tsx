@@ -19,6 +19,10 @@ import EventLogList from "@/components/app/components/EventLogList";
 import MemberList from "@/components/app/components/MembersList";
 import TableOne from "@/components/app/components/TableOne";
 import ChatCard from "@/components/app/components/ChatCard";
+import CardFive from "@/components/app/components/CardFive";
+import CardSix from "@/components/app/components/CardSix";
+import CardSeven from "@/components/app/components/CardSeven";
+import CardEight from "@/components/app/components/CardEight";
 
 
 export default function Dashboard() {
@@ -38,6 +42,10 @@ export default function Dashboard() {
       <CardTwo />
       <CardThree />
       <CardFour />
+      <CardFive/>
+      <CardSix/>
+      <CardSeven/>
+      <CardEight/>
     </div>
 
     <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">

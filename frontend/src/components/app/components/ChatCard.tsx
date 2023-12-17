@@ -8,7 +8,7 @@ import Calendar from './CalendarView';
 
 const ChatCard = () => {
   return (
-    <div className="col-span-12 overflow-auto rounded-sm border border-stroke bg-white-500 py-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className="col-span-12 p-3 overflow-auto rounded-sm border border-stroke bg-white-500 py-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
         <Calendar weekendsVisible={true} currentEvents={[]}/>
     </div>
   );

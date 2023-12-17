@@ -193,7 +193,7 @@ export default function Calendar({weekendsVisible, currentEvents}: CalendarState
 
         return (
             <>
-                <div className={"flex flex-row w-full px-1  border text-white-500 border-red-200 rounded-md text-ellipsis " + colourClassString}>
+                <div className={"flex flex-row w-full px-1 border text-white-500 border-red-200 rounded-md text-ellipsis " + colourClassString}>
 
                 <div className="absolute ">                    
                         <div className={colourClassString}>
