@@ -112,6 +112,7 @@ export default function ResetPasswordForm({onDismiss, onSignupClicked}: ResetPas
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <EmailInputField
                   register={register("email", {required: "Required"})}
+                  error={errors.email}
                   placeholder="Enter your email"
                 />
 
@@ -137,7 +138,7 @@ export default function ResetPasswordForm({onDismiss, onSignupClicked}: ResetPas
 
               
                 <VerificationCodeInputField
-                    register={register("verificationCode")}
+                    register={register("verificationCode", {required: "Required"})}
                     placeholder="Verification code"
                     handleSendClick={requestVerificationCode}
                     verificationCodeRequestPending={verificationCodeRequestPending || verificationCodeCooldownSecondsLeft > 0}

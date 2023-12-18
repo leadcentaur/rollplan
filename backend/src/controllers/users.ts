@@ -164,6 +164,11 @@ export const resetPassword: RequestHandler<unknown, unknown, ResetPasswordBody, 
     const { email, password: newPasswordRaw, verificationCode} = req.body
 
     try {
+
+        if (newPasswordRaw == "") {
+            throw createHttpError(400, "Password cannot be blank")
+        }
+
         const exitingUser = await UserModel.findOne({email}).select("+email")
             .collation({locale: "en", })
             .exec();
