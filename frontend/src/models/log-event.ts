@@ -10,9 +10,7 @@ export default interface LogEvent {
 }
 
 export interface LogEventPage {
-    logEvents: [
-        event: LogEvent
-    ],
+    logEvents: LogEvent[],
     totalPages: number,
     pageSize: number,
 }

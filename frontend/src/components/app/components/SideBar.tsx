@@ -98,7 +98,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 													style={{ maxWidth: 54 }}
 												/>
                         <span>
-                           Event log
+                           Rolls and Events
                         </span>
               </Link>
 
