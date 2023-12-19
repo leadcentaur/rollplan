@@ -4,7 +4,11 @@ import * as UsersApi from "../network/api/users";
 import * as EventLogApi from "../network/api/log-event";
 import useSWR from "swr";
 
-export default function useAcademyLog() {
+interface LogProps {
+    pageNumber: number;
+}
+
+export default function useAcademyLog({pageNumber}: LogProps) {
     const { data, isLoading, error, mutate } = useSWR("log",
     async () => {
         try {
@@ -13,7 +17,7 @@ export default function useAcademyLog() {
                 //academy does not have valid reference Id;
                 return null;
             }
-            return await EventLogApi.getLogEvents(authenticatedUser.academyReferenceId);
+            return await EventLogApi.getLogEvents(authenticatedUser.academyReferenceId, pageNumber);
         } catch (error) {
             
             if(error instanceof NotFoundError){

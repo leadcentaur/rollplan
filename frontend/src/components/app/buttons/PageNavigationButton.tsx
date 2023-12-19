@@ -1,6 +1,6 @@
 
 interface NavigationButtonProps {
-    pageCount?: number,
+    pageCount: number,
     currentPage: number,
     onPageItemClicked?: (page: number) => void,
 }
@@ -8,12 +8,10 @@ interface NavigationButtonProps {
 
 export default function NavigationButton({pageCount, currentPage, onPageItemClicked}: NavigationButtonProps) {
 
-
-
     return (
         <div className="bg-gray-200">
             <div className="flex flex-row mx-auto">
-                { currentPage > 1 &&
+                { currentPage != 0 &&
                     <>
                         <button type="button" className="bg-gray-800 text-white rounded-l-md border-r border-gray-100 py-1 hover:bg-stroke hover:text-white px-3">
                             <div className="flex flex-row align-middle">

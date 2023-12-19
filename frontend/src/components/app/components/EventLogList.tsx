@@ -14,7 +14,7 @@ import clsx from "clsx";
 
 export default function EventLogList() {
 
-    const { academyLog, academyLogLoading, academyLogLoadingError, mutateLogEvents } = useAcademyLog(); 
+    const { academyLog, academyLogLoading, academyLogLoadingError, mutateLogEvents } = useAcademyLog({pageNumber: 1});
 
     return (
 
@@ -35,7 +35,10 @@ export default function EventLogList() {
                     <div>
                     </div>
                     <div className="mt-5">
-                        <NavigationButton currentPage={2} pageCount={40} onPageItemClicked={() => {}}/>
+
+                
+                        <NavigationButton/>
+                    
                     </div>
                 </Heading>
             <div className="col-span-12 h-72 overflow-auto rounded-md border-stroke bg-white-500 p-2.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
