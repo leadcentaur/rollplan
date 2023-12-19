@@ -10,12 +10,18 @@ import NavigationButton from "../buttons/PageNavigationButton";
 import Icon from "@/components/site/ui/iconography/Icon";
 import { faSquareStar } from "@fortawesome/pro-solid-svg-icons";
 import clsx from "clsx";
+import { useState } from "react";
 
 
 export default function EventLogList() {
 
-    const { academyLog, academyLogLoading, academyLogLoadingError, mutateLogEvents } = useAcademyLog({pageNumber: 1});
+    const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
+    const { academyLog, academyLogLoading, academyLogLoadingError, mutateLogEvents } = useAcademyLog({pageNumber: currentPageNumber});
 
+    async function fetchLogEventsPage(page: number) {
+        
+    }
+    
     return (
 
         <div className="rounded-md bg-white-500 border border-stroke text-md">
@@ -37,7 +43,7 @@ export default function EventLogList() {
                     <div className="mt-5">
 
                 
-                        <NavigationButton/>
+                        <NavigationButton currentPage={currentPageNumber} onNextClicked={() => {setCurrentPageNumber(currentPageNumber + 1)}} onPrevClicked={() => {setCurrentPageNumber(currentPageNumber - 1)}}/>
                     
                     </div>
                 </Heading>

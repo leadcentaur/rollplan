@@ -1,7 +1,7 @@
 import express from "express";
 import * as AcademyController from "../controllers/academy";
 import validateRequestSchema from "../middlewares/validateRequestSchema";
-import { academyCreationSchema, updateAcademySchema } from "../validation/academys";
+import { academyCreationSchema, getAcademyMemberSchema, updateAcademySchema } from "../validation/academys";
 import { createAcademyRateLimit } from "../middlewares/rate-limit";
 import requiresAuth from "../middlewares/requiresAuth";
 import requiresOwner from "../middlewares/requiresOwner";
@@ -15,6 +15,6 @@ router.post("/create", createAcademyRateLimit, validateRequestSchema(academyCrea
 router.get("/:id", AcademyController.getAcademyByID)
 router.patch("/add/member", AcademyController.addMember);
 router.patch("/update/:id", requiresOwner, academyLogoUpload.single("academyLogo"), validateRequestSchema(updateAcademySchema), AcademyController.updateAcademy), 
-router.get("/:academyId/members", requiresAuth, AcademyController.getAcademyMembers);
+router.get("/members", requiresAuth, validateRequestSchema(getAcademyMemberSchema), AcademyController.getAcademyMembers);
 
 export default router;

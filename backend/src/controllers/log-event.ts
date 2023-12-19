@@ -44,10 +44,6 @@ export const createLogEvent: RequestHandler<unknown, unknown, logEventBody, unkn
 export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEventQuery> = async (req, res, next) => {
     const academyId = req.query.academyId;
     const page = parseInt(req.query.page || "1");
-
-    console.log("Academy Id: " + academyId);
-    console.log("Page #: " + page);
-
     const pageSize = 6;
 
     try {

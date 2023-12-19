@@ -13,6 +13,11 @@ export async function createAcademy(acdemycredentials: CreateAcademyProps) {
     return response.data;
 }
 
+export async function getAcademysMembersPage(page: number = 1, academyId: string) {
+    const response = await api.get("/academy/members/academyId?=" + academyId + "&page=" + page)
+    console.log("Response")
+    return response.data;
+}
 
 export async function getAcademyMembers(academyId: string) {
     const response = await api.get("/academy/" + academyId + "/members");

@@ -5,7 +5,7 @@ import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
 import { email } from "envalid";
-import { AcademyBody, GetAcademyMembersBody, UpdateAcademyBody } from "../validation/academys";
+import { AcademyBody, GetAcademyMembersQuery, UpdateAcademyBody } from "../validation/academys";
 import { AddMemberBody } from "../validation/academys";
 import sharp from "sharp";
 import env from "../env";
@@ -70,21 +70,46 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
     }
 }
 
-export const getAcademyMembers: RequestHandler = async (req, res, next) => {
+//localhost:5000/academy/members/academyId?=655e67180a77ae5bd08923c7&page=1
+export const getAcademyMembers: RequestHandler<unknown, unknown, unknown, GetAcademyMembersQuery> = async (req, res, next) => {
 
-    const academyId = new mongoose.Types.ObjectId(req.params.academyId);
-    try {
-        const members = await UserModel.find({academyReferenceId: academyId}).exec();
-        if (!members) {
-            throw createHttpError(404, "Failed to fetch members")
-        }
-        console.log("members list: " + members);
+    console.log("The aid: " + req.query);
 
-        res.status(200).json(members);
-    } catch (error) {
-        next(error);
-    }
+    // const academyId = new mongoose.Types.ObjectId(req.query.academyId);
+    // const page = parseInt(req.query.page || "1");
+    // const pageSize = 10;    
+    
+    // try {
+    //     const members = await UserModel.find({academyReferenceId: academyId}).exec();
+    //     if (!members) {
+    //         throw createHttpError(404, "Failed to fetch members")
+    //     }
+    //     res.status(200).json(members);
+    // } catch (error) {
+    //     next(error)
+    // }
+
+    res.status(200).json({});
+
 }
+
+// export const getAcademyMembers: RequestHandler = async (req, res, next) => {
+
+//     const academyId = new mongoose.Types.ObjectId(req.params.academyId);
+    
+
+//     try {
+//         const members = await UserModel.find({academyReferenceId: academyId}).exec();
+//         if (!members) {
+//             throw createHttpError(404, "Failed to fetch members")
+//         }
+//         console.log("members list: " + members);
+
+//         res.status(200).json(members);
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
     const academyReferenceId = req.body.academyId;
