@@ -35,6 +35,7 @@ app.use("/src/uploads/academy-logos", express.static("src/uploads/academy-logos"
 app.use("/users", usersRoutes);
 app.use("/app", requiresAuth);
 app.use("/academy", academyRoutes);
+app.use("/academy/members")
 app.use("/calendar", calendarRoutes)
 app.use("/onboarding", onboardingRoutes);
 app.use("/logevent", logeventRoutes);

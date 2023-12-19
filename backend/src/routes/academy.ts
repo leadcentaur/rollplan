@@ -7,7 +7,7 @@ import requiresAuth from "../middlewares/requiresAuth";
 import requiresOwner from "../middlewares/requiresOwner";
 import { academyLogoUpload } from "../middlewares/image-upload";
 
-const router = express.Router();
+const   router = express.Router();
 
 router.post("/create", createAcademyRateLimit, validateRequestSchema(academyCreationSchema), AcademyController.createAcademy);
 
