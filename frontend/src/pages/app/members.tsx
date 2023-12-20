@@ -1,3 +1,4 @@
+import PaginationBar from "@/components/app/buttons/Pagination/PaginationBar";
 import Breadcrumb from "@/components/app/components/Breadcrumb";
 import MemberList from "@/components/app/components/MembersList";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
@@ -8,6 +9,7 @@ export default function Members() {
         <DefaultLayout>
             <Breadcrumb pageName="Members" />
             <MemberList/>
+            <PaginationBar pageCount={1} currentPage={1} onPageItemClicked={() => {}}/>
         </DefaultLayout>
     );
   }

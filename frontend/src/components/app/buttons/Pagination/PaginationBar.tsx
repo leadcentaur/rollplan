@@ -1,4 +1,10 @@
-import Pagination from "./Pagination";
+import Pagination from "./Pagination"
+import PaginationFirstButton from "./PaginationFirstButton"
+import PaginationLastButton from "./PaginationLastButton";
+import PaginationNextButton from "./PaginationNextButton";
+import PaginationPageButton from "./PaginationPageButton";
+import PaginationPrevButton from "./PaginationPrevButton";
+
 
 interface PaginationBarProps {
     pageCount: number,
@@ -10,11 +16,13 @@ interface PaginationBarProps {
 export default function PaginationBar({ pageCount, currentPage, onPageItemClicked }: PaginationBarProps) {
     return (
         <Pagination>
-            { currentPage > 1 &&
-                <>
-                    <Pagi
-                </>
-            }
+            <PaginationFirstButton/>
+            <PaginationNextButton/>
+                <PaginationPageButton pageNumber="1"/>
+                <PaginationPageButton pageNumber="2"/>
+                <PaginationPageButton pageNumber="3"/>
+            <PaginationPrevButton/>
+            <PaginationLastButton/>
         </Pagination>
     ); 
 }
