@@ -14,6 +14,7 @@ import { beltType } from "@/types/user-types";
 import ErrorAlert from "./ErrorAlert";
 import WarningAlert from "./WarningAlert";
 import Spinner from "@/components/site/ui/typography/Spinner";
+import PaginationBar from "../buttons/Pagination/Pagination";
 
 export default function MemberList() {
   
@@ -58,7 +59,9 @@ export default function MemberList() {
         <Spinner/>        
       }
 
-      { members && members.length != 0 &&
+      <PaginationBar currentPage={2} pageCount={40} onPageItemClicked={() => {}}/>
+
+      {/* { members && members.length != 0 &&
 
           <div>
           {members.map((user: User, index: number) => (
@@ -76,7 +79,7 @@ export default function MemberList() {
             />
           ))}
           </div>
-      }
+      } */}
 
       { !members && !membersLoading &&  
          <WarningAlert warningTextHeading="Page notification" warningText="Unable to load academy members."/>

@@ -17,3 +17,9 @@ export interface User {
     dateOfLastAttendance?: string,
     classAttended?: number,
 }
+
+export interface MemberPage {
+    logEvents: User[],
+    totalPages: number,
+    pageSize: number,
+}

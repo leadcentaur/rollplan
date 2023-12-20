@@ -70,27 +70,33 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
     }
 }
 
-//localhost:5000/academy/members/academyId?=655e67180a77ae5bd08923c7&page=1
+//localhost:5000/members/academyId?=655e67180a77ae5bd08923c7&page
 export const getAcademyMembers: RequestHandler<unknown, unknown, unknown, GetAcademyMembersQuery> = async (req, res, next) => {
 
-    console.log("The aid: " + req.query);
-
-    // const academyId = new mongoose.Types.ObjectId(req.query.academyId);
-    // const page = parseInt(req.query.page || "1");
-    // const pageSize = 10;    
+    const academyId = new mongoose.Types.ObjectId(req.query.academyId);
+    const page = parseInt(req.query.page || "1");
+    const pageSize = 10;    
     
-    // try {
-    //     const members = await UserModel.find({academyReferenceId: academyId}).exec();
-    //     if (!members) {
-    //         throw createHttpError(404, "Failed to fetch members")
-    //     }
-    //     res.status(200).json(members);
-    // } catch (error) {
-    //     next(error)
-    // }
+    try {
 
-    res.status(200).json({});
+        const getAcademyMembersQuery = UserModel.find({academyReferenceId: academyId})
+            .skip((page - 1) * pageSize)
+            .limit(pageSize)
+            .exec();
+        
+        const countDocumentsQuery = UserModel.countDocuments({academyReferenceId: academyId});
+        const [academyMembers, totalResults] = await Promise.all([getAcademyMembersQuery, countDocumentsQuery]);
+        const totalPages = Math.ceil(totalResults / pageSize);
 
+        res.status(200).json({
+            academyMembers,
+            totalPages,
+            pageSize
+        });
+
+    } catch (error) {
+        next(error)
+    }
 }
 
 // export const getAcademyMembers: RequestHandler = async (req, res, next) => {

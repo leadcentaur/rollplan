@@ -14,7 +14,6 @@ router.post("/create", createAcademyRateLimit, validateRequestSchema(academyCrea
 // might need to kind of lockdown on this endpoint in the future
 router.get("/:id", AcademyController.getAcademyByID)
 router.patch("/add/member", AcademyController.addMember);
-router.patch("/update/:id", requiresOwner, academyLogoUpload.single("academyLogo"), validateRequestSchema(updateAcademySchema), AcademyController.updateAcademy), 
-router.get("/members", requiresAuth, validateRequestSchema(getAcademyMemberSchema), AcademyController.getAcademyMembers);
+router.patch("/update/:id", requiresOwner, academyLogoUpload.single("academyLogo"), validateRequestSchema(updateAcademySchema), AcademyController.updateAcademy); 
 
 export default router;

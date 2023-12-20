@@ -66,5 +66,4 @@ export const getLogEvents: RequestHandler<unknown, unknown, unknown, GetLogEvent
     }catch (error) {
         next(error);
     }
-
 }

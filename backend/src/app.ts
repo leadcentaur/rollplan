@@ -6,6 +6,7 @@ import academyRoutes from "./routes/academy";
 import onboardingRoutes from "./routes/onboardings";
 import calendarRoutes from "./routes/calendar";
 import logeventRoutes from "./routes/log-event";
+import memberRoutes from "./routes/members";
 
 import cors from "cors"
 import env from "./env";
@@ -35,7 +36,7 @@ app.use("/src/uploads/academy-logos", express.static("src/uploads/academy-logos"
 app.use("/users", usersRoutes);
 app.use("/app", requiresAuth);
 app.use("/academy", academyRoutes);
-app.use("/academy/members")
+app.use("/members", memberRoutes);
 app.use("/calendar", calendarRoutes)
 app.use("/onboarding", onboardingRoutes);
 app.use("/logevent", logeventRoutes);

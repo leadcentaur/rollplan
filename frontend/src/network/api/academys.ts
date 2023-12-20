@@ -1,6 +1,7 @@
 import api from "@/network/axiosInstance";
 import { Academy } from "@/models/academy";
 import { Members } from "@/models/members-list";
+import { MemberPage } from "@/models/user";
 
 export interface CreateAcademyProps {
     academy_name?: string,
@@ -13,17 +14,17 @@ export async function createAcademy(acdemycredentials: CreateAcademyProps) {
     return response.data;
 }
 
-export async function getAcademysMembersPage(page: number = 1, academyId: string) {
-    const response = await api.get("/academy/members/academyId?=" + academyId + "&page=" + page)
-    console.log("Response")
-    return response.data;
-}
-
-export async function getAcademyMembers(academyId: string) {
-    const response = await api.get("/academy/" + academyId + "/members");
+export async function getAcademyMembers(academyId: string, page: number = 1) {
+    const response = await api.get<MemberPage>(`/members?academyId=${academyId}&page=${page}`);
     console.log("Data fromn abckend " + JSON.stringify(response.data));
     return response.data;
 }
+
+// export async function getAcademyMembers(academyId: string) {
+//     const response = await api.get("/academy/" + academyId + "/members");
+//     console.log("Data fromn abckend " + JSON.stringify(response.data));
+//     return response.data;
+// }
 
 export async function getAcademyByID(academyId: string) {
     const response = await api.get<Academy>("/academy/" + academyId);

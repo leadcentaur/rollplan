@@ -1,9 +1,9 @@
 
-import { LogEvent } from "@/models/log-event";
+import { LogEventPage } from "@/models/log-event";
 import api from "@/network/axiosInstance";
 
 export async function getLogEvents(academyId: string, page: number = 1) {
-    const response = await api.get("/logevent?academyId=" + academyId + "&page=" + page);
+    const response = await api.get<LogEventPage>("/logevent?academyId=" + academyId + "&page=" + page);
     return response.data;
 }
 
