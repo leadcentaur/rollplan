@@ -9,7 +9,7 @@ export default function Members() {
         <DefaultLayout>
             <Breadcrumb pageName="Members" />
             <MemberList/>
-            <PaginationBar pageCount={1} currentPage={1} onPageItemClicked={() => {}}/>
+            <PaginationBar pageCount={5} currentPage={3} onPageItemClicked={() => {}}/>
         </DefaultLayout>
     );
   }
