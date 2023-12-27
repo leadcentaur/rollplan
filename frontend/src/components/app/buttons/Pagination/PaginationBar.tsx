@@ -16,21 +16,23 @@ interface PaginationBarProps {
 
 export default function PaginationBar({ pageCount, currentPage, onPageItemClicked }: PaginationBarProps) {
 
-    const paginationMinPage = Math.min(pageCount, Math.max(currentPage + 4, 10));
-    const paginationMaxPage = Math.max(1, Math.min(currentPage - 5), paginationMinPage - 9);
+    const paginationMaxPage = Math.min(pageCount, Math.max(currentPage + 4, 10));
+    const paginationMinPage = Math.max(1, Math.min(currentPage - 5, paginationMaxPage - 9));
 
     const numberedPageItems: JSX.Element[] = [];
     for (let i = paginationMinPage; i <= paginationMaxPage; i++){
         let paginationItem: JSX.Element;
         if (i === currentPage) {
-            const currentPageItemSizeMdOnly = <PaginationPageButton >{i}</PaginationPageButton>
-            const currentPageItemSizeSmOnly = <PaginationPageButton >Page: {i}</PaginationPageButton>
+
+            const currentPageItemSizeMdOnly = <PaginationPageButton active>{i}</PaginationPageButton>
+            const currentPageItemSizeSmOnly = <PaginationPageButton active={false}>Page: {i}</PaginationPageButton>
 
             paginationItem = 
              <Fragment key={i}>
                 {currentPageItemSizeMdOnly}
                 {currentPageItemSizeSmOnly}
              </Fragment>
+
         } else {
             paginationItem = 
                 <PaginationPageButton key={i} onClick={() => onPageItemClicked(i)}>
@@ -52,7 +54,7 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
                     <PaginationPrevButton/> 
                 </>    
             }
-            {numberedPageItems.length}
+            {numberedPageItems}
             { currentPage < pageCount &&    
                 <>
                     <PaginationNextButton/>
