@@ -24,8 +24,8 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
         let paginationItem: JSX.Element;
         if (i === currentPage) {
 
-            const currentPageItemSizeMdOnly = <PaginationPageButton active>{i}</PaginationPageButton>
-            const currentPageItemSizeSmOnly = <PaginationPageButton active={false}>Page: {i}</PaginationPageButton>
+            const currentPageItemSizeMdOnly = <PaginationPageButton active={true} sizeClassName="hidden md:block">{i}</PaginationPageButton>
+            const currentPageItemSizeSmOnly = <PaginationPageButton active={true} sizeClassName="sm:block md:hidden">Page: {i}</PaginationPageButton>
 
             paginationItem = 
              <Fragment key={i}>
@@ -35,7 +35,7 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
 
         } else {
             paginationItem = 
-                <PaginationPageButton key={i} onClick={() => onPageItemClicked(i)}>
+                <PaginationPageButton key={i} onClick={() => onPageItemClicked(i)} sizeClassName="hidden md:block">
                     {i}
                 </PaginationPageButton>
         }

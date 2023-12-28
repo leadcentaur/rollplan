@@ -59,7 +59,6 @@ export default function MemberList() {
         <Spinner/>        
       }
 
-      <PaginationBar currentPage={2} pageCount={40} onPageItemClicked={() => {}}/>
 
       {/* { members && members.length != 0 &&
 

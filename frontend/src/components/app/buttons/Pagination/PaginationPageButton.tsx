@@ -11,13 +11,17 @@ interface PaginationPageButtonProps {
     isDisabled?: boolean,
     active?: boolean,
     children: React.ReactNode,
+    sizeClassName?: string,
 
 }
 
-export default function PaginationPageButton({isDisabled, active, children, key}: PaginationPageButtonProps & ComponentProps<"button">) {
+//<button key={key} disabled={isDisabled || false} className={clsx(active === true ? `${sizeClassName} flex items-center justify-center px-3 h-8 border` : `${sizeClassName} flex items-center justify-center px-3 h-8 border`)}>
+//flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 bg-gray-700 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white` : `${sizeClassName} flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 bg-gray-700 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`)}>
+export default function PaginationPageButton({isDisabled, active, children, key, sizeClassName}: PaginationPageButtonProps & ComponentProps<"button">) {
+    
     return (
         <li>
-            <button key={key} disabled={isDisabled || false} className={clsx(active == true ? 'flex display-hidden md:display-block items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' : 'flex display-hidden md:display-block items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 bg-gray-700 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white')}>
+            <button key={key} disabled={isDisabled || false} className={clsx(active === true ? `${sizeClassName} flex items-center justify-center px-3 h-8 border` : `${sizeClassName} flex items-center justify-center px-3 h-8 border`)}>
                 {children}
             </button>
         </li>
