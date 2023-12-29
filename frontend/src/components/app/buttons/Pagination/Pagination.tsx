@@ -8,7 +8,7 @@ interface PaginationBarProps {
 
 export default function Pagination({children, className}: PaginationBarProps & ComponentProps<"button">) {
     return (
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" className={className || ""}>
             <ul className="inline-flex -space-x-px text-sm">
                 {children}
             </ul>

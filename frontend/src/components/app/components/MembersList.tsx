@@ -5,7 +5,7 @@ import Image from "next/image";
 import useUserAcademy from "@/hooks/useCurrentAcademy";
 import { Academy } from "@/models/academy";
 import * as AcademyApi from "../../../network/api/academys";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSideProps, GetServerSideProps } from "next";
 import { User } from "@/models/user";
 import { Members } from "@/models/members-list";
 import useAcademyMembers from "@/hooks/useAcademyMembers";
@@ -14,11 +14,21 @@ import { beltType } from "@/types/user-types";
 import ErrorAlert from "./ErrorAlert";
 import WarningAlert from "./WarningAlert";
 import Spinner from "@/components/site/ui/typography/Spinner";
-import PaginationBar from "../buttons/Pagination/Pagination";
+import PaginationBar from "../buttons/Pagination/PaginationBar";
+
+
+export const GetServerSideProps: GetServerSideProps<MemberPageProps> = async ({query}) => {
+  const page = parseInt(query.page?.toString() || "1");
+}
+
+interface MemberPageProps {
+  data: MemberPageProps
+}
+
 
 export default function MemberList() {
   
-  const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
+   const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
 
   return !membersLoadingError ? (
     <div className="rounded-sm border border-stroke bg-white-500 px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -93,6 +103,7 @@ export default function MemberList() {
       }
 
       </div>
+      <PaginationBar pageCount={30} currentPage={12} onPageItemClicked={() => {}}/>
     </div>
   ) : 
     <ErrorAlert errorTextHeading="Page error" errorText="There was an error loading the academy members"/>

@@ -16,6 +16,7 @@ interface PaginationBarProps {
 
 export default function PaginationBar({ pageCount, currentPage, onPageItemClicked }: PaginationBarProps) {
 
+
     const paginationMaxPage = Math.min(pageCount, Math.max(currentPage + 4, 10));
     const paginationMinPage = Math.max(1, Math.min(currentPage - 5, paginationMaxPage - 9));
 
@@ -47,18 +48,18 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
 
 
     return (
-        <Pagination>
+        <Pagination className="p-3">
             { currentPage > 1 &&
                 <>
-                    <PaginationFirstButton/>
-                    <PaginationPrevButton/> 
+                    <PaginationFirstButton  onClick={() => {onPageItemClicked(1)}} />
+                    <PaginationPrevButton onClick={() => {onPageItemClicked(currentPage - 1)}} /> 
                 </>    
             }
             {numberedPageItems}
             { currentPage < pageCount &&    
                 <>
-                    <PaginationNextButton/>
-                    <PaginationLastButton/>
+                    <PaginationNextButton onClick={() => {onPageItemClicked( currentPage + 1)}}/>
+                    <PaginationLastButton onClick={() => {onPageItemClicked(pageCount)}}/>
                 </>
             }
             
