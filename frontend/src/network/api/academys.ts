@@ -17,7 +17,7 @@ export async function createAcademy(acdemycredentials: CreateAcademyProps) {
 export async function getAcademyMembers(academyId: string, page: number = 1) {
 
     const url = "/members?academyId=" + academyId + "&page=" + page;
-    const response = await api.get<MemberPage>(url);
+    const response = await api.get<MemberPage>(url);    
     return response.data;
 }
 

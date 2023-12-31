@@ -187,7 +187,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                             />
                             
                             <Link
-                              href="/app/members"
+                              href="/app/test"
                               className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
                             >
                               Members

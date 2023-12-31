@@ -3,42 +3,42 @@ import Breadcrumb from "@/components/app/components/Breadcrumb";
 import MemberList from "@/components/app/components/MembersList";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import * as AcademyApi from "../../network/api/academys";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React from "react";
-import { MemberPage } from "@/models/user";
+import { MemberPage, MemberPage, MemberPage } from "@/models/user";
 import { BadRequestError, NotFoundError, UnauthorizedError } from "@/network/http-errors";
 
-export const getServerSideProps: GetServerSideProps<MemberPageProps> = async ({params}) => {
-    try {
-        const data = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a");
-      return {
-        props: { data }
-      }
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        return { notFound: true }
-      }
-      if (error instanceof NotFoundError) {
-        return { notFound: true }
-      } else {
-        throw error
-      }
-    }
-  }
+
+export const getServerSideProps = (async ({params}) => {
+
+    const username = params?.username?.toString();
+    console.log("The username: " + username);
+
+
+    const data: MemberPage = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
+    return { props: { data } }
+  }) satisfies GetServerSideProps<{ data: MemberPage }>
+
+
+// interface Repo {
+//     name: string,
+//     stargazers_count: number
+// }
+// export const getServerSideProps: GetServerSideProps<MemberPageProps> = async () => {
+//         const data = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a");
+//         return { props: { data } };
+// } 
   
 interface MemberPageProps {
     data: MemberPage,
 }
 
-export default function Members({data}: MemberPageProps) {  
-
-    console.log("Members: " + data.members);
-    console.log("totalPages: " + data.totalPages);
-    console.log("page: " + data.page);
+export default function Members({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {  
 
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Members!" />
+            {JSON.stringify(data)}
             {/* <div className="rounded-sm border border-stroke bg-white-500 px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
 
 
