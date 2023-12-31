@@ -5,8 +5,8 @@ import Image from "next/image";
 import useUserAcademy from "@/hooks/useCurrentAcademy";
 import { Academy } from "@/models/academy";
 import * as AcademyApi from "../../../network/api/academys";
-import { GetServerSideProps, GetServerSideProps, GetServerSideProps } from "next";
-import { User } from "@/models/user";
+import { GetServerSideProps } from "next";
+import { MemberPage, User } from "@/models/user";
 import { Members } from "@/models/members-list";
 import useAcademyMembers from "@/hooks/useAcademyMembers";
 import MemberListEntry from "./MemberListEntry";
@@ -17,20 +17,20 @@ import Spinner from "@/components/site/ui/typography/Spinner";
 import PaginationBar from "../buttons/Pagination/PaginationBar";
 
 
-export const GetServerSideProps: GetServerSideProps<MemberPageProps> = async ({query}) => {
-  const page = parseInt(query.page?.toString() || "1");
+export const getServerSideProps: GetServerSideProps<MemberPageProps> = async ({params}) => {
+  const data = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
+  return { props: { data} };
 }
 
 interface MemberPageProps {
-  data: MemberPageProps
+  data: MemberPage,
 }
 
-
-export default function MemberList() {
+export default function MemberList({data}: MemberPageProps) {
   
-   const { members, membersLoading, membersLoadingError } = useAcademyMembers(); 
+  console.log("Hello" + JSON.stringify(data.members))  
 
-  return !membersLoadingError ? (
+  return (
     <div className="rounded-sm border border-stroke bg-white-500 px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
 
 
@@ -65,47 +65,10 @@ export default function MemberList() {
           </p>
         </div>
 
-      { membersLoading &&
-        <Spinner/>        
-      }
-
-
-      {/* { members && members.length != 0 &&
-
-          <div>
-          {members.map((user: User, index: number) => (
-            <MemberListEntry
-              key={index}
-              memebrsLen={members.length}
-              firstname={user.firstname}
-              index={index}
-              lastname={user.lastname}
-              belt={user.belt as beltType}
-              numberOfStripes={user.numberOfStripes}
-              joinDate={user.createdAt}
-              email={user.email}
-              profilePicUrl={user.profilePicUrl}
-            />
-          ))}
-          </div>
-      } */}
-
-      { !members && !membersLoading &&  
-         <WarningAlert warningTextHeading="Page notification" warningText="Unable to load academy members."/>
-      }
-
-      {
-
-      }
-
-      { members && (members.length == 0) &&
-          <WarningAlert warningTextHeading="Page notification" warningText="This academy does not have any memebrs yet"/>
-      }
 
       </div>
       <PaginationBar pageCount={30} currentPage={12} onPageItemClicked={() => {}}/>
     </div>
-  ) : 
-    <ErrorAlert errorTextHeading="Page error" errorText="There was an error loading the academy members"/>
+  );
 };
 

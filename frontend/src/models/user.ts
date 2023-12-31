@@ -19,7 +19,7 @@ export interface User {
 }
 
 export interface MemberPage {
-    logEvents: User[],
+    members: User[],
     totalPages: number,
-    pageSize: number,
+    page: number,
 }

@@ -82,7 +82,6 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     even though the page is fetched serverside
   
   */ 
-
     const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser();
 
 
