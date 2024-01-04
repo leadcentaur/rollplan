@@ -1,11 +1,11 @@
 import express from "express";
-import * as AcademyController from "../controllers/academy";
+import * as MemberController from "../controllers/members";
 import validateRequestSchema from "../middlewares/validateRequestSchema";
-import { getAcademyMemberSchema } from "../validation/academys";
+import { MembersSchema } from "../validation/members";
 import requiresAuth from "../middlewares/requiresAuth";
 
 const router = express.Router();
 
-router.get("/", validateRequestSchema(getAcademyMemberSchema), AcademyController.getAcademyMembers);
+router.get("/", validateRequestSchema(MembersSchema), MemberController.getAcademyMembers);
 
 export default router;

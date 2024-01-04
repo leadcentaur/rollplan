@@ -52,6 +52,7 @@ import CardThree from "@/components/app/components/DashboardCardThree";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   try {
+
     const username = params?.username?.toString();
     const user = await UsersApi.getUserByUsername(username);
  
@@ -81,6 +82,7 @@ export default function UserProfilePage({user}: UserProfilePageProps) {
     even though the page is fetched serverside
   
   */ 
+
     const { user: loggedInUser, mutateUser: mutateLoggedInUser, userLoading } = useAuthenticatedUser();
 
 

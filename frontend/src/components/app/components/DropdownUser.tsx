@@ -15,6 +15,9 @@ import useUserAcademy from '@/hooks/useCurrentAcademy';
 
 export const getServerSideProps: GetServerSideProps<DropDownUserProps> = async ({params}) => {
   const username = params?.username?.toString();
+
+  console.log("Dropdown username: " + username);
+
   if (!username) throw Error("username missing");
 
   const user = await UsersApi.getUserByUsername(username);

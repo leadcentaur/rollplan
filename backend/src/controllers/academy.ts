@@ -5,10 +5,10 @@ import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import UserModel from "../models/user";
 import { email } from "envalid";
-import { AcademyBody, GetAcademyMembersQuery, UpdateAcademyBody } from "../validation/academys";
-import { AddMemberBody } from "../validation/academys";
+import { AcademyBody, UpdateAcademyBody } from "../validation/academys";
 import sharp from "sharp";
 import env from "../env";
+import { AddMemberBody, MembersQuery } from "../validation/members";
 
 export const createAcademy: RequestHandler<unknown, unknown, AcademyBody, unknown> = async (req, res, next) => {
 
@@ -69,56 +69,6 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
         next(error);
     }
 }
-
-//localhost:5000/members/academyId?=655e67180a77ae5bd08923c7&page
-export const getAcademyMembers: RequestHandler<any, unknown, unknown, GetAcademyMembersQuery> = async (req, res, next) => {
-
-    console.log("get academy memebers request params! : " + JSON.stringify(req.params));
-
-    const academyId = new mongoose.Types.ObjectId(req.query.academyId);
-    //64ebc7d796b9039bd7e9aa2a
-    const page = parseInt("1");
-    const pageSize = 10;    
-    
-    try {
-
-        const getAcademyMembersQuery = UserModel.find({academyReferenceId: academyId})
-            .skip((page - 1) * pageSize)
-            .limit(pageSize)
-            .exec();
-        
-        const countDocumentsQuery = UserModel.countDocuments({academyReferenceId: academyId});
-        const [academyMembers, totalResults] = await Promise.all([getAcademyMembersQuery, countDocumentsQuery]);
-        const totalPages = Math.ceil(totalResults / pageSize);
-
-        res.status(200).json({
-            academyMembers,
-            totalPages,
-            pageSize,
-        });
-
-    } catch (error) {
-        next(error)
-    }
-}
-
-// export const getAcademyMembers: RequestHandler = async (req, res, next) => {
-
-//     const academyId = new mongoose.Types.ObjectId(req.params.academyId);
-    
-
-//     try {
-//         const members = await UserModel.find({academyReferenceId: academyId}).exec();
-//         if (!members) {
-//             throw createHttpError(404, "Failed to fetch members")
-//         }
-//         console.log("members list: " + members);
-
-//         res.status(200).json(members);
-//     } catch (error) {
-//         next(error);
-//     }
-// }
 
 export const addMember: RequestHandler<unknown, unknown, AddMemberBody, unknown> = async (req, res, next) => {
     const academyReferenceId = req.body.academyId;

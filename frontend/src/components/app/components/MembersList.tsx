@@ -17,13 +17,28 @@ import Spinner from "@/components/site/ui/typography/Spinner";
 import PaginationBar from "../buttons/Pagination/PaginationBar";
 
 
-export const getServerSideProps: GetServerSideProps<MemberPageProps> = async ({params}) => {
-  const data = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
-  return { props: { data} };
+export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
+  try {
+    const username = params?.username?.toString();
+    const user = await UsersApi.getUserByUsername(username);
+ 
+    return {
+      props: { user }
+    }
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return { notFound: true }
+    }
+    if (error instanceof NotFoundError) {
+      return { notFound: true }
+    } else {
+      throw error
+    }
+  }
 }
 
-interface MemberPageProps {
-  data: MemberPage,
+interface UserProfilePageProps {
+  user: User,
 }
 
 export default function MemberList({data}: MemberPageProps) {

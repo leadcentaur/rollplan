@@ -33,24 +33,6 @@ export const academyCreationSchema = yup.object({
 
 export type AcademyBody = yup.InferType<typeof academyCreationSchema>["body"];
 
-export const addMemberSchema = yup.object({
-    body: yup.object({
-        memberId: userIdSchema.required(),
-        academyId: academyIdSchema.required(),
-    })
-})
-
-export type AddMemberBody = yup.InferType<typeof addMemberSchema>["body"];
-
-export const getAcademyMemberSchema = yup.object({
-    query: yup.object({
-        academyId: academyIdSchema.required(),
-        page: yup.string(),
-    })
-})
-export type GetAcademyMembersQuery = yup.InferType<typeof getAcademyMemberSchema>["query"];
-
-
 export const updateAcademySchema = yup.object({
     body: yup.object({
         academy_name: academyNameSchema,

@@ -20,6 +20,7 @@ import { destroyAllActiveSessionsForUser } from "../utils/auth";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
+
     try {
                 assertIsDefined(authenticatedUser)  
                 const user = await UserModel.findById(authenticatedUser._id).select("+email").exec();

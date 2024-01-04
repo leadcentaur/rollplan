@@ -1,7 +1,7 @@
 import express from "express";
 import * as AcademyController from "../controllers/academy";
 import validateRequestSchema from "../middlewares/validateRequestSchema";
-import { academyCreationSchema, getAcademyMemberSchema, updateAcademySchema } from "../validation/academys";
+import { academyCreationSchema, updateAcademySchema } from "../validation/academys";
 import { createAcademyRateLimit } from "../middlewares/rate-limit";
 import requiresAuth from "../middlewares/requiresAuth";
 import requiresOwner from "../middlewares/requiresOwner";

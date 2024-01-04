@@ -9,6 +9,7 @@ import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { useRef, useState } from "react";
 import UsersPlus from "../../../assets/images/solid-user-circle-plus.svg";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 
 interface SidebarProps {
     sidebarOpen: boolean;
@@ -22,6 +23,8 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 
     const trigger = useRef<any>(null);
     const sidebar = useRef<any>(null);
+
+    const { user: loggedInUser, mutateUser: mutateLoggedInUser } = useAuthenticatedUser();
 
     const [memberDropdownSate, setMemberDropdownState] = useState(false);
 
@@ -187,7 +190,7 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
                             />
                             
                             <Link
-                              href="/app/test"
+                              href={`/app/members?academyId=${loggedInUser?.academyReferenceId}&page=1`}
                               className="text-bodydark2 duration-30]0 ease-in-out hover:text-white-300"
                             >
                               Members

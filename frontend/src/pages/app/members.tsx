@@ -4,26 +4,42 @@ import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import * as AcademyApi from "../../network/api/academys";
 import PaginationBar from "@/components/app/buttons/Pagination/PaginationBar";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React from "react";
-import { MemberPage } from "@/models/user";
+import React, { useState } from "react";
+import { MemberPage, User } from "@/models/user";
 import { BadRequestError, NotFoundError, UnauthorizedError } from "@/network/http-errors";
 import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
 import * as UsersApi from "@/network/api/users";
 import useSWR from "swr";
 
-type MemberPageProps = {
+
+
+export const getServerSideProps: GetServerSideProps<MemberPageProps> = async ({query}) => {
+  try {
+
+    const academyId = query?.academyId ?.toString() || "this";
+    const page = parseInt(query?.page?.toString() || "2");
+    const data = await AcademyApi.getAcademyMembers(academyId, page);
+    return {
+      props: { data }
+    }
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return { notFound: true }
+    }
+    if (error instanceof NotFoundError) {
+      return { notFound: true }
+    } else {
+      throw error
+    }
+  }
+}
+
+interface MemberPageProps {
   data: MemberPage,
 }
 
-export const getServerSideProps = (async ({params}) => {
-
-    const memeberData: MemberPage = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
-    return { props: { memeberData } }
-}) satisfies GetServerSideProps<{ memeberData: MemberPageProps }>
-
-
   
-export default function Members({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {  
+export default function Members({data}: MemberPageProps) {  
 
     return (
         <DefaultLayout>
