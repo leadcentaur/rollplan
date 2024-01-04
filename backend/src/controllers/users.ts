@@ -21,9 +21,7 @@ import { destroyAllActiveSessionsForUser } from "../utils/auth";
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.user;
     try {
-                assertIsDefined(authenticatedUser)
-       
-                console.log("Authenticated user is defined: " + authenticatedUser._id);
+                assertIsDefined(authenticatedUser)  
                 const user = await UserModel.findById(authenticatedUser._id).select("+email").exec();
                 res.status(200).json(user);
 

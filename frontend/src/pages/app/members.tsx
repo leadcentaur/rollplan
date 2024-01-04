@@ -1,38 +1,28 @@
-import PaginationBar from "@/components/app/buttons/Pagination/PaginationBar";
 import Breadcrumb from "@/components/app/components/Breadcrumb";
 import MemberList from "@/components/app/components/MembersList";
 import DefaultLayout from "@/components/app/layout/DefaultLayout";
 import * as AcademyApi from "../../network/api/academys";
+import PaginationBar from "@/components/app/buttons/Pagination/PaginationBar";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React from "react";
-import { MemberPage, MemberPage, MemberPage } from "@/models/user";
+import { MemberPage } from "@/models/user";
 import { BadRequestError, NotFoundError, UnauthorizedError } from "@/network/http-errors";
+import useAuthenticatedUser from "@/hooks/useAuthenticatedUser";
+import * as UsersApi from "@/network/api/users";
+import useSWR from "swr";
 
+type MemberPageProps = {
+  data: MemberPage,
+}
 
 export const getServerSideProps = (async ({params}) => {
 
-    const username = params?.username?.toString();
-    console.log("The username: " + username);
+    const memeberData: MemberPage = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
+    return { props: { memeberData } }
+}) satisfies GetServerSideProps<{ memeberData: MemberPageProps }>
 
 
-    const data: MemberPage = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a", 1);
-    return { props: { data } }
-  }) satisfies GetServerSideProps<{ data: MemberPage }>
-
-
-// interface Repo {
-//     name: string,
-//     stargazers_count: number
-// }
-// export const getServerSideProps: GetServerSideProps<MemberPageProps> = async () => {
-//         const data = await AcademyApi.getAcademyMembers("64ebc7d796b9039bd7e9aa2a");
-//         return { props: { data } };
-// } 
   
-interface MemberPageProps {
-    data: MemberPage,
-}
-
 export default function Members({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {  
 
     return (

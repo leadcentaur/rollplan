@@ -71,10 +71,13 @@ export const getAcademyByID: RequestHandler = async (req, res, next) => {
 }
 
 //localhost:5000/members/academyId?=655e67180a77ae5bd08923c7&page
-export const getAcademyMembers: RequestHandler<unknown, unknown, unknown, GetAcademyMembersQuery> = async (req, res, next) => {
+export const getAcademyMembers: RequestHandler<any, unknown, unknown, GetAcademyMembersQuery> = async (req, res, next) => {
+
+    console.log("get academy memebers request params! : " + JSON.stringify(req.params));
 
     const academyId = new mongoose.Types.ObjectId(req.query.academyId);
-    const page = parseInt(req.query.page || "1");
+    //64ebc7d796b9039bd7e9aa2a
+    const page = parseInt("1");
     const pageSize = 10;    
     
     try {
@@ -91,7 +94,7 @@ export const getAcademyMembers: RequestHandler<unknown, unknown, unknown, GetAca
         res.status(200).json({
             academyMembers,
             totalPages,
-            pageSize
+            pageSize,
         });
 
     } catch (error) {

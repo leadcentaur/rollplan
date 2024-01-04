@@ -52,7 +52,6 @@ import CardThree from "@/components/app/components/DashboardCardThree";
 
 export const getServerSideProps: GetServerSideProps<UserProfilePageProps> = async ({params}) => {
   try {
-
     const username = params?.username?.toString();
     const user = await UsersApi.getUserByUsername(username);
  
