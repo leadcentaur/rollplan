@@ -40,14 +40,14 @@ export default function MemberListEntry({firstname, lastname, belt, numberOfStri
             <Image alt="user profile pic" src={profilePicUrl || profilePicPlaceholder} height={50} width={50} className="rounded-full"/>
 
             </div>
-              <p className="text-black dark:text-white sm:block text-xs lg:text-base">
+              <div className="text-black dark:text-white sm:block text-xs lg:text-base">
                 {firstname && lastname &&
                   <p>{utils.capitalizeFirstLetter(firstname) + ' ' + utils.capitalizeFirstLetter(lastname)}</p>
                 }
                 { (!firstname || !lastname) &&
                   <p className="italic">N/A</p>
                 }
-              </p>
+              </div>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">

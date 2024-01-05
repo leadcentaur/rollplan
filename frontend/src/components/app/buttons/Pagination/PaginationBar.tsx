@@ -55,7 +55,11 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
                     <PaginationPrevButton onClick={() => {onPageItemClicked(currentPage - 1)}} /> 
                 </>    
             }
-            {numberedPageItems}
+            { pageCount > 1 &&
+            <>
+                {numberedPageItems}
+            </>
+            }
             { currentPage < pageCount &&    
                 <>
                     <PaginationNextButton onClick={() => {onPageItemClicked( currentPage + 1)}}/>

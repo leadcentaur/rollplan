@@ -12,7 +12,7 @@ export const getAcademyMembers: RequestHandler<any, unknown, unknown, MembersQue
     const academyId = new mongoose.Types.ObjectId(req.query.academyId);
     const page = parseInt(req.query.page || "1");
     const pageSize = 2;    
-    
+
     try {
 
         const getAcademyMembersQuery = UserModel.find({academyReferenceId: academyId})
@@ -21,13 +21,13 @@ export const getAcademyMembers: RequestHandler<any, unknown, unknown, MembersQue
             .exec();
         
         const countDocumentsQuery = UserModel.countDocuments({academyReferenceId: academyId});
-        const [academyMembers, totalResults] = await Promise.all([getAcademyMembersQuery, countDocumentsQuery]);
+        const [members, totalResults] = await Promise.all([getAcademyMembersQuery, countDocumentsQuery]);
         const totalPages = Math.ceil(totalResults / pageSize);
 
         res.status(200).json({
-            academyMembers,
+            members,
             totalPages,
-            pageSize,
+            page,
         });
 
     } catch (error) {
