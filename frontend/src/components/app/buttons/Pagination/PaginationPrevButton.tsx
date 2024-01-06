@@ -5,12 +5,13 @@ import { ComponentProps } from "react";
 
 interface PaginationPrevButtonProps {
     isDisabled?: boolean,
+    currentPage: number,
 }
 
-export default function PaginationPrevButton({isDisabled, ...props}: PaginationPrevButtonProps & ComponentProps<"button">) {
+export default function PaginationPrevButton({isDisabled, currentPage, ...props}: PaginationPrevButtonProps & ComponentProps<"button">) {
     return (
         <li>
-            <button {...props} disabled={isDisabled || false} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300  hover:bg-gray-100 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <button {...props} disabled={currentPage != 1 ? false : true} className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300  hover:bg-gray-100 hover:text-siteGray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 Prev
             </button>
         </li>

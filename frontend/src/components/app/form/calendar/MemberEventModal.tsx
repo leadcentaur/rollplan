@@ -82,8 +82,8 @@ export default function MemberEventModal({ onDismiss, editEventClickArg, onEvent
         try {
 
           const registerRespone = await EventApi.registerToEvent({eventId: eventId, userId: loggedInUser?._id});
-          // editEventClickArg.event.extendedProps.registeredMembers.push(loggedInUser?._id!);
-          // editEventClickArg.event.extendedProps.registerCount = registerRespone.registerCount;
+          editEventClickArg.event.extendedProps.registeredMembers.push(loggedInUser?._id!);
+          editEventClickArg.event.extendedProps.registerCount = registerRespone.registerCount;
           editEventClickArg.event.remove();
           onDismiss(); 
           // editEventClickArg.view.calendar.refetchEvents();

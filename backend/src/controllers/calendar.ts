@@ -21,6 +21,7 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
 
         const differenceInTime = endDate.getTime() - startDate.getTime();
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+        const registerCount = 0;
         
         if (differenceInDays > 7) {
             throw createHttpError(400, "An event cannot last longer than 7 days.")
@@ -39,7 +40,7 @@ export const createCalendarEvent: RequestHandler<unknown, unknown, CreateEventBo
         } 
         
         const newEvent = await EventModel.create({
-            title, start, end, description, location, referenceId, type
+            title, start, end, description, location, referenceId, type, registerCount
         });
 
         console.log("New academy created:" + newEvent);

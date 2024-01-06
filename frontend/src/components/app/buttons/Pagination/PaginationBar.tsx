@@ -49,23 +49,22 @@ export default function PaginationBar({ pageCount, currentPage, onPageItemClicke
 
     return (
         <Pagination className="p-3">
-            { currentPage > 1 &&
+
                 <>
                     <PaginationFirstButton  onClick={() => {onPageItemClicked(1)}} />
-                    <PaginationPrevButton onClick={() => {onPageItemClicked(currentPage - 1)}} /> 
+                    <PaginationPrevButton currentPage={currentPage} onClick={() => {onPageItemClicked(currentPage - 1)}} /> 
                 </>    
-            }
+
             { pageCount > 1 &&
             <>
                 {numberedPageItems}
             </>
             }
-            { currentPage < pageCount &&    
                 <>
-                    <PaginationNextButton onClick={() => {onPageItemClicked( currentPage + 1)}}/>
+                    <PaginationNextButton currentPage={currentPage} maxPage={paginationMaxPage} onClick={() => {onPageItemClicked( currentPage + 1)}}/>
                     <PaginationLastButton onClick={() => {onPageItemClicked(pageCount)}}/>
                 </>
-            }
+
             
         </Pagination>
     ); 
