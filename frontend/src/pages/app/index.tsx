@@ -23,6 +23,8 @@ import CardFive from "@/components/app/components/CardFive";
 import CardSix from "@/components/app/components/CardSix";
 import CardSeven from "@/components/app/components/CardSeven";
 import CardEight from "@/components/app/components/CardEight";
+import TrialsWidget from "@/components/app/components/widgets/TrialsWidget";
+import BookingsWidget from "@/components/app/components/widgets/BookingsWidget";
 
 
 export default function Dashboard() {
@@ -53,6 +55,9 @@ export default function Dashboard() {
           {/* <EventLogList/> */}
         </div>
     </div>
+
+    <BookingsWidget/>
+    <TrialsWidget/>
   </>
     </DefaultLayout>
   );
