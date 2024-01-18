@@ -8,7 +8,7 @@ interface TrialsWidgetProps {
 
 export default function TrialsWidget({className}: TrialsWidgetProps) {
     return (
-        <div className="rounded-lg border border-stroke bg-white-500 m-5">
+        <div className="rounded-lg border border-stroke bg-white-500 mb-5 mt-5 shadow-default">
             <div>
                 <div className="flex justify-between p-5 flex-row bg-gradient-to-b from-slate-900 to-slate-600 p-2 rounded-t-md">
                     <Heading level={3} className="text-white-500">

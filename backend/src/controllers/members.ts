@@ -5,6 +5,7 @@ import AcademyModel from "../models/academy";
 import assertIsDefined from "../utils/assertIsDefined";
 import { AddMemberBody, MembersQuery} from "../validation/members";
 import UserModel from "../models/user";
+import { HttpStatusCode } from "axios";
 
 //localhost:5000/members/academyId?=655e67180a77ae5bd08923c7&page
 export const getAcademyMembers: RequestHandler<any, unknown, unknown, MembersQuery> = async (req, res, next) => {
@@ -23,6 +24,13 @@ export const getAcademyMembers: RequestHandler<any, unknown, unknown, MembersQue
         const countDocumentsQuery = UserModel.countDocuments({academyReferenceId: academyId});
         const [members, totalResults] = await Promise.all([getAcademyMembersQuery, countDocumentsQuery]);
         const totalPages = Math.ceil(totalResults / pageSize);
+
+        //if the total pages is 0 we can assume the academy does is not real and throw an exception as all academys will
+        // have atleast 1 memebr
+
+        if (totalPages == 0) {
+            throw createHttpError(404, "Bad request, the academy does not exist")
+        }
 
         res.status(200).json({
             members,

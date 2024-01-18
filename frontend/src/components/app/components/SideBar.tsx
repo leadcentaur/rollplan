@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faBagsShopping, faBarChart, faBullseyeArrow, faCalendarArrowDown, faCalendarUsers, faChartMixed, faCog, faDashboard, faDoorOpen, faGridHorizontal, faLandmark, faListUl, faMoneyCheckDollarPen, faSquareStar, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
+import { faAngleDown, faAngleUp, faBagsShopping, faBarChart, faBullseyeArrow, faCalendarArrowDown, faCalendarUsers, faChartMixed, faCog, faDashboard, faDoorOpen, faFilePen, faGridHorizontal, faLandmark, faListUl, faMoneyCheckDollarPen, faSquareStar, faTableColumns, faUserPlus, faUsers } from "@fortawesome/pro-solid-svg-icons";
 import Icon from "../components/../../site/ui/iconography/Icon";
 import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
@@ -102,6 +102,17 @@ export default function SideBar({sidebarOpen, setSidebarOpen}: SidebarProps) {
 												/>
                         <span>
                            Rolls and Events
+                        </span>
+              </Link>
+
+              <Link href="/app/log" className="group relative mr-2 flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4">
+                        <Icon
+													icon={faFilePen}
+													className={clsx('text-1xl justify-center flex')}
+													style={{ maxWidth: 54 }}
+												/>
+                        <span>
+                           Forms
                         </span>
               </Link>
 

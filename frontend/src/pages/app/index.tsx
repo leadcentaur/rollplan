@@ -25,6 +25,7 @@ import CardSeven from "@/components/app/components/CardSeven";
 import CardEight from "@/components/app/components/CardEight";
 import TrialsWidget from "@/components/app/components/widgets/TrialsWidget";
 import BookingsWidget from "@/components/app/components/widgets/BookingsWidget";
+import PaymentsWidget from "@/components/app/components/widgets/PaymentsWidget";
 
 
 export default function Dashboard() {
@@ -58,6 +59,7 @@ export default function Dashboard() {
 
     <BookingsWidget/>
     <TrialsWidget/>
+    <PaymentsWidget/>
   </>
     </DefaultLayout>
   );
