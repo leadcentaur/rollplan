@@ -17,5 +17,6 @@ router.post("/un-register/:eventId/:userId", validateRequestSchema(registerToCal
 router.post("/delete-event/:id", validateRequestSchema(deleteCalendarEventSchema), CalendarController.deleteCalendarEvent);
 router.patch("/update-event/:id", validateRequestSchema(updateCalendarEventBodySchema), CalendarController.updateCalendarEvent);
 router.get("/events/:id", CalendarController.getAcademyEvents);
+router.get("/registered-events", requiresAuth, CalendarController.getRegisteredEventsForUser);
 
 export default router;

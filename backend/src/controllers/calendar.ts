@@ -189,6 +189,19 @@ export const getAcademyEvents: RequestHandler<AcademyEventsParams, unknown, Crea
     }
 }
 
+// get the events/bookings the active user is currently registered for 
+export const getRegisteredEventsForUser: RequestHandler = async (req, res, next) => {
+    try {
+        const userId = req.user?._id;
+        const events = await EventModel.find({
+            registeredMembers: userId
+        });
+        res.status(200).json(events);
+    } catch (error) {
+        next(error);
+    }
+}
+
 export const notifyMembersOnEventUpdate:  RequestHandler = async (req, res, next) => {
 
     const eventId = req.params.id

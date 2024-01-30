@@ -21,7 +21,7 @@ export default function PaymentsWidget({className}: PaymentsWidgetProps) {
                 <div className="flex flex-col justify-center items-center">
                         <div className="p-3">
                             <Text className="text-siteGray-400 ">
-                                
+                                 
                             </Text>
                         </div>
                         <div>
