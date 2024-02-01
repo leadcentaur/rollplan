@@ -26,6 +26,11 @@ export async function deleteEvent(eventId: string) {
     return response.data;
 }
 
+export async function getRegisteredEvents() {
+    const response = await api.get("/calendar/registered-events");
+    return response.data;
+}
+
 
 export interface UpdateEventValues {
     title?: string,
