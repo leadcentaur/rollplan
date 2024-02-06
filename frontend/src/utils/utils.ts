@@ -32,12 +32,25 @@ export function toDateTimeLocal(date: string) {
     return dateTimeLocalValue
 }
 
+const nth = (d: number) => {
+    if (d > 3 && d < 21) return 'th';
+    switch (d % 10) {
+      case 1:  return "st";
+      case 2:  return "nd";
+      case 3:  return "rd";
+      default: return "th";
+    }
+  };
+
 export function toHumanDate(date: string) {
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
     ];
     const monthNumber = new Date(date).getMonth();
-    return monthNames[monthNumber] + " " + new Date(date).getFullYear();
+    const dayNumber = new Date(date).getDay();
+    const startTime = new Date(date).getTime();
+
+    return monthNames[monthNumber] + " " + +dayNumber+ nth(dayNumber) + " " + new Date(date).getFullYear();
 }
 

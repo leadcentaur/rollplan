@@ -7,11 +7,13 @@ import useRegisteredEvents from "@/hooks/useRegisteredEvents";
 import { User } from "@/models/user";
 import { CalendarEvent } from "@/models/event";
 import { toHumanDate } from "@/utils/utils";
+import { toDate } from "date-fns";
 
 
 export default function BookingsWidget() {
 
     const {registeredEvents, registeredEventsLoading, registeredEventsLoadingError } = useRegisteredEvents();
+
 
     return (
 
@@ -27,15 +29,24 @@ export default function BookingsWidget() {
                     </div>
                 </div>
             </div>
+
+            { registeredEvents && !registeredEventsLoading &&
+
+            
+
             <div className="flex flex-row rounded-sm mb-13">
-            {registeredEvents.map((event: CalendarEvent, index: number) => (
-                <div>
-                    <div>{event.title}</div>
-                    <div>{event.start}</div>
-                    <div>{registeredEvents.length +' Upcoming events'}</div>
-                </div>
-              ))}
+
+                {registeredEvents.map((event: CalendarEvent, index: number) => (
+                    <div>
+                        <div>{event.title}</div>
+                        <div>{toHumanDate(event.start!)}</div>
+                        <div>{registeredEvents.length + ' Upcoming events'}</div>
+                    </div>
+                ))}
             </div>
+
+            }
+
         </div>
     );
 }
