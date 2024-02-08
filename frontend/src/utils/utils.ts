@@ -42,6 +42,19 @@ const nth = (d: number) => {
     }
   };
 
+
+function formatAMPM(date: Date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
+  
+
 export function toHumanDate(date: string) {
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -49,8 +62,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
     ];
     const monthNumber = new Date(date).getMonth();
     const dayNumber = new Date(date).getDay();
-    const startTime = new Date(date).getTime();
+    const time = new Date(date).getTime();
 
-    return monthNames[monthNumber] + " " + +dayNumber+ nth(dayNumber) + " " + new Date(date).getFullYear();
+    return monthNames[monthNumber] + " " + +dayNumber+ nth(dayNumber) + " " + new Date(date).getFullYear() + " " + time.
 }
 

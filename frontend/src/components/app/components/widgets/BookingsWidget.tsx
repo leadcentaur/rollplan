@@ -34,13 +34,16 @@ export default function BookingsWidget() {
 
             
 
-            <div className="flex flex-row rounded-sm mb-13">
+            <div className="m-5 ">
 
                 {registeredEvents.map((event: CalendarEvent, index: number) => (
-                    <div>
+                    <div key={index} className="flex flex-row justify-between xl:mx-20 lg:mx-15">
                         <div>{event.title}</div>
                         <div>{toHumanDate(event.start!)}</div>
-                        <div>{registeredEvents.length + ' Upcoming events'}</div>
+                        <div></div>
+                        <div>
+                            <WidgetButton disabled buttonTitle={registeredEvents.length + "Upcoming Events"} className="inline-flex items-center rounded-full bg-white-100 shadow shadow-lg text-black-500 py-1 px-2 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10"/>
+                        </div>
                     </div>
                 ))}
             </div>
