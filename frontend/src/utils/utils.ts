@@ -1,5 +1,5 @@
 import formatDistance from 'date-fns/formatDistance'
-import { date } from 'yup';
+import { date, number } from 'yup';
 
 export function romanize(num: number) {
     if (isNaN(num))
@@ -44,12 +44,12 @@ const nth = (d: number) => {
 
 
 function formatAMPM(date: Date) {
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
+    var hours: number = date.getHours();
+    var minutes: number | string = date.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
+    minutes = minutes < 10 ? '0'+  minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
   }
