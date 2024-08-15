@@ -5,6 +5,21 @@ import crypto from "crypto"
 import redisClient from "./redisClient";
 import MongoStore from "connect-mongo";
 
+const sessionConfig: SessionOptions = {
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    },
+    rolling: true,
+    store: MongoStore.create({
+        mongoUrl: env.MONGO_CONNECTION_STRING
+    }),
+}
+
+export default sessionConfig;
+
 // const store = env.NODE_ENV === "production" ?
 //  new RedisStore({
 //     client: redisClient,
@@ -14,26 +29,26 @@ import MongoStore from "connect-mongo";
 //     mongoUrl: env.MONGO_CONNECTION_STRING
 //  });
 
-const sessionConfig: SessionOptions = {
-    secret: env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    },
-    rolling: true,
-    store: new RedisStore({
-        client: redisClient,
-    }),
-    genid(req) {
-        const userId = req.user?._id;
-        const randomId = crypto.randomUUID();
-        if (userId) {
-            return `${userId}-${randomId}`;
-        } else {
-            return randomId;
-        }
-    }
-}
+// const sessionConfig: SessionOptions = {
+//     secret: env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         maxAge: 7 * 24 * 60 * 60 * 1000,
+//     },
+//     rolling: true,
+//     store: new RedisStore({
+//         client: redisClient,
+//     }),
+//     genid(req) {
+//         const userId = req.user?._id;
+//         const randomId = crypto.randomUUID();
+//         if (userId) {
+//             return `${userId}-${randomId}`;
+//         } else {
+//             return randomId;
+//         }
+//     }
+// }
 
-export default sessionConfig;
+// export default sessionConfig;

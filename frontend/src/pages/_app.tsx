@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
         <div className={jakarta.className + ''}>
-          <NextNprogress color='#AA4A44' height={5}/>
+          <NextNprogress color='#0000FF' height={5}/>
           <NavBar/>
 
           <main className=''>
@@ -64,7 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
           { router.pathname === "/" &&
              <footer className='m-5'>
-              <div className="mt-6 text-center ">
+              <div className="mt-6 text-center bg-color-blue">
                 <Text size="sm" variant="muted">
                   <Link className='text-sm' href="/tos">
                     Terms of Service
