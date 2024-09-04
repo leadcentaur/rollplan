@@ -1,6 +1,6 @@
 <div align="center"><a name="readme-top"></a>
 
-<a href="url"><img src="https://i.imgur.com/kB0D1Pz.png" height="auto" width="200" style="border-radius:50%"></a>
+<a href="url"><img src="https://i.imgur.com/kB0D1Pz.png" height="auto" width="auto" style="border-radius:50%"></a>
 
 # Rollplan 🥋 
 
