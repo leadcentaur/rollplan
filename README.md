@@ -4,7 +4,7 @@
 
 # Rollplan 🥋🔥 
 
-Built for brazillian ju-jitsu gyms. Configured with NextJS, typescript, MongoDB, Redis and much more. 
+Builing an open-soruce content management system for ju-jitsu gyms. Configured with NextJS, typescript, MongoDB, Redis and much more. 
 
 
 
